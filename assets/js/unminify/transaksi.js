@@ -68,6 +68,9 @@ function checkStok() {
                         indexProduk = produk.findIndex(a => a.id == barcode);
                         produk[indexProduk].stok = stok - data[3];
                         $("#total").html(total + harga * jumlah)
+                        // total2
+                        $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                        // ===============
                     }
                 } else {
                     produk.push({
@@ -82,6 +85,9 @@ function checkStok() {
                         jumlah,
                         `<button name="${barcode}" class="btn btn-sm btn-danger" onclick="remove('${barcode}')">Hapus</btn>`]).draw();
                     $("#total").html(total + harga * jumlah);
+                    // total2
+                    $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    // ====================
                     $("#jumlah").val("");
                     $("#tambah").attr("disabled", "disabled");
                     $("#bayar").removeAttr("disabled")
@@ -114,10 +120,12 @@ function checkUang() {
         total_bayar = parseInt($(".total_bayar").html());
     if (jumlah_uang !== "" && jumlah_uang >= total_bayar) {
         $("#add").removeAttr("disabled");
-        $("#cetak").removeAttr("disabled")
+        $("#cetak").removeAttr("disabled");
+        $(".total_bayar2").css('color', 'green')
     } else {
         $("#add").attr("disabled", "disabled");
-        $("#cetak").attr("disabled", "disabled")
+        $("#cetak").attr("disabled", "disabled");
+        $(".total_bayar2").css('color', 'red')
     }
 }
 
@@ -128,6 +136,9 @@ function remove(nama) {
         total = parseInt($("#total").html());
         akhir = total - stok * harga
     $("#total").html(akhir);
+    // total2
+    $("#total2").html("Rp "+akhir.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    // =================
     transaksi.row($("[name=" + nama + "]").closest("tr")).remove().draw();
     $("#tambah").attr("disabled", "disabled");
     if (akhir < 1) {
@@ -153,7 +164,9 @@ function add() {
             jumlah_uang: $('[name="jumlah_uang"]').val(),
             diskon: $('[name="diskon"]').val(),
             pelanggan: $("#pelanggan").val(),
-            nota: $("#nota").html()
+            nota: $("#nota").html(),
+            keterangan: $('#keterangan').val(),
+            metode_pembayaran: $('#metode_pembayaran').val()
         },
         success: res => {
             if (isCetak) {
@@ -175,10 +188,11 @@ function kembalian() {
         jumlah_uang = $('[name="jumlah_uang"').val(),
         diskon = $('[name="diskon"]').val();
     $(".kembalian").html(jumlah_uang - total - diskon);
-    checkUang()
+    checkUang();
 }
 $("#barcode").select2({
-    placeholder: "Barcode",
+    // placeholder: "Barcode",
+    placeholder: "Produk",
     ajax: {
         url: getBarcodeUrl,
         type: "post",
@@ -218,7 +232,12 @@ $(".modal").on("show.bs.modal", () => {
     let now = moment().format("D-MM-Y H:mm:ss"),
         total = $("#total").html(),
         jumlah_uang = $('[name="jumlah_uang"').val();
-    $("#tanggal").val(now), $(".total_bayar").html(total), $(".kembalian").html(Math.max(jumlah_uang - total, 0))
+    $("#tanggal").val(now), 
+    $(".total_bayar").html(total), 
+    // total_bayar2
+    $(".total_bayar2").html("Rp "+total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
+    // ===============
+    $(".kembalian").html(Math.max(jumlah_uang - total, 0))
 });
 $("#form").validate({
     errorElement: "span",

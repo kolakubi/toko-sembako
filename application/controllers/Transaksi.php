@@ -37,9 +37,9 @@ class Transaksi extends CI_Controller {
 					'nama_produk' => '<table>'.$this->transaksi_model->getProduk($barcode, $transaksi->qty).'</table>',
 					'total_bayar' => number_format($transaksi->total_bayar, 0, ',', '.'),
 					'jumlah_uang' => number_format($transaksi->jumlah_uang, 0, ',', '.'),
-					'diskon' => $transaksi->diskon,
+					// 'diskon' => $transaksi->diskon,
 					'pelanggan' => $transaksi->pelanggan,
-					'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print</a>'
+					'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print Nota</a>'
 					// 'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print</a> <button class="btn btn-sm btn-danger" onclick="remove('.$transaksi->id.')">Delete</button>'
 				);
 			}
@@ -72,7 +72,8 @@ class Transaksi extends CI_Controller {
 			'pelanggan' => $this->input->post('pelanggan'),
 			'nota' => $this->input->post('nota'),
 			'kasir' => $this->session->userdata('id'),
-			'keterangan' => $this->input->post('keterangan')
+			'keterangan' => $this->input->post('keterangan'),
+			'metode_pembayaran' => $this->input->post('metode_pembayaran')
 		);
 		if ($this->transaksi_model->create($data)) {
 			echo json_encode($this->db->insert_id());

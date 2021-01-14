@@ -54,7 +54,7 @@
               <!-- <label>Barcode</label> -->
               <label>Barang</label>
               <div class="form-inline">
-                <select id="barcode" class="form-control select2 col-sm-6" onchange="getNama()"></select>
+                <select id="barcode" placeholder="pilih barang" class="form-control select2 col-sm-6" onchange="getNama()"></select>
                 <span class="ml-3 text-muted" id="nama_produk"></span>
               </div>
               <small class="form-text text-muted" id="sisa"></small>
@@ -73,9 +73,9 @@
               <div class="mb-0">
                 <b class="mr-2">Nota</b> <span id="nota"></span>
               </div>
-              <span id="total" style="font-size: 70px; line-height: 1" class="text-danger">0</span>
+              <span id="total" style="font-size: 1px; line-height: 1" class="text-danger">0</span>
               <br>
-              <p id="total2" style="font-size: 20px; line-height: 1" class="text-danger">0</p>
+              <p id="total2" style="font-size: 70px; line-height: 1" class="text-danger">0</p>
             </div>
           </div>
         </div>
@@ -127,6 +127,13 @@
         <input placeholder="Jumlah Uang" type="number" class="form-control" name="jumlah_uang" onkeyup="kembalian()" required>
       </div>
       <div class="form-group">
+        <label>Metode Pembayaran</label>
+        <select name="metode_pembayaran" id="metode_pembayaran" class="form-control">
+          <option value="cash">Cash</option>
+          <option value="transfer">Transfer</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label>Diskon</label>
         <input placeholder="Diskon" type="number" class="form-control" onkeyup="kembalian()" name="diskon">
       </div>
@@ -135,7 +142,9 @@
         <input placeholder="Item apa yang dijual" type="text" class="form-control" name="keterangan" id="keterangan" required>
       </div>
       <div class="form-group">
-        <b>Total Bayar:</b> <span class="total_bayar"></span>
+        <b>Total Bayar:</b> 
+        <span class="total_bayar" style="font-size: 0.1px"></span>
+        <span class="total_bayar2" style="font-weight: bold; color: red"></span>
       </div>
       <div class="form-group">
         <b>Kembalian:</b> <span class="kembalian"></span>

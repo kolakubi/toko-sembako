@@ -60,7 +60,8 @@ class Stok_masuk extends CI_Controller {
 				'jumlah' => $jumlah,
 				'keterangan' => $this->input->post('keterangan'),
 				'supplier' => $this->input->post('supplier'),
-				'harga' => $this->input->post('harga')
+				'harga' => $this->input->post('harga'),
+				'metode_pembayaran' => $this->input->post('metode_pembayaran')
 			);
 			if ($this->stok_masuk_model->create($data)) {
 				echo json_encode('sukses');
@@ -86,7 +87,7 @@ class Stok_masuk extends CI_Controller {
 				$tanggal = new DateTime($stok_masuk->tanggal);
 				$data[] = array(
 					'tanggal' => $tanggal->format('d-m-Y H:i:s'),
-					'barcode' => $stok_masuk->barcode,
+					// 'barcode' => $stok_masuk->barcode,
 					'nama_produk' => $stok_masuk->nama_produk,
 					'jumlah' => $stok_masuk->jumlah,
 					'keterangan' => $stok_masuk->keterangan,

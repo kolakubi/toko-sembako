@@ -10,12 +10,34 @@ class Stok_masuk_model extends CI_Model {
 		if($this->db->insert($this->table, $data)){
 
 			$lastInsertId = $this->db->insert_id();
-			return $this->db->insert('kas',
+			if($this->db->insert('kas',
 				[
 					"jumlah_uang" => $data['harga'],
 					"posisi_kas" => "K",
 					"Keterangan_kas" => "Beli ".$data['keterangan'],
 					"id_pembelian" => $lastInsertId
+				]
+			)){
+				return $this->insertOrUpdateUang($data);
+			}
+		}
+	}
+
+	public function insertOrUpdateUang($data){
+
+		$dataUang = $this->db->get_where('uang', ['metode'=> $data['metode_pembayaran']])->row_array();
+		
+		if($dataUang){
+			$this->db->set('jumlah_uang', ($dataUang['jumlah_uang']-$data['harga']));
+			$this->db->set('tgl_update', $data['tanggal']);
+			$this->db->where('metode', $data['metode_pembayaran']);
+			return $this->db->update('uang');
+		}
+		else{
+			return $this->db->insert('uang', 
+				[
+					'metode' => $data['metode_pembayaran'],
+					'jumlah_uang' => $data['harga'],
 				]
 			);
 		}

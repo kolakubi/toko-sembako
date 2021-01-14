@@ -1,1 +1,7 @@
 https://github.com/andhiku/kasir
+
+cara instalasi:
+- Clone repositori ini
+- Buat database dengan nama kasir
+- Import file kasir.sql
+- Taruh project ini di htdocs

@@ -26,6 +26,21 @@
         <div class="row mb-2">
           <div class="col">
             <h1 class="m-0 text-dark">Laporan Stok Masuk</h1>
+
+            <div class="col-md-6 mt-4">
+              <div class="card card-info">
+                <div class="card-header">
+                  <h3 class="card-title">Sisa Stok</h3>
+                </div>
+                <div class="card-body">
+                  <div class="chart" style="height: 250px;max-height: 150px; overflow-y: scroll;">
+                    <ul class="list-group" id="stok_produk"></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -42,7 +57,7 @@
                 <tr>
                   <th>No</th>
                   <th>Tanggal</th>
-                  <th>Barcode</th> 
+                  <!-- <th>Barcode</th>  -->
                   <th>Nama Produk</th> 
                   <th>Jumlah</th> 
                   <th>Keterangan</th> 
@@ -79,6 +94,7 @@
 <script>
   var laporanUrl = '<?php echo site_url('stok_masuk/laporan') ?>';
   var deleteUrl = '<?php echo site_url('transaksi/delete') ?>';
+  var data_stokUrl = '<?php echo site_url('produk/data_stok') ?>';
 </script>
 <!-- <script src="<?php echo base_url('assets/js/laporan_stok_masuk.min.js') ?>"></script> -->
 <script src="<?php echo base_url('assets/js/unminify/laporan_stok_masuk.js') ?>"></script>

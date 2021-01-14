@@ -49,4 +49,13 @@ laporan_keuangan.on("order.dt search.dt", ()=> {
     })
 });
 
+$.ajax({
+    url: readSisaUang,
+    type: 'get',
+    dataType: 'text',
+    success: (data) => {
+        $('#sisa_uang').html('Rp'+data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    }
+})
+
 console.log('olae');

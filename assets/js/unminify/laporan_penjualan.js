@@ -16,7 +16,7 @@ let laporan_penjualan = $("#laporan_penjualan").DataTable( {
         'print'
     ],
     order:[
-        [1, "asc"]],
+        [1, "desc"]],
         columns:[ {
             data: null
         }
@@ -32,9 +32,9 @@ let laporan_penjualan = $("#laporan_penjualan").DataTable( {
         , {
             data: "jumlah_uang"
         }
-        , {
-            data: "diskon"
-        }
+        // , {
+        //     data: "diskon"
+        // }
         , {
             data: "pelanggan"
         }

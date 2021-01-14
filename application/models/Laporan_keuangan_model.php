@@ -56,6 +56,10 @@ class Laporan_keuangan_model extends CI_Model {
 		return $data;
 	}
 
+	public function getSisaUangCash(){
+		return $this->db->get_where('uang', ['metode' => 'cash'])->row_array()['jumlah_uang'];
+	}
+
 }
 
 /* End of file Transaksi_model.php */

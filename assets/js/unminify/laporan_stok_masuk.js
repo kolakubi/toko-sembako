@@ -23,9 +23,9 @@ let laporan_stok_masuk=$("#laporan_stok_masuk").DataTable( {
     , {
         data: "tanggal"
     }
-    , {
-        data: "barcode"
-    }
+    // {
+    //     data: "barcode"
+    // }
     , {
         data: "nama_produk"
     }
@@ -85,4 +85,19 @@ laporan_stok_masuk.on("order.dt search.dt", ()=> {
 $(".modal").on("hidden.bs.modal", ()=> {
     $("#form")[0].reset();
     $("#form").validate().resetForm()
+});
+
+$.ajax( {
+    url:data_stokUrl,
+    type:"get",
+    dataType:"json",
+    success:res=> {
+        $.each(res, (key, index)=> {
+            let html=`<li class="list-group-item">
+                ${index.nama_produk}
+                <span class="float-right">${index.stok}</span>
+            </li>`;
+            $("#stok_produk").append(html)
+        })
+    }
 });

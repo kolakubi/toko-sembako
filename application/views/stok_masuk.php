@@ -81,7 +81,7 @@
         <input id="tanggal" type="text" class="form-control" placeholder="Kategori" name="tanggal" required>
       </div>
       <div class="form-group">
-        <label>Barcode</label>
+        <label>Nama Produk</label>
         <select name="barcode" id="barcode" class="form-control select2" required></select>
       </div>
       <div class="form-group">
@@ -111,8 +111,15 @@
         <label>Lain</label>
         <input type="text" class="form-control" placeholder="Lain">
       </div>
-      <button class="btn btn-success" type="submit">Add</button>
-      <button class="btn btn-danger" data-dismiss="modal">Close</button>
+      <div class="form-group">
+        <label>Metode Pembayaran</label>
+        <select name="metode_pembayaran" id="metode_pembayaran" class="form-control">
+          <option value="cash">Cash</option>
+          <option value="transfer">Transfer</option>
+        </select>
+      </div>
+      <button class="btn btn-success" type="submit">Submit</button>
+      <button class="btn btn-danger" data-dismiss="modal">Tutup</button>
     </form>
   </div>
 </div>
