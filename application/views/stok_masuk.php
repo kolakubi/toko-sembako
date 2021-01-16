@@ -95,10 +95,6 @@
           <option value="lain">Lain</option>
         </select>
       </div> -->
-      <div class="form-group">
-        <label>Keterangan</label>
-        <input type="text" class="form-control" placeholder="Item apa yang dibeli" name="keterangan" required>
-      </div>
       <div class="form-group supplier">
         <label>Supplier</label>
         <select name="supplier" class="form-control select2" id="supplier"></select>
@@ -117,6 +113,10 @@
           <option value="cash">Cash</option>
           <option value="transfer">Transfer</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label>Keterangan</label>
+        <input type="text" class="form-control" placeholder="Item apa yang dibeli" name="keterangan" required>
       </div>
       <button class="btn btn-success" type="submit">Submit</button>
       <button class="btn btn-danger" data-dismiss="modal">Tutup</button>

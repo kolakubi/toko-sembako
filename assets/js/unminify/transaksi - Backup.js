@@ -51,8 +51,7 @@ function checkStok() {
                 nama_produk = res.nama_produk,
                 jumlah = parseInt($("#jumlah").val()),
                 stok = parseInt(res.stok),
-                // harga = parseInt(res.harga),
-                harga = $('#harga_per_item').val(),
+                harga = parseInt(res.harga),
                 dataBarcode = res.barcode,
                 total = parseInt($("#total").html());
             if (stok < jumlah) Swal.fire("Gagal", "Stok Tidak Cukup", "warning");
@@ -90,7 +89,6 @@ function checkStok() {
                     $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     // ====================
                     $("#jumlah").val("");
-                    $("#harga_per_item").val("");
                     $("#tambah").attr("disabled", "disabled");
                     $("#bayar").removeAttr("disabled")
                 } 
@@ -180,7 +178,7 @@ function add() {
             }
         },
         error: err => {
-            console.log(err.responseText)
+            console.log(err)
         }
     })
 }
@@ -251,54 +249,3 @@ $("#form").validate({
     }
 });
 $("#nota").html(nota(15));
-
-function addInvoice(){
-    let pelanggan = $('#pelanggan').val();
-    let keterangan = $('#keterangan').val();
-
-    if(pelanggan && keterangan){
-        let data = transaksi.rows().data(),
-            qty = [];
-        $.each(data, (index, value) => {
-            qty.push(value[3])
-        });
-        $.ajax({
-            url: addInvoiceUrl,
-            type: "post",
-            dataType: "json",
-            data: {
-                produk: JSON.stringify(produk),
-                tanggal: $("#tanggal").val(),
-                qty: qty,
-                total_bayar: $("#total").html(),
-                // jumlah_uang: $('[name="jumlah_uang"]').val(),
-                diskon: $('[name="diskon"]').val(),
-                pelanggan: $("#pelanggan").val(),
-                nota: $("#nota").html(),
-                keterangan: $('#keterangan').val(),
-                metode_pembayaran: $('#metode_pembayaran').val()
-            },
-            success: res => {
-                if (isCetak) {
-                    Swal.fire("Sukses", "Invoice Berhasil Dibuat", "success").
-                        then(() => window.location.href = `${cetakUrl}${res}`)
-                } else {
-                    Swal.fire("Sukses", "Invoice Berhasil Dibuat", "success").
-                        then(() => window.location.reload())
-                }
-            },
-            error: err => {
-                console.log(err.responseText)
-            }
-        })
-    }
-    else{
-        Swal.fire("Gagal", "Mohon isi data pelanggan dan keterangan", "warning")
-    }
-}
-
-$('#invoice').on('click', (e)=>{
-    e.preventDefault();
-
-    addInvoice();
-})

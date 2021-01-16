@@ -39,7 +39,6 @@ class Laporan_keuangan extends CI_Controller {
 			'data' => $data
 		);
 		echo json_encode($transaksi);
-
 	}
 	
 	public function sisa_uang(){

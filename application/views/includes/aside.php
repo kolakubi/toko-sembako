@@ -101,6 +101,12 @@
             <p>Transaksi</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?php echo site_url('invoice') ?>" class="nav-link <?php echo $uri == 'invoice' ? 'active' : 'no' ?>">
+            <i class="fas fa-money-bill nav-icon"></i>
+            <p>Invoice</p>
+          </a>
+        </li>
         <li class="nav-item has-treeview <?php echo $uri == 'laporan_penjualan' || $uri == 'laporan_stok_masuk' || $uri == 'laporan_stok_keluar' ? 'menu-open' : 'no' ?>">
           <a href="<?php echo site_url('laporan') ?>" class="nav-link <?php echo $uri == 'laporan_penjualan' || $uri == 'laporan_stok_masuk' || $uri == 'laporan_stok_keluar' ? 'active' : 'no' ?>">
             <i class="fas fa-book nav-icon"></i>

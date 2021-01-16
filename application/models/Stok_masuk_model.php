@@ -37,7 +37,7 @@ class Stok_masuk_model extends CI_Model {
 			return $this->db->insert('uang', 
 				[
 					'metode' => $data['metode_pembayaran'],
-					'jumlah_uang' => $data['harga'],
+					'jumlah_uang' => $data['harga']*-1,
 				]
 			);
 		}

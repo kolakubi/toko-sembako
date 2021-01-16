@@ -34,11 +34,8 @@ class Transaksi_model extends CI_Model {
 			)){
 				return $this->insertOrUpdateUang($data);
 			}
+
 		}
-	}
-	
-	public function createInvoice($data){
-		return $this->db->insert('invoice', $data);
 	}
 
 	public function insertOrUpdateUang($data){

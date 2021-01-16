@@ -81,36 +81,6 @@ class Transaksi extends CI_Controller {
 		$data = $this->input->post('form');
 	}
 
-	public function addInvoice()
-	{
-		$produk = json_decode($this->input->post('produk'));
-		$tanggal = new DateTime($this->input->post('tanggal'));
-		$barcode = array();
-		foreach ($produk as $produk) {
-			// $this->transaksi_model->removeStok($produk->id, $produk->stok);
-			// $this->transaksi_model->addTerjual($produk->id, $produk->terjual);
-			array_push($barcode, $produk->id);
-		}
-		$data = array(
-			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
-			'barcode' => implode(',', $barcode),
-			'qty' => implode(',', $this->input->post('qty')),
-			'total_bayar' => $this->input->post('total_bayar'),
-			// 'jumlah_uang' => $this->input->post('jumlah_uang'),
-			'diskon' => $this->input->post('diskon'),
-			'pelanggan' => $this->input->post('pelanggan'),
-			'nota' => $this->input->post('nota'),
-			'kasir' => $this->session->userdata('id'),
-			'keterangan' => $this->input->post('keterangan'),
-			'metode_pembayaran' => $this->input->post('metode_pembayaran'),
-			'status' => 0
-		);
-		if ($this->transaksi_model->createInvoice($data)) {
-			echo json_encode($this->db->insert_id());
-		}
-		$data = $this->input->post('form');
-	}
-
 	public function delete()
 	{
 		$id = $this->input->post('id');

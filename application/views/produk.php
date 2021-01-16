@@ -46,7 +46,8 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Barcode</th>
+                  <th>Id</th>
+                  <!-- <th>Barcode</th> -->
                   <th>Nama</th>
                   <th>Satuan</th>
                   <th>Kategori</th>
@@ -76,11 +77,13 @@
     </button>
   </div>
   <div class="modal-body">
-    <form id="form">
+    <form id="form" autocomplete="off">
       <input type="hidden" name="id">
       <div class="form-group">
-        <label>Barcode</label>
-        <input type="text" class="form-control" placeholder="Barcode" name="barcode" required>
+        <!-- <label>Barcode</label> -->
+        <label>Id</label>
+        <!-- <input type="text" class="form-control" placeholder="Barcode" name="barcode" required> -->
+        <input type="text" class="form-control" placeholder="Id" name="barcode" required>
       </div>
       <div class="form-group">
         <label>Nama</label>

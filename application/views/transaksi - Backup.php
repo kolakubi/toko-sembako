@@ -64,10 +64,6 @@
               <input type="number" class="form-control col-sm-6" placeholder="Jumlah" id="jumlah" onkeyup="checkEmpty()">
             </div>
             <div class="form-group">
-              <label>Harga Per Item</label>
-              <input type="number" class="form-control col-sm-6" placeholder="harga per item" id="harga_per_item" value=0>
-            </div>
-            <div class="form-group">
               <button id="tambah" class="btn btn-success" onclick="checkStok()" disabled>Tambah</button>
               <button id="bayar" class="btn btn-success" data-toggle="modal" data-target="#modal" disabled>Bayar</button>
             </div>
@@ -124,11 +120,11 @@
       </div>
       <div class="form-group">
         <label>Pelanggan</label>
-        <select name="pelannggan" id="pelanggan" class="form-control select2" required></select>
+        <select name="pelannggan" id="pelanggan" class="form-control select2"></select>
       </div>
       <div class="form-group">
         <label>Jumlah Uang</label>
-        <input placeholder="Jumlah Uang" type="number" class="form-control" name="jumlah_uang" onkeyup="kembalian()">
+        <input placeholder="Jumlah Uang" type="number" class="form-control" name="jumlah_uang" onkeyup="kembalian()" required>
       </div>
       <div class="form-group">
         <label>Metode Pembayaran</label>
@@ -155,7 +151,6 @@
       </div>
       <button id="add" class="btn btn-success" type="submit" onclick="bayar()" disabled>Bayar</button>
       <button id="cetak" class="btn btn-success" type="submit" onclick="bayarCetak()" disabled>Bayar Dan Cetak</button>
-      <button id="invoice" class="btn btn-warning">Buat Invoice</button>
       <button class="btn btn-danger" data-dismiss="modal">Close</button>
     </form>
   </div>
@@ -176,7 +171,6 @@
   var produkGetNamaUrl = '<?php echo site_url('produk/get_nama') ?>';
   var produkGetStokUrl = '<?php echo site_url('produk/get_stok') ?>';
   var addUrl = '<?php echo site_url('transaksi/add') ?>';
-  var addInvoiceUrl = '<?php echo site_url('transaksi/addInvoice') ?>'
   var getBarcodeUrl = '<?php echo site_url('produk/get_barcode') ?>';
   var pelangganSearchUrl = '<?php echo site_url('pelanggan/search') ?>';
   var cetakUrl = '<?php echo site_url('transaksi/cetak/') ?>';
