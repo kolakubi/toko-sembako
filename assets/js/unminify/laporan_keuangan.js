@@ -27,6 +27,9 @@ let laporan_keuangan = $("#laporan_keuangan").DataTable( {
             data: "keterangan_kas"
         },
         {
+            data: "metode_pembayaran"
+        },
+        {
             data: "debet"
         },
         {
@@ -58,4 +61,11 @@ $.ajax({
     }
 })
 
-console.log('olae');
+$.ajax({
+    url: readSisaUangTransfer,
+    type: 'get',
+    dataType: 'text',
+    success: (data) => {
+        $('#sisa_uang_transfer').html('Rp'+data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    }
+})

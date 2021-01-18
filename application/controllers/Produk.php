@@ -28,7 +28,7 @@ class Produk extends CI_Controller {
 					'kategori' => $produk->kategori,
 					'satuan' => $produk->satuan,
 					// 'harga' => $produk->harga,
-					'harga' => "Rp".number_format($produk->harga, 0, ',', '.'),
+					// 'harga' => "Rp".number_format($produk->harga, 0, ',', '.'),
 					'stok' => $produk->stok,
 					'action' => '<button class="btn btn-sm btn-success" onclick="edit('.$produk->id.')">Edit</button> <button class="btn btn-sm btn-danger" onclick="remove('.$produk->id.')">Delete</button>'
 				);
@@ -49,7 +49,7 @@ class Produk extends CI_Controller {
 			'nama_produk' => $this->input->post('nama_produk'),
 			'satuan' => $this->input->post('satuan'),
 			'kategori' => $this->input->post('kategori'),
-			'harga' => $this->input->post('harga'),
+			// 'harga' => $this->input->post('harga'),
 			'stok' => $this->input->post('stok')
 		);
 		if ($this->produk_model->create($data)) {

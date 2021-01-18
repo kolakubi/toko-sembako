@@ -38,6 +38,17 @@
               </div>
             </div>
 
+            <div class="col-md-6 mt-4">
+              <div class="card card-info">
+                <div class="card-header">
+                  <h3 class="card-title">Sisa Uang Transfer</h3>
+                </div>
+                <div class="card-body">
+                  <h3 id="sisa_uang_transfer"></h4>
+                </div>
+              </div>
+            </div>
+
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -55,6 +66,7 @@
                   <th>No</th>
                   <th>Tanggal</th>
                   <th>Keterangan</th> 
+                  <th>Metode Bayar</th>
                   <th>Debet</th> 
                   <th>Kredit</th> 
                 </tr>
@@ -87,6 +99,7 @@
 <script>
   var readUrl = '<?php echo site_url('laporan_keuangan/read') ?>';
   var readSisaUang = '<?php echo site_url('laporan_keuangan/sisa_uang') ?>'
+  var readSisaUangTransfer = '<?php echo site_url('laporan_keuangan/sisa_uang_transfer') ?>'
 //   var deleteUrl = '<?php echo site_url('laporan_keuangan/delete') ?>';
 </script>
 <script src="<?php echo base_url('assets/js/unminify/laporan_keuangan.js') ?>"></script>

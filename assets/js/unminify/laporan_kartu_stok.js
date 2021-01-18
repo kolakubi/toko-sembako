@@ -1,4 +1,13 @@
-let laporan_stok_masuk=$("#laporan_stok_masuk").DataTable( {
+// $.ajax( {
+//     url:laporanUrl,
+//     type:"get",
+//     dataType:"json",
+//     success:res=> {
+//         console.log(res);
+//     }
+// });
+
+let laporan_stok_masuk=$("#laporan_kartu_stok").DataTable( {
     responsive:true,
     scrollX:true,
     ajax:laporanUrl,
@@ -7,7 +16,7 @@ let laporan_stok_masuk=$("#laporan_stok_masuk").DataTable( {
         orderable: true,
         targets: 0
     }],
-    'pageLength' : 60,
+    // 'pageLength' : 60,
     // munculin export ke excel
     dom: 'Bfrtip',
     buttons: [
@@ -17,30 +26,13 @@ let laporan_stok_masuk=$("#laporan_stok_masuk").DataTable( {
     ],
     order:[
         [1, "desc"]],
-        columns:[ {
-        data: null
-    }
-    , {
-        data: "tanggal"
-    }
-    // {
-    //     data: "barcode"
-    // }
-    , {
-        data: "nama_produk"
-    }
-    , {
-        data: "jumlah"
-    }
-    , {
-        data: "keterangan"
-    }
-    , {
-        data: "supplier"
-    },
-    {
-        data: "harga"
-    }
+    columns:[ 
+        { data: null },
+        { data: "tanggal" },
+        { data: "nama" },
+        { data: "masuk" },
+        { data: "keluar" },
+        { data: "keterangan" }
     ]
 }
 
@@ -87,17 +79,17 @@ $(".modal").on("hidden.bs.modal", ()=> {
     $("#form").validate().resetForm()
 });
 
-// $.ajax( {
-//     url:data_stokUrl,
-//     type:"get",
-//     dataType:"json",
-//     success:res=> {
-//         $.each(res, (key, index)=> {
-//             let html=`<li class="list-group-item">
-//                 ${index.nama_produk}
-//                 <span class="float-right">${index.stok}</span>
-//             </li>`;
-//             $("#stok_produk").append(html)
-//         })
-//     }
-// });
+$.ajax( {
+    url:data_stokUrl,
+    type:"get",
+    dataType:"json",
+    success:res=> {
+        $.each(res, (key, index)=> {
+            let html=`<li class="list-group-item">
+                ${index.nama_produk}
+                <span class="float-right">${index.stok}</span>
+            </li>`;
+            $("#stok_produk").append(html)
+        })
+    }
+});

@@ -27,12 +27,22 @@ class Transaksi_model extends CI_Model {
 			if($this->db->insert('kas', 
 				[
 					"jumlah_uang" => $data['total_bayar'],
+					"metode_pembayaran" => $data['metode_pembayaran'],
 					"posisi_kas" => "D",
 					"keterangan_kas" => "Jual ".$data['keterangan'],
 					"id_penjualan" => $lastInsertId
 				]
 			)){
-				return $this->insertOrUpdateUang($data);
+				if($this->insertOrUpdateUang($data)){
+
+					return $this->db->insert('kartu_stok', [
+						'id_produk' => $data['barcode'],
+						'id_transaksi' => $lastInsertId,
+						'posisi' => 'K',
+						'qty' => $data['qty'],
+						'keterangan' => "Jual ".$data['keterangan']
+					]);
+				}
 			}
 		}
 	}

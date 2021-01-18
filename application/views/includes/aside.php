@@ -74,17 +74,37 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item has-treeview <?php echo $uri == 'stok_masuk' || $uri == 'stok_keluar' ? 'menu-open' : 'no' ?>">
-          <a href="#" class="nav-link <?php echo $uri == 'stok_masuk' || $uri == 'stok_keluar' ? 'active' : 'no' ?>">
-            <i class="fas fa-archive nav-icon"></i>
-            <p>Stok</p>
+        <li class="nav-item has-treeview <?php echo $uri == 'stok_masuk' 
+        || $uri == 'stok_keluar'
+        || $uri == 'transaksi'
+        || $uri == 'invoice' ? 'menu-open' : 'no' ?>">
+          <a href="#" class="nav-link <?php echo $uri == 'stok_masuk' 
+          || $uri == 'stok_keluar'
+          || $uri == 'transaksi'
+          || $uri == 'invoice' ? 'active' : 'no' ?>">
+            <i class="fas fa-money-bill nav-icon"></i>
+            <p>Transaksi</p>
             <i class="right fas fa-angle-right"></i>
           </a>
           <ul class="nav-treeview">
             <li class="nav-item">
               <a href="<?php echo site_url('stok_masuk') ?>" class="nav-link <?php echo $uri == 'stok_masuk' ? 'active' : 'no' ?>">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Stok Masuk</p>
+                <!-- <p>Stok Masuk</p> -->
+                <p>Pembelian</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo site_url('transaksi') ?>" class="nav-link <?php echo $uri == 'transaksi' ? 'active' : 'no' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <!-- <p>Transaksi</p> -->
+                <p>Penjualan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo site_url('invoice') ?>" class="nav-link <?php echo $uri == 'invoice' ? 'active' : 'no' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Invoice</p>
               </a>
             </li>
             <!-- <li class="nav-item">
@@ -95,20 +115,20 @@
             </li> -->
           </ul>
         </li>
-        <li class="nav-item">
-          <a href="<?php echo site_url('transaksi') ?>" class="nav-link <?php echo $uri == 'transaksi' ? 'active' : 'no' ?>">
-            <i class="fas fa-money-bill nav-icon"></i>
-            <p>Transaksi</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="<?php echo site_url('invoice') ?>" class="nav-link <?php echo $uri == 'invoice' ? 'active' : 'no' ?>">
-            <i class="fas fa-money-bill nav-icon"></i>
-            <p>Invoice</p>
-          </a>
-        </li>
-        <li class="nav-item has-treeview <?php echo $uri == 'laporan_penjualan' || $uri == 'laporan_stok_masuk' || $uri == 'laporan_stok_keluar' ? 'menu-open' : 'no' ?>">
-          <a href="<?php echo site_url('laporan') ?>" class="nav-link <?php echo $uri == 'laporan_penjualan' || $uri == 'laporan_stok_masuk' || $uri == 'laporan_stok_keluar' ? 'active' : 'no' ?>">
+       
+        
+        <li class="nav-item has-treeview 
+        <?php echo $uri == 'laporan_penjualan' 
+        || $uri == 'laporan_stok_masuk' 
+        || $uri == 'laporan_stok_keluar' 
+        || $uri == 'laporan_keuangan' 
+        || $uri == 'laporan_kartu_stok' ? 'menu-open' : 'no' ?>">
+          <a href="<?php echo site_url('laporan') ?>" class="nav-link 
+          <?php echo $uri == 'laporan_penjualan' 
+          || $uri == 'laporan_stok_masuk' 
+          || $uri == 'laporan_stok_keluar' 
+          || $uri == 'laporan_keuangan'
+          || $uri == 'laporan_kartu_stok' ? 'active' : 'no' ?>">
             <i class="fas fa-book nav-icon"></i>
             <p>Laporan</p>
             <i class="right fas fa-angle-right"></i>
@@ -123,13 +143,19 @@
             <li class="nav-item">
               <a href="<?php echo site_url('laporan_stok_masuk') ?>" class="nav-link <?php echo $uri == 'laporan_stok_masuk' ? 'active' : 'no' ?>">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Laporan Stok Masuk</p>
+                <p>Laporan Pembelian</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?php echo site_url('laporan_keuangan') ?>" class="nav-link <?php echo $uri == 'laporan_keuangan' ? 'active' : 'no' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Laporan Keuangan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo site_url('laporan_kartu_stok') ?>" class="nav-link <?php echo $uri == 'laporan_kartu_stok' ? 'active' : 'no' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Laporan Kartu Stok</p>
               </a>
             </li>
             <!-- <li class="nav-item">

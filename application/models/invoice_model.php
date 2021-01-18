@@ -47,9 +47,47 @@ class Invoice_model extends CI_Model {
 
 			if($this->createTransaksi($data)){
 
-				return true;
-
+				$lastInsertId = $this->db->insert_id();
+				if($this->db->insert('kas', 
+					[
+						"jumlah_uang" => $data['jumlah_uang'],
+						"posisi_kas" => "D",
+						"metode_pembayaran" => $data['metode_pembayaran'],
+						"keterangan_kas" => "Jual ".$data['keterangan'],
+						"id_penjualan" => $lastInsertId
+					]
+				)){
+					if($this->insertOrUpdateUang($data)){
+						return $this->db->insert('kartu_stok', [
+							'id_produk' => $data['barcode'],
+							'posisi' => 'K',
+							'id_transaksi' => $lastInsertId,
+							'qty' => $data['qty'],
+							'keterangan' => "Jual ".$data['keterangan']
+						]);
+					}
+				}
 			}
+		}
+	}
+
+	public function insertOrUpdateUang($data){
+
+		$dataUang = $this->db->get_where('uang', ['metode'=> $data['metode_pembayaran']])->row_array();
+		
+		if($dataUang){
+			$this->db->set('jumlah_uang', ($data['jumlah_uang']+$dataUang['jumlah_uang']));
+			$this->db->set('tgl_update', $data['tgl_edit']);
+			$this->db->where('metode', $data['metode_pembayaran']);
+			return $this->db->update('uang');
+		}
+		else{
+			return $this->db->insert('uang', 
+				[
+					'metode' => $data['metode_pembayaran'],
+					'jumlah_uang' => $data['jumlah_uang'],
+				]
+			);
 		}
 	}
 

@@ -48,6 +48,7 @@ class Stok_masuk extends CI_Controller {
 	public function add()
 	{
 		$id = $this->input->post('barcode');
+		$supplier = $this->input->post('supplier');
 		$jumlah = $this->input->post('jumlah');
 		$stok = $this->stok_masuk_model->getStok($id)->stok;
 		$rumus = max($stok + $jumlah,0);
@@ -58,10 +59,11 @@ class Stok_masuk extends CI_Controller {
 				'tanggal' => $tanggal->format('Y-m-d H:i:s'),
 				'barcode' => $id,
 				'jumlah' => $jumlah,
-				'keterangan' => $this->input->post('keterangan'),
-				'supplier' => $this->input->post('supplier'),
+				'supplier' => $supplier,
 				'harga' => $this->input->post('harga'),
-				'metode_pembayaran' => $this->input->post('metode_pembayaran')
+				'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+				// 'keterangan' => "Beli ".$id." ".$jumlah." Dus di ".$supplier,
+				'keterangan' => $this->input->post('keterangan'),
 			);
 			if ($this->stok_masuk_model->create($data)) {
 				echo json_encode('sukses');

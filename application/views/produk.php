@@ -51,7 +51,7 @@
                   <th>Nama</th>
                   <th>Satuan</th>
                   <th>Kategori</th>
-                  <th>Harga</th>
+                  <!-- <th>Harga</th> -->
                   <th>Stok</th>
                   <th>Actions</th>
                 </tr>
@@ -97,10 +97,10 @@
         <label>Kategori</label>
         <select name="kategori" id="kategori" class="form-control select2" required></select>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Harga</label>
         <input type="text" class="form-control" placeholder="Harga" name="harga" required>
-      </div>
+      </div> -->
       <div class="form-group">
         <label>Stok</label>
         <input type="text" class="form-control" placeholder="Stok" name="stok" value="0" readonly>
@@ -129,6 +129,6 @@
   var kategoriSearchUrl = '<?php echo site_url('kategori_produk/search') ?>';
   var satuanSearchUrl = '<?php echo site_url('satuan_produk/search') ?>';
 </script>
-<script src="<?php echo base_url('assets/js/produk.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/unminify/produk.js') ?>"></script>
 </body>
 </html>

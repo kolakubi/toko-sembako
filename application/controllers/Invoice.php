@@ -23,15 +23,18 @@ class Invoice extends CI_Controller {
         if ($this->invoice_model->read()->num_rows() > 0) {
 			foreach ($this->invoice_model->read()->result() as $invoice) {
 				$tanggal = new DateTime($invoice->tanggal);
+				$buttons = '<a class="btn btn-sm btn-success" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>';
+				if(!$invoice->status){
+					$buttons = $buttons.' <button class="btn btn-sm btn-info" onclick="edit('.$invoice->id_invoice.')">Bayar</button>';
+				}
 				$data[] = array(
                     'tanggal' => $tanggal->format('d-m-Y H:i:s'),
                     'id_invoice' => $invoice->id_invoice,
                     'pelanggan' => $invoice->pelanggan,
-                    'total_bayar' => $invoice->total_bayar,
-                    'status' => $invoice->status ? "Lunas" : "Belum Lunas",
+                    'total_bayar' => number_format($invoice->total_bayar, 0, ',', '.'),
+                    'status' => $invoice->status ? "<strong style='color:green'>Lunas</strong>" : "<strong style='color:red'>Belum Lunas</strong>",
                     // 'action' => "<button>aksi</button>"
-					'action' => '<a class="btn btn-sm btn-success" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>
-					<button class="btn btn-sm btn-info" onclick="edit('.$invoice->id_invoice.')">Bayar</button>',
+					'action' => $buttons,
 					
 				);
 			}
@@ -100,8 +103,8 @@ class Invoice extends CI_Controller {
 			$terjualReal = $productData[$i]['qty'];
 			$stokReal = $productData[$i]['qty'];
 
-			$terjual = $terjualDb+$terjualReal;
-			$stok = $stokDb-$stokReal;
+			$terjual = intval($terjualDb)+intval($terjualReal);
+			$stok = intval($stokDb)-intval($stokReal);
 			$id = $productData[$i]['barcode'];
 
 			$this->invoice_model->updateStokProduk($terjual, $stok, $id);
@@ -147,7 +150,7 @@ class Invoice extends CI_Controller {
 		$dataProduk = $this->invoice_model->getName($barcode);
 		foreach ($dataProduk as $key => $value) {
 			$value->total = $qty[$key];
-			$value->harga = number_format($value->harga * $qty[$key], 0, ',', '.');
+			$value->harga = $value->harga * $qty[$key];
 		}
 
 		$data = array(

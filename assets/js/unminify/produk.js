@@ -4,8 +4,8 @@ let produk = $("#produk").DataTable({
     scrollX: true,
     ajax: readUrl,
     columnDefs: [{
-        searcable: false,
-        orderable: false,
+        searcable: true,
+        orderable: true,
         targets: 0
     }],
     order: [
@@ -17,7 +17,7 @@ let produk = $("#produk").DataTable({
         { data: "nama" },
         { data: "satuan" },
         { data: "kategori" },
-        { data: "harga" },
+        // { data: "harga" },
         { data: "stok" },
         { data: "action" }
     ]
@@ -106,7 +106,7 @@ function edit(id) {
             $('[name="nama_produk"]').val(res.nama_produk);
             $('[name="satuan"]').append(`<option value='${res.satuan_id}'>${res.satuan}</option>`);
             $('[name="kategori"]').append(`<option value='${res.kategori_id}'>${res.kategori}</option>`);
-            $('[name="harga"]').val(res.harga);
+            // $('[name="harga"]').val(res.harga);
             $('[name="stok"]').val(res.stok);
             $(".modal").modal("show");
             $(".modal-title").html("Edit Data");

@@ -65,6 +65,15 @@ class Laporan_keuangan_model extends CI_Model {
 		return 0;
 	}
 
+	public function getSisaUangTransfer(){
+
+		$data = $this->db->get_where('uang', ['metode' => 'transfer'])->row_array();
+		if($data){
+			return $data['jumlah_uang'];
+		}
+		return 0;
+	}
+
 }
 
 /* End of file Transaksi_model.php */

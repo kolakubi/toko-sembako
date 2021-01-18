@@ -14,11 +14,21 @@ class Stok_masuk_model extends CI_Model {
 				[
 					"jumlah_uang" => $data['harga'],
 					"posisi_kas" => "K",
+					'metode_pembayaran' => $data['metode_pembayaran'],
 					"Keterangan_kas" => "Beli ".$data['keterangan'],
 					"id_pembelian" => $lastInsertId
 				]
 			)){
-				return $this->insertOrUpdateUang($data);
+				if($this->insertOrUpdateUang($data)){
+
+					return $this->db->insert('kartu_stok', [
+						'id_produk' => $data['barcode'],
+						'posisi' => 'D',
+						'id_transaksi' => $lastInsertId,
+						'qty' => $data['jumlah'],
+						'keterangan' => "Beli ".$data['keterangan']
+					]);
+				}
 			}
 		}
 	}

@@ -27,9 +27,10 @@ class Laporan_keuangan extends CI_Controller {
                     // 'jumlah_uang' => $transaksi->jumlah_uang,
                     // 'posisi_kas' => $transaksi->posisi_kas,
                     'keterangan_kas' => $transaksi->keterangan_kas,
-                    'debet' => $transaksi->id_penjualan ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
-                    'kredit' => $transaksi->id_pembelian ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
-                    'tgl_input' => $tanggal->format('d-m-Y H:i:s')
+                    'debet' => $transaksi->posisi_kas == "D" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
+                    'kredit' => $transaksi->posisi_kas == "K" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
+					'tgl_input' => $tanggal->format('d-m-Y H:i:s'),
+					'metode_pembayaran' => $transaksi->metode_pembayaran
 				);
 			}
 		} else {
@@ -43,6 +44,10 @@ class Laporan_keuangan extends CI_Controller {
 	
 	public function sisa_uang(){
 		echo $this->laporan_keuangan_model->getSisaUangCash();
+	}
+
+	public function sisa_uang_transfer(){
+		echo $this->laporan_keuangan_model->getSisaUangTransfer();
 	}
 
 }
