@@ -1,87 +1,142 @@
-let laporan_penjualan = $("#laporan_penjualan").DataTable( {
-    responsive:true,
-    scrollX:true,
-    ajax:readUrl,
-    columnDefs:[{
-        searcable: true,
-        orderable: true,
-        targets: 0
-    }],
-    'pageLength' : 60,
-    // munculin export ke excel
-    dom: 'Bfrtip',
-    buttons: [
-        'excelHtml5',
-        'pdfHtml5',
-        'print'
-    ],
-    order:[
-        [1, "desc"]],
-        columns:[ {
-            data: null
-        }
-        , {
-            data: "tanggal"
-        }
-        , {
-            data: "nama_produk"
-        }
-        , {
-            data: "total_bayar"
-        }
-        , {
-            data: "jumlah_uang"
-        }
-        // , {
-        //     data: "diskon"
-        // }
-        , {
-            data: "pelanggan"
-        }
-        , {
-            data: "action"
-        }
-        ]
-}
+// let laporan_penjualan = $("#laporan_penjualan").DataTable( {
+//     responsive:true,
+//     scrollX:true,
+//     ajax:readUrl,
+//     columnDefs:[{
+//         searcable: true,
+//         orderable: true,
+//         targets: 0
+//     }],
+//     'pageLength' : 60,
+//     // munculin export ke excel
+//     dom: 'Bfrtip',
+//     buttons: [
+//         'excelHtml5',
+//         'pdfHtml5',
+//         'print'
+//     ],
+//     order:[
+//         [1, "desc"]],
+//         columns:[ 
+//             { data: null}, 
+//             { data: "tanggal"},
+//             { data: "nama_produk"}, 
+//             { data: "total_bayar"}, 
+//             { data: "jumlah_uang"},
+//             { data: "pelanggan"}, 
+//             { data: "action"}
+//         ]
+// }
 
-);
-function reloadTable() {
-    laporan_penjualan.ajax.reload()
-}
+// );
+// function reloadTable() {
+//     laporan_penjualan.ajax.reload()
+// }
 
-function remove(id) {
-    Swal.fire( {
-        title: "Hapus",
-        text: "Hapus data ini?",
-        type: "warning",
-        showCancelButton: true
-    }).then(()=> {
-        $.ajax( {
-            url:deleteUrl,
-            type:"post",
-            dataType:"json",
-            data: {
-                id: id
-            },
-            success:()=> {
-                Swal.fire("Sukses", "Sukses Menghapus Data", "success");
-                reloadTable()
-            },
-            error:err=> {
-                console.log(err)
-            }
-        })
-    })
-}
+// function remove(id) {
+//     Swal.fire( {
+//         title: "Hapus",
+//         text: "Hapus data ini?",
+//         type: "warning",
+//         showCancelButton: true
+//     }).then(()=> {
+//         $.ajax( {
+//             url:deleteUrl,
+//             type:"post",
+//             dataType:"json",
+//             data: {
+//                 id: id
+//             },
+//             success:()=> {
+//                 Swal.fire("Sukses", "Sukses Menghapus Data", "success");
+//                 reloadTable()
+//             },
+//             error:err=> {
+//                 console.log(err)
+//             }
+//         })
+//     })
+// }
 
-laporan_penjualan.on("order.dt search.dt", ()=> {
-    laporan_penjualan.column(0, {
-        search: "applied", order: "applied"
-    }).nodes().each((el, err)=> {
-        el.innerHTML=err+1
-    })
-});
+// laporan_penjualan.on("order.dt search.dt", ()=> {
+//     laporan_penjualan.column(0, {
+//         search: "applied", order: "applied"
+//     }).nodes().each((el, err)=> {
+//         el.innerHTML=err+1
+//     })
+// });
+
 $(".modal").on("hidden.bs.modal", ()=> {
     $("#form")[0].reset();
     $("#form").validate().resetForm()
 });
+
+function readByDate(){
+    let btnSubmit = $('#submit-date');
+
+    btnSubmit.on('click', (e)=>{
+        // console.log(readDariDate);
+        e.preventDefault();
+
+        let tanggalDari = $('#tanggal_dari').val();
+        let tanggalSampai = $('#tanggal_sampai').val();
+
+        // console.log(tanggalDari, tanggalSampai);
+
+        $('#laporan_penjualan').dataTable().fnDestroy(); // clear datatable
+        $("#laporan_penjualan").DataTable({
+            responsive:true,
+            scrollX:true,
+            ajax: {
+                url: readDariDate,
+                type: 'post',
+                data: {
+                    'tanggal_dari': tanggalDari,
+                    'tanggal_sampai': tanggalSampai
+                }
+            },
+            columnDefs:[{
+                searcable: true,
+                orderable: true,
+                targets: 0
+            }],
+            'pageLength' : 60,
+            // munculin export ke excel
+            dom: 'Bfrtip',
+            buttons: [
+                'excelHtml5',
+                'pdfHtml5',
+                'print'
+            ],
+            order: [
+                [1, "asc"]],
+                columns:[ 
+                    { data: 'nomor'},
+                    { data: "tanggal"},
+                    { data: "nama_produk"},
+                    { data: "total_bayar"},
+                    { data: "jumlah_uang" },
+                    { data: "pelanggan" },
+                    { data: "action" },
+                ]
+        }); // END Datatable
+
+        // $.ajax({
+        //     url: readDariDate,
+        //     type: 'post',
+        //     dataType: 'json',
+        //     data: {
+        //         'tanggal_dari': tanggalDari,
+        //         'tanggal_sampai': tanggalSampai
+        //     },
+        //     success: (data) => {
+        //         console.log(data);
+        //     },
+        //     error: (err) => {
+        //         console.log(err);
+        //     }
+        // })
+    });
+}
+
+readByDate();

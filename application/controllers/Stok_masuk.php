@@ -45,6 +45,37 @@ class Stok_masuk extends CI_Controller {
 		echo json_encode($stok_masuk);
 	}
 
+	public function read_by_date()
+	{
+		$tanggalDari = $_POST['tanggal_dari'];
+		$tanggalSampai = $_POST['tanggal_sampai'];
+		$nomor = 0;
+
+		// header('Content-type: application/json');
+		if ($this->stok_masuk_model->read_laporan_by_date($tanggalDari, $tanggalSampai)->num_rows() > 0) {
+
+			foreach ($this->stok_masuk_model->read_laporan_by_date($tanggalDari, $tanggalSampai)->result() as $stok_masuk) {
+				$tanggal = new DateTime($stok_masuk->tanggal);
+				$data[] = array(
+					'tanggal' => $tanggal->format('d-m-Y H:i:s'),
+					// 'barcode' => $stok_masuk->barcode,
+					'nama_produk' => $stok_masuk->nama_produk,
+					'jumlah' => $stok_masuk->jumlah,
+					'keterangan' => $stok_masuk->keterangan,
+					'supplier' => $stok_masuk->supplier,
+					'harga' => number_format($stok_masuk->harga, 0, ',', '.'),
+					'nomor' => $nomor+=1,
+				);
+			}
+		} else {
+			$data = array();
+		}
+		$stok_masuk = array(
+			'data' => $data
+		);
+		echo json_encode($stok_masuk);
+	}
+
 	public function add()
 	{
 		$id = $this->input->post('barcode');

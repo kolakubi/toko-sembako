@@ -24,10 +24,11 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col">
+        
+          <div class="col-6">
             <h1 class="m-0 text-dark">Laporan Keuangan</h1>
 
-            <div class="col-md-6 mt-4">
+            <div class="col-6 mt-4">
               <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title">Sisa Uang Cash</h3>
@@ -38,7 +39,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 mt-4">
+            <div class="col-6 mt-4">
               <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title">Sisa Uang Transfer</h3>
@@ -50,6 +51,27 @@
             </div>
 
           </div><!-- /.col -->
+
+          <div class="col-6">
+
+            <form>
+              <div class="form-group">
+                <label>Dari: </label>
+                <input type="date" name="tanggaldari" id="tanggal_dari" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Sampai: </label>
+                <input type="date" name="tanggalsampai" id="tanggal_sampai" class="form-control" id="datepembelian">
+              </div>
+
+              <div class="form-group">
+                <button type="submit" name="submit-date" id="submit-date" class="btn btn-info btn-block">Cari</button>
+              </div>
+            </form>
+
+          </div><!-- /.col -->
+
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -100,6 +122,7 @@
   var readUrl = '<?php echo site_url('laporan_keuangan/read') ?>';
   var readSisaUang = '<?php echo site_url('laporan_keuangan/sisa_uang') ?>'
   var readSisaUangTransfer = '<?php echo site_url('laporan_keuangan/sisa_uang_transfer') ?>'
+  var readDariDate = '<?php echo site_url('laporan_keuangan/read_by_date') ?>';
 //   var deleteUrl = '<?php echo site_url('laporan_keuangan/delete') ?>';
 </script>
 <script src="<?php echo base_url('assets/js/unminify/laporan_keuangan.js') ?>"></script>

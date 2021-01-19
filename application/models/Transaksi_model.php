@@ -83,6 +83,20 @@ class Transaksi_model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function read_by_date($tanggallDari, $tanggalSampai)
+	{
+		$this->db->select('transaksi.id, transaksi.tanggal, transaksi.barcode, transaksi.qty, transaksi.total_bayar, transaksi.jumlah_uang, transaksi.diskon, pelanggan.nama as pelanggan');
+		$this->db->where('tanggal >=', $tanggallDari);
+        $this->db->where('tanggal <=', $tanggalSampai);
+		$this->db->from($this->table);
+		$this->db->join('pelanggan', 'transaksi.pelanggan = pelanggan.id', 'left outer');
+		// if($dataTanggal['dari']){
+		// 	$this->db->where('transaksi.tanggal >=', $dataTanggal['dari']);
+        //     $this->db->where('transaksi.tanggal <=', $dataTanggal['sampai']);
+		// }
+		return $this->db->get();
+	}
+
 	public function delete($id)
 	{
 		$this->db->where('id', $id);

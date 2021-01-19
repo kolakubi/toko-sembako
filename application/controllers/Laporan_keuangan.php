@@ -30,7 +30,37 @@ class Laporan_keuangan extends CI_Controller {
                     'debet' => $transaksi->posisi_kas == "D" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
                     'kredit' => $transaksi->posisi_kas == "K" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
 					'tgl_input' => $tanggal->format('d-m-Y H:i:s'),
-					'metode_pembayaran' => $transaksi->metode_pembayaran
+					'metode_pembayaran' => $transaksi->metode_pembayaran,
+				);
+			}
+		} else {
+			$data = array();
+		}
+		$transaksi = array(
+			'data' => $data
+		);
+		echo json_encode($transaksi);
+	}
+
+	public function read_by_date(){
+
+		$tanggalaDari = $_POST['tanggal_dari'];
+		$tanggalaSampai = $_POST['tanggal_sampai'];
+		$nomor = 0;
+
+		if ($this->laporan_keuangan_model->read_by_date($tanggalaDari, $tanggalaSampai)->num_rows() > 0) {
+			foreach ($this->laporan_keuangan_model->read_by_date($tanggalaDari, $tanggalaSampai)->result() as $transaksi) {
+				$tanggal = new DateTime($transaksi->tgl_input);
+				$data[] = array(
+					'id_kas' => $transaksi->id_kas,
+                    // 'jumlah_uang' => $transaksi->jumlah_uang,
+                    // 'posisi_kas' => $transaksi->posisi_kas,
+                    'keterangan_kas' => $transaksi->keterangan_kas,
+                    'debet' => $transaksi->posisi_kas == "D" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
+                    'kredit' => $transaksi->posisi_kas == "K" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
+					'tgl_input' => $tanggal->format('d-m-Y H:i:s'),
+					'metode_pembayaran' => $transaksi->metode_pembayaran,
+					'nomor' => $nomor+=1,
 				);
 			}
 		} else {

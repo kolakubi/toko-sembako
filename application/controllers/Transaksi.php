@@ -20,13 +20,6 @@ class Transaksi extends CI_Controller {
 
 	public function read()
 	{
-		// $tanggalDari = $this->input->post('tanggaldari');
-		// $tanggalSampai = $this->input->post('tanggalsampai');
-		// $dataTanggal = [
-		// 	"dari" => $tanggalDari,
-		// 	"sampai" => $tanggalSampai
-		// ];
-
 		// header('Content-type: application/json');
 		if ($this->transaksi_model->read()->num_rows() > 0) {
 			foreach ($this->transaksi_model->read()->result() as $transaksi) {
@@ -40,6 +33,38 @@ class Transaksi extends CI_Controller {
 					// 'diskon' => $transaksi->diskon,
 					'pelanggan' => $transaksi->pelanggan,
 					'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print Nota</a>'
+					// 'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print</a> <button class="btn btn-sm btn-danger" onclick="remove('.$transaksi->id.')">Delete</button>'
+				);
+			}
+		} else {
+			$data = array();
+		}
+		$transaksi = array(
+			'data' => $data
+		);
+		echo json_encode($transaksi);
+	}
+
+	public function read_by_date()
+	{
+		$tanggalDari = $_POST['tanggal_dari'];
+		$tanggalSampai = $_POST['tanggal_sampai'];
+		$nomor = 0;
+
+		// header('Content-type: application/json');
+		if ($this->transaksi_model->read_by_date($tanggalDari, $tanggalSampai)->num_rows() > 0) {
+			foreach ($this->transaksi_model->read_by_date($tanggalDari, $tanggalSampai)->result() as $transaksi) {
+				$barcode = explode(',', $transaksi->barcode);
+				$tanggal = new DateTime($transaksi->tanggal);
+				$data[] = array(
+					'tanggal' => $tanggal->format('d-m-Y H:i:s'),
+					'nama_produk' => '<table>'.$this->transaksi_model->getProduk($barcode, $transaksi->qty).'</table>',
+					'total_bayar' => number_format($transaksi->total_bayar, 0, ',', '.'),
+					'jumlah_uang' => number_format($transaksi->jumlah_uang, 0, ',', '.'),
+					// 'diskon' => $transaksi->diskon,
+					'pelanggan' => $transaksi->pelanggan,
+					'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print Nota</a>',
+					'nomor' => $nomor+=1,
 					// 'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print</a> <button class="btn btn-sm btn-danger" onclick="remove('.$transaksi->id.')">Delete</button>'
 				);
 			}

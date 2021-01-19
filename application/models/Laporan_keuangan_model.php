@@ -12,6 +12,14 @@ class Laporan_keuangan_model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function read_by_date($dataDari, $dataSampai){
+		$this->db->select();
+		$this->db->where('tgl_input >=', $dataDari);
+        $this->db->where('tgl_input <=', $dataSampai);
+		$this->db->from($this->table);
+		return $this->db->get();
+	}
+
 
 	public function penjualanBulan($date)
 	{

@@ -62,6 +62,16 @@ class Stok_masuk_model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function read_laporan_by_date($dataDari, $dataSampai){
+		$this->db->select('stok_masuk.tanggal, stok_masuk.jumlah, stok_masuk.keterangan, produk.barcode, produk.nama_produk, supplier.nama as supplier, stok_masuk.harga');
+		$this->db->where('tanggal >=', $dataDari);
+        $this->db->where('tanggal <=', $dataSampai);
+		$this->db->from($this->table);
+		$this->db->join('produk', 'produk.id = stok_masuk.barcode');
+		$this->db->join('supplier', 'supplier.id = stok_masuk.supplier', 'left outer');
+		return $this->db->get();
+	}
+
 	public function laporan()
 	{
 		$this->db->select('stok_masuk.tanggal, stok_masuk.jumlah, stok_masuk.keterangan, produk.barcode, produk.nama_produk, supplier.nama as supplier, stok_masuk.harga');

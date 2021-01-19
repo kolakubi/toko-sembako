@@ -29,6 +29,27 @@
 
           </div><!-- /.col -->
         </div><!-- /.row -->
+
+        <div class="row">
+          <div class="col-6">
+           <form>
+              <div class="form-group">
+                <label>Dari: </label>
+                <input type="date" name="tanggaldari" id="tanggal_dari" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Sampai: </label>
+                <input type="date" name="tanggalsampai" id="tanggal_sampai" class="form-control" id="datepembelian">
+              </div>
+
+              <div class="form-group">
+                <button type="submit" name="submit-date" id="submit-date" class="btn btn-info btn-block">Cari</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -80,6 +101,7 @@
 <script>
   var laporanUrl = '<?php echo site_url('stok_masuk/laporan') ?>';
   var deleteUrl = '<?php echo site_url('transaksi/delete') ?>';
+  var readDariDate = '<?php echo site_url('stok_masuk/read_by_date') ?>';
   // var data_stokUrl = '<?php echo site_url('produk/data_stok') ?>';
 </script>
 <!-- <script src="<?php echo base_url('assets/js/laporan_stok_masuk.min.js') ?>"></script> -->

@@ -26,37 +26,32 @@
         <div class="row mb-2">
           <div class="col">
             <h1 class="m-0 text-dark">Laporan Penjualan</h1>
-
-            <!-- Form cari menurut tanggal -->
-             <!-- tanggal dari -->
-             <!-- <div class="row mt-4">
-              <div class="col-4">
-                <?php echo form_open() ?>
-                  <div class="form-group">
-                    <label>Dari: </label>
-                    <input type="date" name="tanggaldari" class="form-control">
-                    <span class="text-danger"><?php echo form_error('tanggaldari') ?></span>
-                  </div> -->
-
-                  <!-- tanggal sampai -->
-                  <!-- <div class="form-group">
-                    <label>Sampai: </label>
-                    <input type="date" name="tanggalsampai" class="form-control" id="datepembelian">
-                    <span class="text-danger"><?php echo form_error('tanggalsampai') ?></span>
-                  </div> -->
-
-                  <!-- button submit -->
-                  <!-- <div class="form-group">
-                    <button type="submit" class="btn btn-info btn-block">Cari</button>
-                  </div>
-                <?php echo form_close() ?>
-              </div>
-             </div> -->
-             
-
-
           </div><!-- /.col -->
         </div><!-- /.row -->
+
+        <div class="row mt-4">
+          <div class="col-6">
+          
+            <!-- Form cari menurut tanggal -->
+            <form>
+              <div class="form-group">
+                <label>Dari: </label>
+                <input type="date" name="tanggaldari" id="tanggal_dari" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Sampai: </label>
+                <input type="date" name="tanggalsampai" id="tanggal_sampai" class="form-control" id="datepembelian">
+              </div>
+
+              <div class="form-group">
+                <button type="submit" name="submit-date" id="submit-date" class="btn btn-info btn-block">Cari</button>
+              </div>
+            </form>
+          
+          </div>
+        </div>
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -108,6 +103,7 @@
 <script>
   var readUrl = '<?php echo site_url('transaksi/read') ?>';
   var deleteUrl = '<?php echo site_url('transaksi/delete') ?>';
+  var readDariDate = '<?php echo site_url('transaksi/read_by_date') ?>';
 </script>
 <script src="<?php echo base_url('assets/js/unminify/laporan_penjualan.js') ?>"></script>
 <!-- <script src="<?php echo base_url('assets/js/laporan_penjualan.min.js') ?>"></script> -->
