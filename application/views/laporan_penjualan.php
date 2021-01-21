@@ -30,7 +30,7 @@
         </div><!-- /.row -->
 
         <div class="row mt-4">
-          <div class="col-6">
+          <div class="col-md-6 col-sm-12">
           
             <!-- Form cari menurut tanggal -->
             <form>

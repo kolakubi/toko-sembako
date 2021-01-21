@@ -25,10 +25,10 @@
       <div class="container-fluid">
         <div class="row mb-2">
         
-          <div class="col-6">
+          <div class="col-md-6 col-sm-12">
             <h1 class="m-0 text-dark">Laporan Keuangan</h1>
 
-            <div class="col-6 mt-4">
+            <div class="col-md-6 col-sm-12 mt-4">
               <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title">Sisa Uang Cash</h3>
@@ -39,7 +39,7 @@
               </div>
             </div>
 
-            <div class="col-6 mt-4">
+            <div class="col-md-6 col-sm-12 mt-4">
               <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title">Sisa Uang Transfer</h3>
@@ -52,8 +52,8 @@
 
           </div><!-- /.col -->
 
-          <div class="col-6">
-
+          <!-- Form Tanggal -->
+          <div class="col-md-6 col-sm-12">
             <form>
               <div class="form-group">
                 <label>Dari: </label>
@@ -69,7 +69,6 @@
                 <button type="submit" name="submit-date" id="submit-date" class="btn btn-info btn-block">Cari</button>
               </div>
             </form>
-
           </div><!-- /.col -->
 
         </div><!-- /.row -->

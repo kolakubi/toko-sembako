@@ -79,12 +79,10 @@
   <div class="modal-body">
     <form id="form" autocomplete="off">
       <input type="hidden" name="id">
-      <div class="form-group">
-        <!-- <label>Barcode</label> -->
+      <!-- <div class="form-group">
         <label>Id</label>
-        <!-- <input type="text" class="form-control" placeholder="Barcode" name="barcode" required> -->
         <input type="text" class="form-control" placeholder="Id" name="barcode" required>
-      </div>
+      </div> -->
       <div class="form-group">
         <label>Nama</label>
         <input type="text" class="form-control" placeholder="Nama" name="nama_produk" required>

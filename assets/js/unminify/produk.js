@@ -13,7 +13,7 @@ let produk = $("#produk").DataTable({
     ],
     columns: [
         { data: null }, 
-        { data: "barcode" },
+        { data: "id" },
         { data: "nama" },
         { data: "satuan" },
         { data: "kategori" },

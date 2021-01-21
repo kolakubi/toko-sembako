@@ -24,7 +24,6 @@ class Stok_masuk extends CI_Controller {
 
 			// var_dump($this->stok_masuk_model->read()->result());
 			// die();
-
 			foreach ($this->stok_masuk_model->read()->result() as $stok_masuk) {
 				$tanggal = new DateTime($stok_masuk->tanggal);
 				$data[] = array(

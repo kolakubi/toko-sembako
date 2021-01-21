@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Cetak</title>
+	<title>Download</title>
 </head>
 <body>
-	<div style="width: 500px; margin: auto;"> <!-- ./ Invoice 1 -->
+	<div style="width: 500px; margin: auto;" id="print-pdf"> <!-- ./ Invoice 1 -->
 		<br>
 		<center>
 			<h5>INVOICE</h5>
@@ -163,8 +163,15 @@
 		</center>
 	</div> <!-- ./End Invoice 2 -->
 
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>                 
 	<script>
-		window.print()
+		function generatePDF(){
+            const elem = document.getElementById('print-pdf');
+
+            html2pdf().from(elem).save();
+        }
+
+        generatePDF();
 	</script>
 </body>
 </html>

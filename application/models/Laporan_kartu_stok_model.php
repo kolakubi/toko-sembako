@@ -13,16 +13,51 @@ class Laporan_kartu_stok_model extends CI_Model {
 		$this->db->join('produk', 'produk.id = kartu_stok.id_produk');
 		return $this->db->get();
 	}
+
+	public function read_by_date($tanggalDari, $tanggalSampai, $idProduk)
+	{
+		// $this->db->select('stok_masuk.tanggal, stok_masuk.jumlah, stok_masuk.keterangan, produk.barcode, produk.nama_produk');
+		$this->db->select('kartu_stok.posisi, kartu_stok.id_produk, kartu_stok.qty, kartu_stok.keterangan, kartu_stok.tanggal, produk.nama_produk as nama');
+        // $this->db->like('nama_produk', 'Kapal');
+        $this->db->like('id_produk', $idProduk);
+		$this->db->where('tanggal >=', $tanggalDari);
+        $this->db->where('tanggal <=', $tanggalSampai);
+		$this->db->from($this->table);
+		$this->db->join('produk', 'produk.id = kartu_stok.id_produk');
+		return $this->db->get();
+	}
+
+	public function get_1_produk($id){
+		return $this->db->get_where('produk', ['id' => $id])->result_array();
+	}
 	
-	public function getProduk($barcode, $qty)
+	// public function getProduk($barcode, $qty)
+	// {
+	// 	$total = explode(',', $qty);
+	// 	foreach ($barcode as $key => $value) {
+	// 		$this->db->select('nama_produk');
+	// 		$this->db->where('id', $value);
+	// 		$data[] = '<tr><td>'.$this->db->get('produk')->row()->nama_produk.' ('.$total[$key].')</td></tr>';
+	// 	}
+	// 	return join($data);
+	// }
+
+	public function getProduk($barcode, $qty, $idProduk)
 	{
 		$total = explode(',', $qty);
+		$i=0;
 		foreach ($barcode as $key => $value) {
-			$this->db->select('nama_produk');
-			$this->db->where('id', $value);
-			$data[] = '<tr><td>'.$this->db->get('produk')->row()->nama_produk.' ('.$total[$key].')</td></tr>';
+			if($value == $idProduk){
+				$this->db->select('nama_produk');
+				$this->db->where('id', $value);
+				// $data = '<tr><td>'.$this->db->get('produk')->row()->nama_produk.' ('.$total[$i].')</td></tr>';
+				$data = $this->db->get('produk')->row();
+				// $data['nama'] = $data->nama_produk;
+				$data->qty = $total[$i];
+			}
+			$i+=1;
 		}
-		return join($data);
+		return $data;
 	}
     
 

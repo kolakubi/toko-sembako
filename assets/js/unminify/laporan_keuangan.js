@@ -79,7 +79,7 @@ function readByDate(){
         let tanggalDari = $('#tanggal_dari').val();
         let tanggalSampai = $('#tanggal_sampai').val();
 
-        console.log(tanggalDari, tanggalSampai);
+        // console.log(tanggalDari, tanggalSampai);
 
         $('#laporan_keuangan').dataTable().fnDestroy(); // clear datatable
         $("#laporan_keuangan").DataTable({

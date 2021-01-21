@@ -23,6 +23,7 @@ class Produk extends CI_Controller {
 		if ($this->produk_model->read()->num_rows() > 0) {
 			foreach ($this->produk_model->read()->result() as $produk) {
 				$data[] = array(
+					'id' => $produk->id,
 					'barcode' => $produk->barcode,
 					'nama' => $produk->nama_produk,
 					'kategori' => $produk->kategori,
@@ -44,8 +45,10 @@ class Produk extends CI_Controller {
 
 	public function add()
 	{
+		$random_number = intval( "0" . rand(1,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) );
 		$data = array(
-			'barcode' => $this->input->post('barcode'),
+			'id' => $random_number, 
+			'barcode' => $this->input->post('nama_produk'),
 			'nama_produk' => $this->input->post('nama_produk'),
 			'satuan' => $this->input->post('satuan'),
 			'kategori' => $this->input->post('kategori'),

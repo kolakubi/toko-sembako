@@ -208,6 +208,7 @@ $("#barcode").select2({
         cache: true
     }
 });
+
 $("#pelanggan").select2({
     placeholder: "Pelanggan",
     ajax: {

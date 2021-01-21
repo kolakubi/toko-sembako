@@ -31,7 +31,7 @@
         </div><!-- /.row -->
 
         <div class="row">
-          <div class="col-6">
+          <div class="col-md-6 col-sm-12">
            <form>
               <div class="form-group">
                 <label>Dari: </label>

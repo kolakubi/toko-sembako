@@ -23,7 +23,8 @@ class Invoice extends CI_Controller {
         if ($this->invoice_model->read()->num_rows() > 0) {
 			foreach ($this->invoice_model->read()->result() as $invoice) {
 				$tanggal = new DateTime($invoice->tanggal);
-				$buttons = '<a class="btn btn-sm btn-success" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>';
+				$buttons = '<a class="btn btn-sm btn-success" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>
+				<a class="btn btn-sm btn-info" href="'.site_url('invoice/download/').$invoice->id_invoice.'">Download</a>';
 				if(!$invoice->status){
 					$buttons = $buttons.' <button class="btn btn-sm btn-info" onclick="edit('.$invoice->id_invoice.')">Bayar</button>';
 				}
@@ -35,7 +36,6 @@ class Invoice extends CI_Controller {
                     'status' => $invoice->status ? "<strong style='color:green'>Lunas</strong>" : "<strong style='color:red'>Belum Lunas</strong>",
                     // 'action' => "<button>aksi</button>"
 					'action' => $buttons,
-					
 				);
 			}
 		} else {
@@ -162,6 +162,33 @@ class Invoice extends CI_Controller {
             'pelanggan' => $produk->pelanggan
 		);
 		$this->load->view('cetak_invoice', $data);
+	}
+
+	public function download($id)
+	{
+		$produk = $this->invoice_model->getAll($id);
+		
+		$tanggal = new DateTime($produk->tanggal);
+		$barcode = explode(',', $produk->barcode);
+		$qty = explode(',', $produk->qty);
+
+		$produk->tanggal = $tanggal->format('d m Y H:i:s');
+
+		$dataProduk = $this->invoice_model->getName($barcode);
+		foreach ($dataProduk as $key => $value) {
+			$value->total = $qty[$key];
+			$value->harga = $value->harga * $qty[$key];
+		}
+
+		$data = array(
+			'nota' => $produk->nota,
+			'tanggal' => $produk->tanggal,
+			'produk' => $dataProduk,
+			'total' => number_format($produk->total_bayar, 0, ',', '.'),
+            'kasir' => $produk->kasir,
+            'pelanggan' => $produk->pelanggan
+		);
+		$this->load->view('download_invoice', $data);
 	}
 
 	

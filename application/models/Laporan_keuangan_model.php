@@ -20,7 +20,6 @@ class Laporan_keuangan_model extends CI_Model {
 		return $this->db->get();
 	}
 
-
 	public function penjualanBulan($date)
 	{
 		$qty = $this->db->query("SELECT qty FROM transaksi WHERE DATE_FORMAT(tanggal, '%d %m %Y') = '$date'")->result();

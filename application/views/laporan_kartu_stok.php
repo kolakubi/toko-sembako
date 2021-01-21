@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2/sweetalert2.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') ?>">
+  <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/select2/css/select2.min.css') ?>">
+  <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') ?>">
   <?php $this->load->view('partials/head'); ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -24,24 +26,47 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col">
+          <div class="col-12">
             <h1 class="m-0 text-dark">Laporan Kartu Stok</h1>
+          </div>
 
-            <div class="col-md-6 mt-4">
-              <div class="card card-info">
-                <div class="card-header">
-                  <h3 class="card-title">Sisa Stok</h3>
-                </div>
-                <div class="card-body">
-                  <div class="chart" style="height: 250px;max-height: 150px; overflow-y: scroll;">
-                    <ul class="list-group" id="stok_produk"></li>
-                    </ul>
-                  </div>
+          <div class="col-md-6 mt-4"> <!-- Sisa Stok -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Sisa Stok</h3>
+              </div>
+              <div class="card-body">
+                <div class="chart" style="height: 250px;max-height: 150px; overflow-y: scroll;">
+                  <ul class="list-group" id="stok_produk"></li>
+                  </ul>
                 </div>
               </div>
             </div>
+          </div> <!-- ./ Sisa Stok -->
 
-          </div><!-- /.col -->
+          <div class="col-md-6 mt-4"> <!-- Form Sisa Stok -->
+            <form>
+              <div class="form-group">
+                <label>Dari: </label>
+                <input type="date" name="tanggaldari" id="tanggal_dari" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Sampai: </label>
+                <input type="date" name="tanggalsampai" id="tanggal_sampai" class="form-control" id="datepembelian">
+              </div>
+              <div class="form-group">
+                <label>Barang</label>
+                <div class="form-inline">
+                  <select id="barcode" placeholder="pilih barang" class="form-control select2 col-sm-6" onchange="getNama()">  
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" name="submit-date" id="submit-date" class="btn btn-info btn-block">Cari</button>
+              </div>
+            </form>
+          </div> <!-- ./ Form Sisa Stok -->
+
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -80,6 +105,8 @@
 <script src="<?php echo base_url('assets/vendor/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/vendor/adminlte/plugins/jquery-validation/jquery.validate.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/vendor/adminlte/plugins/select2/js/select2.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/vendor/adminlte/plugins/moment/moment.min.js') ?>"></script>
 
 <!-- data table button plugin -->
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
@@ -91,7 +118,10 @@
 
 <script>
     var laporanUrl = '<?php echo site_url('laporan_kartu_stok/read') ?>';
+    var getStokDariDate = '<?php echo site_url('laporan_kartu_stok/get_stok_dari_date') ?>';
     var data_stokUrl = '<?php echo site_url('produk/data_stok') ?>';
+    var getBarcodeUrl = '<?php echo site_url('produk/get_barcode') ?>';
+    var produkGetNamaUrl = '<?php echo site_url('produk/get_nama') ?>';
 </script>
 <script src="<?php echo base_url('assets/js/unminify/laporan_kartu_stok.js') ?>"></script>
 </body>
