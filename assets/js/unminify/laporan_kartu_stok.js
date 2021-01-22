@@ -136,7 +136,7 @@ $('#submit-date').on('click', (e)=>{
     let tanggalSampai = $('#tanggal_sampai').val();
     let idProduk = $('#barcode').val();
 
-    console.log(tanggalDari, tanggalSampai, idProduk);
+    // console.log(tanggalDari, tanggalSampai, idProduk);
 
     if(tanggalDari != '' && tanggalSampai != '' && idProduk != null){
         // console.log(tanggalDari, tanggalSampai, idProduk);
@@ -184,19 +184,19 @@ $('#submit-date').on('click', (e)=>{
     }
 })
 
-$.ajax( {
-    url: getStokDariDate,
-    type:"post",
-    dataType:"text",
-    data: {
-        tanggal_dari: '2021-01-17', 
-        tanggal_sampai: '2021-01-22',
-        id_produk: '31548',
-    },
-    success:res=> {
-        console.log(res);
-    },
-    error: (err) =>{
-        console.log(err)
-    }
-});
+// $.ajax( {
+//     url: getStokDariDate,
+//     type:"post",
+//     dataType:"text",
+//     data: {
+//         tanggal_dari: '2021-01-17', 
+//         tanggal_sampai: '2021-01-22',
+//         id_produk: '31548',
+//     },
+//     success:res=> {
+//         console.log(res);
+//     },
+//     error: (err) =>{
+//         console.log(err)
+//     }
+// });

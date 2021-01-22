@@ -1,7 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+// uncomment jika di live server
+// header('Access-Control-Allow-Origin: *');
+// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 class Auth extends CI_Controller {
+	
 
 	public function __construct()
 	{
@@ -18,12 +22,25 @@ class Auth extends CI_Controller {
 					$data = $this->auth_model->getUser($username)->row();
 					$toko = $this->auth_model->getToko();
 					if (password_verify($this->input->post('password'), $data->password)) {
+						$peran = $data->role;
+						switch($peran){
+							case '1':
+								$peran = 'admin';
+								break;
+							case '2':
+								$peran = 'kasir';
+								break;
+							case '3':
+								$peran = 'bos';
+								break;
+						}
 						$userdata = array(
 							'id' => $data->id,
 							'username' => $data->username,
 							'password' => $data->password,
 							'nama' => $data->nama,
-							'role' => $data->role == '1' ? 'admin' : 'kasir',
+							'role' => $peran,
+							// 'role' => $data->role == '1' ? 'admin' : 'kasir',
 							'status' => 'login',
 							'toko' => $toko
 						);

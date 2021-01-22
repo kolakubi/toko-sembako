@@ -1,5 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+// uncomment jika di live server
+// header('Access-Control-Allow-Origin: *');
+// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 class Pengguna extends CI_Controller {
 
@@ -43,7 +46,7 @@ class Pengguna extends CI_Controller {
 			'username' => $this->input->post('username'),
 			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
 			'nama' => $this->input->post('nama'),
-			'role' => '2'
+			'role' => '3'
 		);
 		if ($this->pengguna_model->create($data)) {
 			echo json_encode('sukses');

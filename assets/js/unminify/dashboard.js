@@ -10,6 +10,24 @@ function getDays() {
     return totalHari
 }
 
+$.ajax({
+    url: readSisaUang,
+    type: 'get',
+    dataType: 'text',
+    success: (data) => {
+        $('#sisa_uang').html('Rp'+data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    }
+})
+
+$.ajax({
+    url: readSisaUangTransfer,
+    type: 'get',
+    dataType: 'text',
+    success: (data) => {
+        $('#sisa_uang_transfer').html('Rp'+data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    }
+})
+
 $.ajax( {
     url:transaksi_hariUrl,
     type:"get",

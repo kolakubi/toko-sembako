@@ -1,5 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+// uncomment jika di live server
+// header('Access-Control-Allow-Origin: *');
+// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
 class Satuan_produk extends CI_Controller {
 

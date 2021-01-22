@@ -2,7 +2,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a href="<?php echo site_url('') ?>" class="brand-link text-center">
-    <span class="brand-text font-weight-light"><?php echo $this->session->userdata('toko')->nama ?></span>
+    <!-- <span class="brand-text font-weight-light"><?php echo $this->session->userdata('toko')->nama ?></span> -->
+    <!-- <img src="<?php echo base_url().'assets/image/logo-sahabat-sembako-putih.png' ?>" style="max-width: 200px;" /> -->
+    <img src="https://officialsancu.com/appsembako/assets/image/logo-sahabat-sembako-putih.png" style="max-width: 200px;" />
   </a>
   <?php $uri = $this->uri->segment(1) ?>
   <?php $role = $this->session->userdata('role'); ?>
@@ -23,7 +25,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" style="display: <?php echo $role == 'bos' ? 'none' : 'block' ?>">
           <a href="<?php echo site_url('supplier') ?>" class="nav-link <?php echo $uri == 'supplier' ? 'active' : 'no' ?>">
             <i class="nav-icon fas fa-truck"></i>
             <p>
@@ -31,7 +33,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" style="display: <?php echo $role == 'bos' ? 'none' : 'block' ?>">
           <a href="<?php echo site_url('pelanggan') ?>" class="nav-link <?php echo $uri == 'pelanggan' ? 'active' : 'no' ?>">
             <i class="nav-icon fas fa-address-book"></i>
             <p>
@@ -39,7 +41,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item has-treeview <?php echo $uri == 'produk' || $uri == 'kategori_produk' || $uri == 'satuan_produk' ? 'menu-open' : 'no' ?>">
+        <li style="display: <?php echo $role == 'bos' ? 'none' : 'block' ?>" class="nav-item has-treeview <?php echo $uri == 'produk' || $uri == 'kategori_produk' || $uri == 'satuan_produk' ? 'menu-open' : 'no' ?>">
           <a href="#" class="nav-link <?php echo $uri == 'produk' || $uri == 'kategori_produk' || $uri == 'satuan_produk' ? 'active' : 'no' ?>">
             <i class="nav-icon fas fa-box"></i>
             <p>
@@ -77,7 +79,7 @@
         <li class="nav-item has-treeview <?php echo $uri == 'stok_masuk' 
         || $uri == 'stok_keluar'
         || $uri == 'transaksi'
-        || $uri == 'invoice' ? 'menu-open' : 'no' ?>">
+        || $uri == 'invoice' ? 'menu-open' : 'no' ?>" style="display: <?php echo $role == 'bos' ? 'none' : 'block' ?>">
           <a href="#" class="nav-link <?php echo $uri == 'stok_masuk' 
           || $uri == 'stok_keluar'
           || $uri == 'transaksi'
