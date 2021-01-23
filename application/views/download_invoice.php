@@ -168,7 +168,7 @@
 		function generatePDF(){
             const elem = document.getElementById('print-pdf');
 
-            html2pdf().from(elem).save();
+            html2pdf().from(elem).save("<?php echo 'invoice-'.$pelanggan.'-'.$tanggal ?>");
         }
 
         generatePDF();

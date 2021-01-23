@@ -66,7 +66,7 @@ class Transaksi extends CI_Controller {
 					'jumlah_uang' => number_format($transaksi->jumlah_uang, 0, ',', '.'),
 					// 'diskon' => $transaksi->diskon,
 					'pelanggan' => $transaksi->pelanggan,
-					'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print Nota</a>',
+					'action' => '<a class="btn btn-sm btn-success" target="_blank" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print Nota</a>',
 					'nomor' => $nomor+=1,
 					// 'action' => '<a class="btn btn-sm btn-success" href="'.site_url('transaksi/cetak/').$transaksi->id.'">Print</a> <button class="btn btn-sm btn-danger" onclick="remove('.$transaksi->id.')">Delete</button>'
 				);
@@ -167,8 +167,8 @@ class Transaksi extends CI_Controller {
 			'nota' => $produk->nota,
 			'tanggal' => $produk->tanggal,
 			'produk' => $dataProduk,
-			'total' => $produk->total_bayar,
-			'bayar' => $produk->jumlah_uang,
+			'total' => number_format($produk->total_bayar, 0, ',', '.'),
+			'bayar' => number_format($produk->jumlah_uang, 0, ',', '.'),
 			'kembalian' => $produk->jumlah_uang - $produk->total_bayar,
 			'kasir' => $produk->kasir
 		);

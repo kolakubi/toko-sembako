@@ -10,6 +10,19 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2/sweetalert2.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') ?>">
   <?php $this->load->view('partials/head'); ?>
+  <?php $role = $this->session->userdata('role'); ?>
+  <?php
+    if($role == 'kasir'){
+      echo "<style>
+        table thead tr th:nth-child(6),
+        table tbody tr td:nth-child(6){
+          display: none;
+        }
+
+      </style>";
+    }
+  ?>
+  <?php ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -111,6 +124,7 @@
   var editUrl = '<?php echo site_url('supplier/edit') ?>';
   var get_supplierUrl = '<?php echo site_url('supplier/get_supplier') ?>';
 </script>
-<script src="<?php echo base_url('assets/js/supplier.min.js') ?>"></script>
+<!-- <script src="<?php echo base_url('assets/js/supplier.min.js') ?>"></script> -->
+<script src="<?php echo base_url('assets/js/unminify/supplier.js') ?>"></script>
 </body>
 </html>

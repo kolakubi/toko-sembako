@@ -10,6 +10,18 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2/sweetalert2.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') ?>">
   <?php $this->load->view('partials/head'); ?>
+  <?php $role = $this->session->userdata('role'); ?>
+  <?php
+    if($role == 'kasir'){
+      echo "<style>
+        table thead tr th:nth-child(3),
+        table tbody tr td:nth-child(3){
+          display: none;
+        }
+
+      </style>";
+    }
+  ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

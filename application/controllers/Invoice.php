@@ -26,8 +26,8 @@ class Invoice extends CI_Controller {
         if ($this->invoice_model->read()->num_rows() > 0) {
 			foreach ($this->invoice_model->read()->result() as $invoice) {
 				$tanggal = new DateTime($invoice->tanggal);
-				$buttons = '<a class="btn btn-sm btn-success" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>
-				<a class="btn btn-sm btn-info" href="'.site_url('invoice/download/').$invoice->id_invoice.'">Download</a>';
+				$buttons = '<a class="btn btn-sm btn-success" target="_blank" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>
+				<a class="btn btn-sm btn-info" target="_blank" href="'.site_url('invoice/download/').$invoice->id_invoice.'">Download</a>';
 				if(!$invoice->status){
 					$buttons = $buttons.' <button class="btn btn-sm btn-info" onclick="edit('.$invoice->id_invoice.')">Bayar</button>';
 				}
