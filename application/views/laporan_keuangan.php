@@ -86,7 +86,8 @@
                 <tr>
                   <th>No</th>
                   <th>Tanggal</th>
-                  <th>Keterangan</th> 
+                  <th>Pelanggan/Supplier</th>
+                  <th>Produk</th>
                   <th>Metode Bayar</th>
                   <th>Debet</th> 
                   <th>Kredit</th> 
@@ -119,6 +120,7 @@
 
 <script>
   var readUrl = '<?php echo site_url('laporan_keuangan/read') ?>';
+  var readModif = '<?php echo site_url('laporan_keuangan/read_modif') ?>';
   var readSisaUang = '<?php echo site_url('laporan_keuangan/sisa_uang') ?>'
   var readSisaUangTransfer = '<?php echo site_url('laporan_keuangan/sisa_uang_transfer') ?>'
   var readDariDate = '<?php echo site_url('laporan_keuangan/read_by_date') ?>';

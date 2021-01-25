@@ -44,8 +44,12 @@ class Kategori_produk extends CI_Controller {
 		$data = array(
 			'kategori' => $this->input->post('kategori')
 		);
-		if ($this->kategori_produk_model->create($data)) {
-			echo json_encode('sukses');
+		if(!$this->kategori_produk_model->checkName($data['kategori'])){
+			if($this->kategori_produk_model->create($data)){
+				echo json_encode('sukses');
+			}
+		}else{
+			echo json_encode('gagal');
 		}
 	}
 

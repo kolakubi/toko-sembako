@@ -50,8 +50,12 @@ class Pelanggan extends CI_Controller {
 			'telepon' => $this->input->post('telepon'),
 			'jenis_kelamin' => $this->input->post('jenis_kelamin')
 		);
-		if ($this->pelanggan_model->create($data)) {
-			echo json_encode('sukses');
+		if(!$this->pelanggan_model->checkName($data['nama'])){
+			if($this->pelanggan_model->create($data)){
+				echo json_encode('sukses');
+			}
+		}else{
+			echo json_encode('gagal');
 		}
 	}
 

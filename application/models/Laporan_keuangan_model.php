@@ -15,6 +15,33 @@ class Laporan_keuangan_model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function read_modif()
+	{
+		$this->db->select();
+		$this->db->from($this->table);
+		return $this->db->get();
+	}
+
+	public function read_kas_debet($id_pembelian){
+		$this->db->select();
+		$this->db->from('kas');
+		$this->db->join('stok_masuk', 'stok_masuk.id = kas.id_pembelian');
+		$this->db->join('supplier', 'supplier.id = stok_masuk.supplier');
+		// $this->db->join('produk', 'stok_masuk.barcode = produk.id');
+		$this->db->where('kas.id_pembelian', $id_pembelian);
+		return $this->db->get()->result();
+	}
+
+	public function read_kas_kredit($id_penjualan){
+		$this->db->select();
+		$this->db->from('kas');
+		$this->db->join('transaksi', 'transaksi.id = kas.id_penjualan');
+		$this->db->join('pelanggan', 'pelanggan.id = transaksi.pelanggan');
+		// $this->db->join('produk', 'transaksi.barcode = produk.id');
+		$this->db->where('kas.id_penjualan', $id_penjualan);
+		return $this->db->get()->result();
+	}
+
 	public function read_by_date($dataDari, $dataSampai){
 		$this->db->select();
 		$this->db->where('tgl_input >=', $dataDari);
@@ -82,6 +109,18 @@ class Laporan_keuangan_model extends CI_Model {
 			return $data['jumlah_uang'];
 		}
 		return 0;
+	}
+
+	public function getProduk($barcode, $qty)
+	{
+		$data = [];
+		$total = explode(',', $qty);
+		foreach ($barcode as $key => $value) {
+			$this->db->select('nama_produk');
+			$this->db->where('id', $value);
+			$data[] = '<tr><td>'.$this->db->get('produk')->row()->nama_produk.' ('.$total[$key].')</td></tr>';
+		}
+		return join($data);
 	}
 
 }

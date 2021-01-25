@@ -34,9 +34,14 @@ function addData() {
         dataType: "json",
         data: $("#form").serialize(),
         success: res => {
-            $(".modal").modal("hide");
-            Swal.fire("Sukses", "Sukses Menambahkan Data", "success");
-            reloadTable();
+            if(res == 'gagal'){
+                Swal.fire("Gagal", "Nama Sudah Digunakan", "warning");
+            }
+            else{
+                $(".modal").modal("hide");
+                Swal.fire("Sukses", "Sukses Menambahkan Data", "success");
+                reloadTable();
+            }
         },
         error: res => {
             console.log(res);

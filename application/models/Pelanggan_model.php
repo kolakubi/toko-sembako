@@ -13,6 +13,14 @@ class Pelanggan_model extends CI_Model {
 		return $this->db->insert($this->table, $data);
 	}
 
+	public function checkName($nama){
+		if($this->db->get_where($this->table, ['nama' => $nama])->num_rows()){
+			return true;
+		}
+
+		return false;
+	}
+
 	public function read()
 	{
 		return $this->db->get($this->table);

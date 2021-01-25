@@ -44,8 +44,12 @@ class Satuan_produk extends CI_Controller {
 		$data = array(
 			'satuan' => $this->input->post('satuan')
 		);
-		if ($this->satuan_produk_model->create($data)) {
-			echo json_encode('sukses');
+		if(!$this->satuan_produk_model->checkName($data['satuan'])){
+			if($this->satuan_produk_model->create($data)){
+				echo json_encode('sukses');
+			}
+		}else{
+			echo json_encode('gagal');
 		}
 	}
 

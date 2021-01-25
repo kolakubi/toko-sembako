@@ -11,13 +11,13 @@ function reloadTable() {
     transaksi.ajax.reload()
 }
 
-function nota(jumlah) {
-    let hasil = "",
-        char = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-        total = char.length;
-    for (var r = 0; r < jumlah; r++) hasil += char.charAt(Math.floor(Math.random() * total));
-    return hasil
-}
+// function nota(jumlah) {
+//     let hasil = "",
+//         char = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+//         total = char.length;
+//     for (var r = 0; r < jumlah; r++) hasil += char.charAt(Math.floor(Math.random() * total));
+//     return hasil
+// }
 
 function getNama() {
     $.ajax({
@@ -51,49 +51,44 @@ function checkStok() {
                 nama_produk = res.nama_produk,
                 jumlah = parseInt($("#jumlah").val()),
                 stok = parseInt(res.stok),
-                // harga = parseInt(res.harga),
                 harga = $('#harga_per_item').val(),
                 dataBarcode = res.barcode,
                 total = parseInt($("#total").html());
-            if (stok < jumlah) Swal.fire("Gagal", "Stok Tidak Cukup", "warning");
-            else {
-                let a = transaksi.rows().indexes().filter((a, t) => dataBarcode === transaksi.row(a).data()[0]);
-                if (a.length > 0) {
-                    let row = transaksi.row(a[0]),
-                        data = row.data();
-                    if (stok < data[3] + jumlah) {
-                        Swal.fire('stok', "Stok Tidak Cukup", "warning")
-                    } else {
-                        data[3] = data[3] + jumlah;
-                        row.data(data).draw();
-                        indexProduk = produk.findIndex(a => a.id == barcode);
-                        produk[indexProduk].stok = stok - data[3];
-                        $("#total").html(total + harga * jumlah)
-                        // total2
-                        $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                        // ===============
-                    }
-                } else {
-                    produk.push({
-                        id: barcode,
-                        stok: stok - jumlah,
-                        terjual: jumlah
-                    });
-                    transaksi.row.add([
-                        dataBarcode,
-                        nama_produk,
-                        harga,
-                        jumlah,
-                        `<button name="${barcode}" class="btn btn-sm btn-danger" onclick="remove('${barcode}')">Hapus</btn>`]).draw();
-                    $("#total").html(total + harga * jumlah);
-                    // total2
-                    $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                    // ====================
-                    $("#jumlah").val("");
-                    $("#harga_per_item").val("");
-                    $("#tambah").attr("disabled", "disabled");
-                    $("#bayar").removeAttr("disabled")
-                } 
+
+            let a = transaksi.rows().indexes().filter((a, t) => dataBarcode === transaksi.row(a).data()[0]);
+            if (a.length > 0) {
+                let row = transaksi.row(a[0]),
+                    data = row.data();
+                
+                data[3] = data[3] + jumlah;
+                row.data(data).draw();
+                indexProduk = produk.findIndex(a => a.id == barcode);
+                produk[indexProduk].stok = stok + data[3];
+                $("#total").html(total + harga * jumlah)
+                // total2
+                $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                // ===============
+                
+            } else {
+                produk.push({
+                    id: barcode,
+                    stok: stok - jumlah,
+                    terjual: jumlah
+                });
+                transaksi.row.add([
+                    dataBarcode,
+                    nama_produk,
+                    harga,
+                    jumlah,
+                    `<button name="${barcode}" class="btn btn-sm btn-danger" onclick="remove('${barcode}')">Hapus</btn>`]).draw();
+                $("#total").html(total + harga * jumlah);
+                // total2
+                $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                // ====================
+                $("#jumlah").val("");
+                $("#harga_per_item").val("");
+                $("#tambah").attr("disabled", "disabled");
+                $("#bayar").removeAttr("disabled")
             }
         }
     })
@@ -162,22 +157,20 @@ function add() {
             produk: JSON.stringify(produk),
             tanggal: $("#tanggal").val(),
             qty: qty,
-            total_bayar: $("#total").html(),
+            harga: $("#total").html(),
             jumlah_uang: $('[name="jumlah_uang"]').val(),
             diskon: $('[name="diskon"]').val(),
-            pelanggan: $("#pelanggan").val(),
-            nota: $("#nota").html(),
+            supplier: $("#supplier").val(),
+            nota: $("#no_nota").html(),
             keterangan: $('#keterangan').val(),
             metode_pembayaran: $('#metode_pembayaran').val()
         },
         success: res => {
-            if (isCetak) {
+            if(res == 'sukses'){
                 Swal.fire("Sukses", "Sukses Membayar", "success").
-                    then(() => window.location.href = `${cetakUrl}${res}`)
-            } else {
-                Swal.fire("Sukses", "Sukses Membayar", "success").
-                    then(() => window.location.reload())
+                then(() => window.location.reload())
             }
+            console.log(res);
         },
         error: err => {
             console.log(err.responseText)
@@ -209,14 +202,14 @@ $("#barcode").select2({
     }
 });
 
-$("#pelanggan").select2({
-    placeholder: "Pelanggan",
+$("#supplier").select2({
+    placeholder: "Supplier",
     ajax: {
-        url: pelangganSearchUrl,
+        url: supplierSearchUrl,
         type: "post",
         dataType: "json",
         data: params => ({
-            pelanggan: params.term
+            supplier: params.term
         }),
         processResults: res => ({
             results: res
@@ -224,6 +217,7 @@ $("#pelanggan").select2({
         cache: true
     }
 });
+
 $("#tanggal").datetimepicker({
     format: "dd-mm-yyyy h:ii:ss"
 });
@@ -251,55 +245,4 @@ $("#form").validate({
         add()
     }
 });
-$("#nota").html(nota(15));
-
-function addInvoice(){
-    let pelanggan = $('#pelanggan').val();
-    let keterangan = $('#keterangan').val();
-
-    if(pelanggan){
-        let data = transaksi.rows().data(),
-            qty = [];
-        $.each(data, (index, value) => {
-            qty.push(value[3])
-        });
-        $.ajax({
-            url: addInvoiceUrl,
-            type: "post",
-            dataType: "json",
-            data: {
-                produk: JSON.stringify(produk),
-                tanggal: $("#tanggal").val(),
-                qty: qty,
-                total_bayar: $("#total").html(),
-                // jumlah_uang: $('[name="jumlah_uang"]').val(),
-                diskon: $('[name="diskon"]').val(),
-                pelanggan: $("#pelanggan").val(),
-                nota: $("#nota").html(),
-                keterangan: $('#keterangan').val(),
-                metode_pembayaran: $('#metode_pembayaran').val()
-            },
-            success: res => {
-                if (isCetak) {
-                    Swal.fire("Sukses", "Invoice Berhasil Dibuat", "success").
-                        then(() => window.location.href = `${cetakUrl}${res}`)
-                } else {
-                    Swal.fire("Sukses", "Invoice Berhasil Dibuat", "success").
-                        then(() => window.location.reload())
-                }
-            },
-            error: err => {
-                console.log(err.responseText)
-            }
-        })
-    }
-    else{
-        Swal.fire("Gagal", "Mohon isi data pelanggan", "warning")
-    }
-}
-
-$('#invoice').on('click', (e)=>{
-    e.preventDefault();
-
-    addInvoice();
-})
+// $("#nota").html(nota(15));

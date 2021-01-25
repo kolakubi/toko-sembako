@@ -75,7 +75,7 @@
           <div class="col-sm-6 d-flex justify-content-end text-right nota">
             <div>
               <div class="mb-0">
-                <b class="mr-2">Nota</b> <span id="nota"></span>
+                <!-- <b class="mr-2">Nota</b> <span id="nota"></span> -->
               </div>
               <span id="total" style="font-size: 1px; line-height: 1" class="text-danger">0</span>
               <br>
@@ -123,8 +123,12 @@
         <input type="text" class="form-control" name="tanggal" id="tanggal" required>
       </div>
       <div class="form-group">
-        <label>Pelanggan</label>
-        <select name="pelannggan" id="pelanggan" class="form-control select2" required></select>
+        <label>Supplier</label>
+        <select name="supplier" id="supplier" class="form-control select2" required></select>
+      </div>
+      <div class="form-group">
+        <label>No. Nota</label>
+        <input placeholder="nomor nota" id="no_nota" type="text" class="form-control" name="no_nota">
       </div>
       <div class="form-group">
         <label>Jumlah Uang</label>
@@ -137,7 +141,7 @@
           <option value="transfer">Transfer</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" style="display: none;">
         <label>Diskon</label>
         <input placeholder="Diskon" type="number" class="form-control" onkeyup="kembalian()" name="diskon">
       </div>
@@ -154,8 +158,8 @@
         <b>Kembalian:</b> <span class="kembalian"></span>
       </div>
       <button id="add" class="btn btn-success" type="submit" onclick="bayar()" disabled>Bayar</button>
-      <!-- <button id="cetak" class="btn btn-success" type="submit" onclick="bayarCetak()" disabled>Bayar Dan Cetak</button> -->
-      <button id="invoice" class="btn btn-warning">Buat Invoice</button>
+      <button id="cetak" class="btn btn-success" type="submit" onclick="bayarCetak()" disabled style="display: none">Bayar Dan Cetak</button>
+      <!-- <button id="invoice" class="btn btn-warning">Buat Invoice</button> -->
       <button class="btn btn-danger" data-dismiss="modal">Close</button>
     </form>
   </div>
@@ -175,12 +179,11 @@
 <script>
   var produkGetNamaUrl = '<?php echo site_url('produk/get_nama') ?>';
   var produkGetStokUrl = '<?php echo site_url('produk/get_stok') ?>';
-  var addUrl = '<?php echo site_url('transaksi/add') ?>';
-  var addInvoiceUrl = '<?php echo site_url('transaksi/addInvoice') ?>'
+  var addUrl = '<?php echo site_url('stok_masuk/add') ?>';
   var getBarcodeUrl = '<?php echo site_url('produk/get_barcode') ?>';
-  var pelangganSearchUrl = '<?php echo site_url('pelanggan/search') ?>';
+  var supplierSearchUrl = '<?php echo site_url('supplier/search') ?>';
   var cetakUrl = '<?php echo site_url('transaksi/cetak/') ?>';
 </script>
-<script src="<?php echo base_url('assets/js/unminify/transaksi.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/unminify/stok_masuk_ver2.js') ?>"></script>
 </body>
 </html>

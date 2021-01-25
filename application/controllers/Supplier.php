@@ -50,8 +50,13 @@ class Supplier extends CI_Controller {
 			'telepon' => $this->input->post('telepon'),
 			'keterangan' => $this->input->post('keterangan')
 		);
-		if ($this->supplier_model->create($data)) {
-			echo json_encode('sukses');
+
+		if(!$this->supplier_model->checkName($data['nama'])){
+			if($this->supplier_model->create($data)){
+				echo json_encode('sukses');
+			}
+		}else{
+			echo json_encode('gagal');
 		}
 	}
 

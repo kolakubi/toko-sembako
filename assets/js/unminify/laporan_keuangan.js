@@ -86,7 +86,7 @@ function readByDate(){
             responsive:true,
             scrollX:true,
             ajax: {
-                url: readDariDate,
+                url: readModif,
                 type: 'post',
                 data: {
                     'tanggal_dari': tanggalDari,
@@ -111,7 +111,8 @@ function readByDate(){
                 columns:[ 
                     { data: 'nomor'},
                     { data: "tgl_input"},
-                    { data: "keterangan_kas"},
+                    { data: 'orang'},
+                    { data: 'nama_produk'},
                     { data: "metode_pembayaran"},
                     { data: "debet" },
                     { data: "kredit" },
@@ -137,3 +138,19 @@ function readByDate(){
 }
 
 readByDate();
+
+// $.ajax({
+//     url: readModif,
+//     type:"post",
+//     dataType:"text",
+//     data: {
+//         tanggal_dari: '2021-01-17', 
+//         tanggal_sampai: '2021-01-22'
+//     },
+//     success:res=> {
+//         console.log(res);
+//     },
+//     error: (err) =>{
+//         console.log(err)
+//     }
+// });

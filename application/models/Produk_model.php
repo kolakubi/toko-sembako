@@ -13,6 +13,14 @@ class Produk_model extends CI_Model {
 		return $this->db->insert($this->table, $data);
 	}
 
+	public function checkName($nama){
+		if($this->db->get_where($this->table, ['nama_produk' => $nama])->num_rows()){
+			return true;
+		}
+
+		return false;
+	}
+
 	public function read()
 	{
 		$this->db->select('produk.id, produk.barcode, produk.nama_produk, produk.harga, produk.stok, kategori_produk.kategori, satuan_produk.satuan');

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // header('Access-Control-Allow-Origin: *');
 // header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
-class Stok_masuk extends CI_Controller {
+class Stok_masuk_ver2 extends CI_Controller {
 
 	public function __construct()
 	{
@@ -17,7 +17,7 @@ class Stok_masuk extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('stok_masuk');
+		$this->load->view('stok_masuk_ver2');
 	}
 
 	public function read()
@@ -78,56 +78,30 @@ class Stok_masuk extends CI_Controller {
 		echo json_encode($stok_masuk);
 	}
 
-	// public function add()
-	// {
-	// 	$id = $this->input->post('barcode');
-	// 	$supplier = $this->input->post('supplier');
-	// 	$jumlah = $this->input->post('jumlah');
-	// 	$stok = $this->stok_masuk_model->getStok($id)->stok;
-	// 	$rumus = max($stok + $jumlah,0);
-	// 	$addStok = $this->stok_masuk_model->addStok($id, $rumus);
-	// 	if ($addStok) {
-	// 		$tanggal = new DateTime($this->input->post('tanggal'));
-	// 		$data = array(
-	// 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
-	// 			'barcode' => $id,
-	// 			'jumlah' => $jumlah,
-	// 			'supplier' => $supplier,
-	// 			'harga' => $this->input->post('harga'),
-	// 			'metode_pembayaran' => $this->input->post('metode_pembayaran'),
-	// 			// 'keterangan' => "Beli ".$id." ".$jumlah." Dus di ".$supplier,
-	// 			'keterangan' => $this->input->post('keterangan'),
-	// 		);
-	// 		if ($this->stok_masuk_model->create($data)) {
-	// 			echo json_encode('sukses');
-	// 		}
-	// 	}
-	// }
-
 	public function add()
 	{
-		$produk = json_decode($this->input->post('produk'));
-		$barcode = array();
-		foreach ($produk as $produk) {
-			$this->stok_masuk_model->removeStok($produk->id, $produk->stok);
-			// $this->stok_masuk_model->addTerjual($produk->id, $produk->terjual);
-			array_push($barcode, $produk->id);
+		$id = $this->input->post('barcode');
+		$supplier = $this->input->post('supplier');
+		$jumlah = $this->input->post('jumlah');
+		$stok = $this->stok_masuk_model->getStok($id)->stok;
+		$rumus = max($stok + $jumlah,0);
+		$addStok = $this->stok_masuk_model->addStok($id, $rumus);
+		if ($addStok) {
+			$tanggal = new DateTime($this->input->post('tanggal'));
+			$data = array(
+				'tanggal' => $tanggal->format('Y-m-d H:i:s'),
+				'barcode' => $id,
+				'jumlah' => $jumlah,
+				'supplier' => $supplier,
+				'harga' => $this->input->post('harga'),
+				'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+				// 'keterangan' => "Beli ".$id." ".$jumlah." Dus di ".$supplier,
+				'keterangan' => $this->input->post('keterangan'),
+			);
+			if ($this->stok_masuk_model->create($data)) {
+				echo json_encode('sukses');
+			}
 		}
-		$tanggal = new DateTime($this->input->post('tanggal'));
-		$data = array(
-			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
-			'barcode' => implode(',', $barcode),
-			'jumlah' => implode(',', $this->input->post('qty')),
-			'supplier' => $this->input->post('supplier'),
-			'harga' => $this->input->post('harga'),
-			'metode_pembayaran' => $this->input->post('metode_pembayaran'),
-			'keterangan' => $this->input->post('keterangan'),
-		);
-		if ($this->stok_masuk_model->create($data)) {
-			echo json_encode('sukses');
-		}
-
-		// print_r($data);
 	}
 
 	public function get_barcode()

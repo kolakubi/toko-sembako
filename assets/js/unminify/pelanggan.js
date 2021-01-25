@@ -35,10 +35,15 @@ function addData() {
         type: "post",
         dataType: "json",
         data: $("#form").serialize(),
-        success: () => {
-            $(".modal").modal("hide");
-            Swal.fire("Sukses", "Sukses Menambahkan Data", "success");
-            reloadTable()
+        success: (data) => {
+            if(data == 'gagal'){
+                Swal.fire("Gagal", "Nama Sudah Digunakan", "warning");
+            }
+            else{
+                $(".modal").modal("hide");
+                Swal.fire("Sukses", "Sukses Menambahkan Data", "success");
+                reloadTable();
+            }
         },
         error: err => {
             console.log(err)

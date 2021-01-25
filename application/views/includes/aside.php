@@ -97,6 +97,13 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="<?php echo site_url('stok_masuk_ver2') ?>" class="nav-link <?php echo $uri == 'stok_masuk_ver2' ? 'active' : 'no' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <!-- <p>Stok Masuk</p> -->
+                <p>Pembelian ver2</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<?php echo site_url('transaksi') ?>" class="nav-link <?php echo $uri == 'transaksi' ? 'active' : 'no' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <!-- <p>Transaksi</p> -->

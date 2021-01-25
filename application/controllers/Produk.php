@@ -58,8 +58,12 @@ class Produk extends CI_Controller {
 			// 'harga' => $this->input->post('harga'),
 			'stok' => $this->input->post('stok')
 		);
-		if ($this->produk_model->create($data)) {
-			echo json_encode($data);
+		if(!$this->produk_model->checkName($data['nama_produk'])){
+			if($this->produk_model->create($data)){
+				echo json_encode('sukses');
+			}
+		}else{
+			echo json_encode('gagal');
 		}
 	}
 

@@ -103,6 +103,20 @@ class Stok_masuk_model extends CI_Model {
 		return $this->db->query("SELECT SUM(jumlah) AS total FROM stok_masuk WHERE DATE_FORMAT(tanggal, '%d %m %Y') = '$hari'")->row();
 	}
 
+	public function removeStok($id, $stok)
+	{
+		$this->db->where('id', $id);
+		$this->db->set('stok', $stok);
+		return $this->db->update('produk');
+	}
+
+	// public function addTerjual($id, $jumlah)
+	// {
+	// 	$this->db->where('id', $id);
+	// 	$this->db->set('terjual', $jumlah);
+	// 	return $this->db->update('produk');;
+	// }
+
 }
 
 /* End of file Stok_masuk_model.php */
