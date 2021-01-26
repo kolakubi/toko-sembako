@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// uncomment jika di live server
-// header('Access-Control-Allow-Origin: *');
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// cek jika ada di hosting
+if(!$_SERVER['REMOTE_ADDR']=='127.0.0.1'){
+	header('Access-Control-Allow-Origin: *');
+	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
 
 class Laporan_kartu_stok extends CI_Controller {
 
@@ -46,6 +48,8 @@ class Laporan_kartu_stok extends CI_Controller {
     public function get_stok_dari_date(){
         $tanggalDari = $_POST['tanggal_dari'];
         $tanggalSampai = $_POST['tanggal_sampai'];
+		$tanggalSampai = str_replace(' ', '/', $tanggalSampai);
+		$tanggalSampai = date('Y-m-d', strtotime($tanggalSampai . "+1 days"));
         $idProduk = $_POST['id_produk'];
         $nomor = 0;
         $namaProduk = $this->laporan_kartu_stok_model->get_1_produk($idProduk)[0]['nama_produk'];

@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// uncomment jika di live server
-// header('Access-Control-Allow-Origin: *');
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// cek jika ada di hosting
+if(!$_SERVER['REMOTE_ADDR']=='127.0.0.1'){
+	header('Access-Control-Allow-Origin: *');
+	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
 
 class Stok_masuk extends CI_Controller {
 
@@ -51,18 +53,19 @@ class Stok_masuk extends CI_Controller {
 	{
 		$tanggalDari = $_POST['tanggal_dari'];
 		$tanggalSampai = $_POST['tanggal_sampai'];
+		$tanggalSampai = str_replace(' ', '/', $tanggalSampai);
+		$tanggalSampai = date('Y-m-d', strtotime($tanggalSampai . "+1 days"));
 		$nomor = 0;
 
 		// header('Content-type: application/json');
 		if ($this->stok_masuk_model->read_laporan_by_date($tanggalDari, $tanggalSampai)->num_rows() > 0) {
-
 			foreach ($this->stok_masuk_model->read_laporan_by_date($tanggalDari, $tanggalSampai)->result() as $stok_masuk) {
+				$barcode = explode(',', $stok_masuk->barcode);
 				$tanggal = new DateTime($stok_masuk->tanggal);
 				$data[] = array(
 					'tanggal' => $tanggal->format('d-m-Y H:i:s'),
-					// 'barcode' => $stok_masuk->barcode,
-					'nama_produk' => $stok_masuk->nama_produk,
-					'jumlah' => $stok_masuk->jumlah,
+					'barcode' => $barcode,
+					'nama_produk' => '<table>'.$this->stok_masuk_model->getProduk($barcode, $stok_masuk->jumlah).'</table>',
 					'keterangan' => $stok_masuk->keterangan,
 					'supplier' => $stok_masuk->supplier,
 					'harga' => number_format($stok_masuk->harga, 0, ',', '.'),
@@ -77,32 +80,6 @@ class Stok_masuk extends CI_Controller {
 		);
 		echo json_encode($stok_masuk);
 	}
-
-	// public function add()
-	// {
-	// 	$id = $this->input->post('barcode');
-	// 	$supplier = $this->input->post('supplier');
-	// 	$jumlah = $this->input->post('jumlah');
-	// 	$stok = $this->stok_masuk_model->getStok($id)->stok;
-	// 	$rumus = max($stok + $jumlah,0);
-	// 	$addStok = $this->stok_masuk_model->addStok($id, $rumus);
-	// 	if ($addStok) {
-	// 		$tanggal = new DateTime($this->input->post('tanggal'));
-	// 		$data = array(
-	// 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
-	// 			'barcode' => $id,
-	// 			'jumlah' => $jumlah,
-	// 			'supplier' => $supplier,
-	// 			'harga' => $this->input->post('harga'),
-	// 			'metode_pembayaran' => $this->input->post('metode_pembayaran'),
-	// 			// 'keterangan' => "Beli ".$id." ".$jumlah." Dus di ".$supplier,
-	// 			'keterangan' => $this->input->post('keterangan'),
-	// 		);
-	// 		if ($this->stok_masuk_model->create($data)) {
-	// 			echo json_encode('sukses');
-	// 		}
-	// 	}
-	// }
 
 	public function add()
 	{
@@ -122,12 +99,11 @@ class Stok_masuk extends CI_Controller {
 			'harga' => $this->input->post('harga'),
 			'metode_pembayaran' => $this->input->post('metode_pembayaran'),
 			'keterangan' => $this->input->post('keterangan'),
+			'no_nota' => $this->input->post('no_nota'),
 		);
 		if ($this->stok_masuk_model->create($data)) {
 			echo json_encode('sukses');
 		}
-
-		// print_r($data);
 	}
 
 	public function get_barcode()

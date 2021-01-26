@@ -15,30 +15,14 @@ let laporan_keuangan = $("#invoice").DataTable( {
         'pdfHtml5',
         'print'
     ],
-    order:[
-        [1, "asc"]],
-        columns:[ {
-            data: null
-        },
-        {
-            data: "tanggal"
-        },
-        // {
-        //     data: "id_kas"
-        // },
-        {
-            data: "pelanggan"
-        },
-        {
-            data: "total_bayar"
-        },
-        {
-            data: 'status'
-        },
-        {
-            data: 'action'
-        }
-        
+    order:[[1, "asc"]],
+    columns:[ 
+        {data: null},
+        {data: "tanggal"},
+        {data: "pelanggan"},
+        {data: "total_bayar"},
+        {data: 'status'},
+        {data: 'action'}
     ]
 }
 
@@ -85,6 +69,7 @@ function edit(id) {
 }
 
 function editData() {
+    $('#loading-overlay').css('display', 'flex');
 
     let data = $("#form").serialize();
     console.log(data);
@@ -94,12 +79,14 @@ function editData() {
         dataType: "json",
         data: $("#form").serialize(),
         success: (res) => {
+            $('#loading-overlay').css('display', 'none');
             console.log(res);
             $(".modal").modal("hide");
             Swal.fire("Sukses", "Sukses Mengedit Data", "success");
             reloadTable()
         },
         error: err => {
+            $('#loading-overlay').css('display', 'none');
             console.log(err)
         }
     })

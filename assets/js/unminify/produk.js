@@ -28,12 +28,15 @@ function reloadTable() {
 }
 
 function addData() {
+    $('#loading-overlay').css('display', 'flex');
+
     $.ajax({
         url: addUrl,
         type: "post",
         dataType: "json",
         data: $("#form").serialize(),
         success: res => {
+            $('#loading-overlay').css('display', 'none');
             if(res == 'gagal'){
                 Swal.fire("Gagal", "Nama Sudah Digunakan", "warning");
             }
@@ -44,6 +47,7 @@ function addData() {
             }
         },
         error: res => {
+            $('#loading-overlay').css('display', 'none');
             console.log(res);
         }
     })

@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// uncomment jika di live server
-// header('Access-Control-Allow-Origin: *');
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// cek jika ada di hosting
+if(!$_SERVER['REMOTE_ADDR']=='127.0.0.1'){
+	header('Access-Control-Allow-Origin: *');
+	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
 
 class Transaksi extends CI_Controller {
 
@@ -52,6 +54,8 @@ class Transaksi extends CI_Controller {
 	{
 		$tanggalDari = $_POST['tanggal_dari'];
 		$tanggalSampai = $_POST['tanggal_sampai'];
+		$tanggalSampai = str_replace(' ', '/', $tanggalSampai);
+		$tanggalSampai = date('Y-m-d', strtotime($tanggalSampai . "+1 days"));
 		$nomor = 0;
 
 		// header('Content-type: application/json');

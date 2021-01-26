@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// uncomment jika di live server
-// header('Access-Control-Allow-Origin: *');
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// cek jika ada di hosting
+if(!$_SERVER['REMOTE_ADDR']=='127.0.0.1'){
+	header('Access-Control-Allow-Origin: *');
+	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
 
 class Invoice extends CI_Controller {
 

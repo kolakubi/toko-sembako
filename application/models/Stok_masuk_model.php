@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// uncomment jika di live server
-// header('Access-Control-Allow-Origin: *');
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// cek jika ada di hosting
+if(!$_SERVER['REMOTE_ADDR']=='127.0.0.1'){
+	header('Access-Control-Allow-Origin: *');
+	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
 
 class Stok_masuk_model extends CI_Model {
 
@@ -66,11 +68,11 @@ class Stok_masuk_model extends CI_Model {
 	}
 
 	public function read_laporan_by_date($dataDari, $dataSampai){
-		$this->db->select('stok_masuk.tanggal, stok_masuk.jumlah, stok_masuk.keterangan, produk.barcode, produk.nama_produk, supplier.nama as supplier, stok_masuk.harga');
+		$this->db->select('stok_masuk.tanggal, stok_masuk.jumlah, stok_masuk.keterangan, stok_masuk.barcode, supplier.nama as supplier, stok_masuk.harga');
 		$this->db->where('tanggal >=', $dataDari);
         $this->db->where('tanggal <=', $dataSampai);
 		$this->db->from($this->table);
-		$this->db->join('produk', 'produk.id = stok_masuk.barcode');
+		// $this->db->join('produk', 'produk.id = stok_masuk.barcode');
 		$this->db->join('supplier', 'supplier.id = stok_masuk.supplier', 'left outer');
 		return $this->db->get();
 	}
@@ -89,6 +91,18 @@ class Stok_masuk_model extends CI_Model {
 		$this->db->select('stok');
 		$this->db->where('id', $id);
 		return $this->db->get('produk')->row();
+	}
+
+	public function getProduk($barcode, $qty)
+	{
+		$total = explode(',', $qty);
+		$data = [];
+		foreach ($barcode as $key => $value) {
+			$this->db->select('nama_produk');
+			$this->db->where('id', $value);
+			$data[] = '<tr><td>'.$this->db->get('produk')->row()->nama_produk.' ('.$total[$key].')</td></tr>';
+		}
+		return join($data);
 	}
 
 	public function addStok($id,$stok)

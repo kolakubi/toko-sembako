@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/select2/css/select2.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') ?>">
+  <link rel="stylesheet" href="<?php echo base_url('assets/style/custom_style.css') ?>">
   <?php $this->load->view('partials/head'); ?>
   <?php $role = $this->session->userdata('role'); ?>
   <?php
@@ -26,6 +27,10 @@
   ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+
+<!-- loading overlay  -->
+<?php $this->load->view('partials/overlay'); ?>
+
 <div class="wrapper">
 
   <?php $this->load->view('includes/nav'); ?>

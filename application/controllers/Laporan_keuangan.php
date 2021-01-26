@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// uncomment jika di live server
-// header('Access-Control-Allow-Origin: *');
-// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// cek jika ada di hosting
+if(!$_SERVER['REMOTE_ADDR']=='127.0.0.1'){
+	header('Access-Control-Allow-Origin: *');
+	header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
 
 class Laporan_keuangan extends CI_Controller {
 
@@ -45,12 +47,14 @@ class Laporan_keuangan extends CI_Controller {
 	}
 
 	public function read_by_date(){
-		$tanggalaDari = $_POST['tanggal_dari'];
-		$tanggalaSampai = $_POST['tanggal_sampai'];
+		$tanggalDari = $_POST['tanggal_dari'];
+		$tanggalSampai = $_POST['tanggal_sampai'];
+		$tanggalSampai = str_replace(' ', '/', $tanggalSampai);
+		$tanggalSampai = date('Y-m-d', strtotime($tanggalSampai . "+1 days"));
 		$nomor = 0;
 
-		if ($this->laporan_keuangan_model->read_by_date($tanggalaDari, $tanggalaSampai)->num_rows() > 0) {
-			foreach ($this->laporan_keuangan_model->read_by_date($tanggalaDari, $tanggalaSampai)->result() as $transaksi) {
+		if ($this->laporan_keuangan_model->read_by_date($tanggalDari, $tanggalSampai)->num_rows() > 0) {
+			foreach ($this->laporan_keuangan_model->read_by_date($tanggalDari, $tanggalSampai)->result() as $transaksi) {
 				$tanggal = new DateTime($transaksi->tgl_input);
 				$data[] = array(
 					'id_kas' => $transaksi->id_kas,
@@ -74,13 +78,15 @@ class Laporan_keuangan extends CI_Controller {
 	}
 
 	public function read_modif(){
-		$tanggalaDari = $_POST['tanggal_dari'];
-		$tanggalaSampai = $_POST['tanggal_sampai'];
+		$tanggalDari = $_POST['tanggal_dari'];
+		$tanggalSampai = $_POST['tanggal_sampai'];
+		$tanggalSampai = str_replace(' ', '/', $tanggalSampai);
+		$tanggalSampai = date('Y-m-d', strtotime($tanggalSampai . "+1 days"));
 		$nomor = 0;
 		$data = [];
 
-		if ($this->laporan_keuangan_model->read_by_date($tanggalaDari, $tanggalaSampai)->num_rows() > 0) {
-			foreach ($this->laporan_keuangan_model->read_by_date($tanggalaDari, $tanggalaSampai)->result() as $transaksi) {
+		if ($this->laporan_keuangan_model->read_by_date($tanggalDari, $tanggalSampai)->num_rows() > 0) {
+			foreach ($this->laporan_keuangan_model->read_by_date($tanggalDari, $tanggalSampai)->result() as $transaksi) {
 				
 				$tanggal = new DateTime($transaksi->tgl_input);
 

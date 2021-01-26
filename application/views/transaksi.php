@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/select2/css/select2.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') ?>">
+  <link rel="stylesheet" href="<?php echo base_url('assets/style/custom_style.css') ?>">
   <?php $this->load->view('partials/head'); ?>
   <style>
     @media(max-width: 576px){
@@ -23,6 +24,10 @@
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+
+<!-- loading overlay  -->
+<?php $this->load->view('partials/overlay'); ?>
+
 <div class="wrapper">
 
   <?php $this->load->view('includes/nav'); ?>
@@ -61,7 +66,7 @@
             </div>
             <div class="form-group">
               <label>Jumlah</label>
-              <input type="number" class="form-control col-sm-6" placeholder="Jumlah" id="jumlah" onkeyup="checkEmpty()">
+              <input type="number" class="form-control col-sm-6" placeholder="Jumlah" id="jumlah" onchange="checkEmpty()">
             </div>
             <div class="form-group">
               <label>Harga Per Item</label>

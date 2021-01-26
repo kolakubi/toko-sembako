@@ -66,7 +66,7 @@
                   <th>Tanggal</th>
                   <!-- <th>Barcode</th>  -->
                   <th>Nama Produk</th> 
-                  <th>Jumlah</th> 
+                  <!-- <th>Jumlah</th>  -->
                   <th>Keterangan</th> 
                   <th>Supplier</th> 
                   <th>Harga</th>

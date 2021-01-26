@@ -149,6 +149,7 @@ function remove(nama) {
 }
 
 function add() {
+    $('#loading-overlay').css('display', 'flex');
     let data = transaksi.rows().data(),
         qty = [];
     $.each(data, (index, value) => {
@@ -171,6 +172,7 @@ function add() {
             metode_pembayaran: $('#metode_pembayaran').val()
         },
         success: res => {
+            $('#loading-overlay').css('display', 'none');
             if (isCetak) {
                 Swal.fire("Sukses", "Sukses Membayar", "success").
                     then(() => window.location.href = `${cetakUrl}${res}`)
@@ -180,6 +182,7 @@ function add() {
             }
         },
         error: err => {
+            $('#loading-overlay').css('display', 'none');
             console.log(err.responseText)
         }
     })
@@ -256,6 +259,7 @@ $("#nota").html(nota(15));
 function addInvoice(){
     let pelanggan = $('#pelanggan').val();
     let keterangan = $('#keterangan').val();
+    $('#loading-overlay').css('display', 'flex');
 
     if(pelanggan){
         let data = transaksi.rows().data(),
@@ -280,6 +284,8 @@ function addInvoice(){
                 metode_pembayaran: $('#metode_pembayaran').val()
             },
             success: res => {
+                $('#loading-overlay').css('display', 'none');
+
                 if (isCetak) {
                     Swal.fire("Sukses", "Invoice Berhasil Dibuat", "success").
                         then(() => window.location.href = `${cetakUrl}${res}`)
@@ -289,6 +295,7 @@ function addInvoice(){
                 }
             },
             error: err => {
+                $('#loading-overlay').css('display', 'none');
                 console.log(err.responseText)
             }
         })
