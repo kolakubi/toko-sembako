@@ -129,6 +129,22 @@ class Laporan_keuangan extends CI_Controller {
 						);
 					}
 				}
+
+				// modal awal
+				if($transaksi->id_penjualan == 0 && $transaksi->id_pembelian==0){
+				    
+					$data[] = array(
+						// 'id_kas' => $result->id_kas,
+						// 'keterangan_kas' => $result->keterangan_kas,
+						'debet' => $transaksi->posisi_kas == "D" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
+						'kredit' => $transaksi->posisi_kas == "K" ? number_format($transaksi->jumlah_uang, 0, ',', '.') : 0,
+						'orang' => 'Pak Firman',
+						'nama_produk' => $transaksi->keterangan_kas,
+						'tgl_input' => $tanggal->format('d-m-Y H:i:s'),
+						'metode_pembayaran' => $transaksi->metode_pembayaran,
+						'nomor' => $nomor+=1,
+					);
+				}
 			}
 		} else {
 			$data = array();

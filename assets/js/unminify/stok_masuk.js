@@ -68,6 +68,7 @@ function checkStok() {
                 // total2
                 $("#total2").html("Rp "+(total + harga * jumlah).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
                 // ===============
+                console.log(produk);
                 
             } else {
                 produk.push({
@@ -89,6 +90,7 @@ function checkStok() {
                 $("#harga_per_item").val("");
                 $("#tambah").attr("disabled", "disabled");
                 $("#bayar").removeAttr("disabled")
+                console.log(produk);
             }
         }
     })
@@ -141,6 +143,10 @@ function remove(nama) {
     if (akhir < 1) {
         $("#bayar").attr("disabled", "disabled")
     }
+
+    let produkRemove = produk.filter(e => e.id != nama);
+    produk = produkRemove;
+    console.log(produk);
 }
 
 function add() {

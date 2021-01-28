@@ -1,0 +1,14 @@
+{
+  "name": "APP SAHABAT SEMBAKO",
+  "short_name": "SAHABAT SEMBAKO",
+  "start_url": "../../",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color":"#ffffff",
+  "icons": [
+    {
+      "src": "../image/logo-sahabat-sembako-500px.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }]
+}

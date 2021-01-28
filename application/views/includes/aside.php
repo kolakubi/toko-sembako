@@ -4,7 +4,7 @@
   <a href="<?php echo site_url('') ?>" class="brand-link text-center">
     <!-- <span class="brand-text font-weight-light"><?php echo $this->session->userdata('toko')->nama ?></span> -->
     <!-- <img src="<?php echo base_url().'assets/image/logo-sahabat-sembako-putih.png' ?>" style="max-width: 200px;" /> -->
-    <img src="https://officialsancu.com/appsembako/assets/image/logo-sahabat-sembako-putih.png" style="max-width: 200px;" />
+    <img src="<?php echo base_url() ?>/assets/image/logo-sahabat-sembako-putih.png" style="max-width: 200px;" />
   </a>
   <?php $uri = $this->uri->segment(1) ?>
   <?php $role = $this->session->userdata('role'); ?>
@@ -79,11 +79,13 @@
         <li class="nav-item has-treeview <?php echo $uri == 'stok_masuk' 
         || $uri == 'stok_keluar'
         || $uri == 'transaksi'
-        || $uri == 'invoice' ? 'menu-open' : 'no' ?>" style="display: <?php echo $role == 'bos' ? 'none' : 'block' ?>">
+        || $uri == 'invoice'
+        || $uri == 'kas_oprasional' ? 'menu-open' : 'no' ?>" style="display: <?php echo $role == 'bos' ? 'none' : 'block' ?>">
           <a href="#" class="nav-link <?php echo $uri == 'stok_masuk' 
           || $uri == 'stok_keluar'
           || $uri == 'transaksi'
-          || $uri == 'invoice' ? 'active' : 'no' ?>">
+          || $uri == 'invoice'
+          || $uri == 'kas_oprasional' ? 'active' : 'no' ?>">
             <i class="fas fa-money-bill nav-icon"></i>
             <p>Transaksi</p>
             <i class="right fas fa-angle-right"></i>
@@ -107,6 +109,12 @@
               <a href="<?php echo site_url('invoice') ?>" class="nav-link <?php echo $uri == 'invoice' ? 'active' : 'no' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Invoice</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo site_url('kas_oprasional') ?>" class="nav-link <?php echo $uri == 'kas_oprasional' ? 'active' : 'no' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Kas Oprasional</p>
               </a>
             </li>
             <!-- <li class="nav-item">

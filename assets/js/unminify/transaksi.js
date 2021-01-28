@@ -93,6 +93,8 @@ function checkStok() {
                     $("#harga_per_item").val("");
                     $("#tambah").attr("disabled", "disabled");
                     $("#bayar").removeAttr("disabled")
+
+                    console.log(produk);
                 } 
             }
         }
@@ -146,6 +148,10 @@ function remove(nama) {
     if (akhir < 1) {
         $("#bayar").attr("disabled", "disabled")
     }
+
+    let produkRemove = produk.filter(e => e.id != nama);
+    produk = produkRemove;
+    console.log(produk);
 }
 
 function add() {
@@ -267,6 +273,10 @@ function addInvoice(){
         $.each(data, (index, value) => {
             qty.push(value[3])
         });
+
+        // console.log(produk);
+        // console.log(data);
+
         $.ajax({
             url: addInvoiceUrl,
             type: "post",
@@ -280,7 +290,7 @@ function addInvoice(){
                 diskon: $('[name="diskon"]').val(),
                 pelanggan: $("#pelanggan").val(),
                 nota: $("#nota").html(),
-                keterangan: $('#keterangan').val(),
+                keterangan: keterangan,
                 metode_pembayaran: $('#metode_pembayaran').val()
             },
             success: res => {

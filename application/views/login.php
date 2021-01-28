@@ -6,6 +6,7 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login</title>
+  <link rel="manifest" href="<?php echo base_url() ?>assets/pwa/manifest.webmanifest">
   <?php $this->load->view('partials/head'); ?>
 </head>
 <body class="hold-transition login-page">
@@ -13,7 +14,7 @@
   <div class="login-box">
     <div class="login-logo">
       <!-- <img src="<?php echo base_url().'assets/image/logo-sahabat-sembako-500px.png' ?>" style="max-width: 250px;" /> -->
-      <img src="https://officialsancu.com/appsembako/assets/image/logo-sahabat-sembako-500px.png" style="max-width: 250px;" />
+      <img src="<?= base_url() ?>assets/image/logo-sahabat-sembako-500px.png" style="max-width: 250px;" />
     </div>
     <div class="card">
       <div class="card-body login-card-body">
@@ -83,5 +84,10 @@
     }
   })
 </script>
+<script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("<?php echo base_url() ?>asset/pwa/sw.js");
+      };
+    </script>
 </body>
 </html>
