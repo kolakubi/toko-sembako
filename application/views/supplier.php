@@ -55,6 +55,7 @@
         <div class="card">
           <div class="card-header">
             <button class="btn btn-success" data-toggle="modal" data-target="#modal" onclick="add()">Add</button>
+            <a href="<?php echo base_url() ?>Supplier_excel" class="btn btn-info">Excel</a>
           </div>
           <div class="card-body">
             <table class="table w-100 table-bordered table-hover" id="supplier">

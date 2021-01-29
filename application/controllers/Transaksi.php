@@ -92,11 +92,11 @@ class Transaksi extends CI_Controller {
 		foreach ($produk as $produk) {
 			$this->transaksi_model->removeStok($produk->id, $produk->stok);
 			$this->transaksi_model->addTerjual($produk->id, $produk->terjual);
-			array_push($barcode, $produk->id);
+			// array_push($barcode, $produk->id);
 		}
 		$data = array(
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
-			'barcode' => implode(',', $barcode),
+			'barcode' => implode(',', $this->input->post('produkId')),
 			'qty' => implode(',', $this->input->post('qty')),
 			'total_bayar' => $this->input->post('total_bayar'),
 			'jumlah_uang' => $this->input->post('jumlah_uang'),
@@ -117,15 +117,15 @@ class Transaksi extends CI_Controller {
 	{
 		$produk = json_decode($this->input->post('produk'));
 		$tanggal = new DateTime($this->input->post('tanggal'));
-		$barcode = array();
-		foreach ($produk as $produk) {
-			// $this->transaksi_model->removeStok($produk->id, $produk->stok);
-			// $this->transaksi_model->addTerjual($produk->id, $produk->terjual);
-			array_push($barcode, $produk->id);
-		}
+		// $barcode = array();
+		// foreach ($produk as $produk) {
+		// 	// $this->transaksi_model->removeStok($produk->id, $produk->stok);
+		// 	// $this->transaksi_model->addTerjual($produk->id, $produk->terjual);
+		// 	// array_push($barcode, $produk->id);
+		// }
 		$data = array(
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
-			'barcode' => implode(',', $barcode),
+			'barcode' => implode(',', $this->input->post('produkId')),
 			'qty' => implode(',', $this->input->post('qty')),
 			'total_bayar' => $this->input->post('total_bayar'),
 			// 'jumlah_uang' => $this->input->post('jumlah_uang'),

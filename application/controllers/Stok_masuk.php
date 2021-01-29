@@ -88,12 +88,12 @@ class Stok_masuk extends CI_Controller {
 		foreach ($produk as $produk) {
 			$this->stok_masuk_model->removeStok($produk->id, $produk->stok);
 			// $this->stok_masuk_model->addTerjual($produk->id, $produk->terjual);
-			array_push($barcode, $produk->id);
+			// array_push($barcode, $produk->id);
 		}
 		$tanggal = new DateTime($this->input->post('tanggal'));
 		$data = array(
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
-			'barcode' => implode(',', $barcode),
+			'barcode' => implode(',', $this->input->post('produkId')),
 			'jumlah' => implode(',', $this->input->post('qty')),
 			'supplier' => $this->input->post('supplier'),
 			'harga' => $this->input->post('harga'),

@@ -15,8 +15,8 @@
   <?php
     if($role == 'kasir'){
       echo "<style>
-        table thead tr th:nth-child(6),
-        table tbody tr td:nth-child(6){
+        table thead tr th:nth-child(8),
+        table tbody tr td:nth-child(8){
           display: none;
         }
       </style>";

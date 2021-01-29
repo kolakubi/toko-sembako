@@ -53,7 +53,7 @@ function checkStok() {
                 stok = parseInt(res.stok),
                 // harga = parseInt(res.harga),
                 harga = $('#harga_per_item').val(),
-                dataBarcode = res.barcode,
+                dataBarcode = $("#barcode").val(),
                 total = parseInt($("#total").html());
             if (stok < jumlah) Swal.fire("Gagal", "Stok Tidak Cukup", "warning");
             else {
@@ -157,10 +157,13 @@ function remove(nama) {
 function add() {
     $('#loading-overlay').css('display', 'flex');
     let data = transaksi.rows().data(),
-        qty = [];
+        qty = [],
+        produkId = [];
     $.each(data, (index, value) => {
-        qty.push(value[3])
+        qty.push(value[3]);
+        produkId.push(value[0])
     });
+    // console.log($('#form').serialize());
     $.ajax({
         url: addUrl,
         type: "post",
@@ -168,6 +171,7 @@ function add() {
         data: {
             produk: JSON.stringify(produk),
             tanggal: $("#tanggal").val(),
+            produkId: produkId,
             qty: qty,
             total_bayar: $("#total").html(),
             jumlah_uang: $('[name="jumlah_uang"]').val(),
@@ -179,6 +183,7 @@ function add() {
         },
         success: res => {
             $('#loading-overlay').css('display', 'none');
+            console.log(res);
             if (isCetak) {
                 Swal.fire("Sukses", "Sukses Membayar", "success").
                     then(() => window.location.href = `${cetakUrl}${res}`)
@@ -257,6 +262,7 @@ $("#form").validate({
         err.addClass("invalid-feedback"), el.closest(".form-group").append(err)
     },
     submitHandler: () => {
+        // console.log('handle');
         add()
     }
 });
@@ -265,17 +271,18 @@ $("#nota").html(nota(15));
 function addInvoice(){
     let pelanggan = $('#pelanggan').val();
     let keterangan = $('#keterangan').val();
-    $('#loading-overlay').css('display', 'flex');
-
+    
     if(pelanggan){
-        let data = transaksi.rows().data(),
-            qty = [];
-        $.each(data, (index, value) => {
-            qty.push(value[3])
-        });
 
-        // console.log(produk);
-        // console.log(data);
+        $('#loading-overlay').css('display', 'flex');
+
+        let data = transaksi.rows().data(),
+            qty = [],
+            produkId = [];
+        $.each(data, (index, value) => {
+            qty.push(value[3]);
+            produkId.push(value[0])
+        });
 
         $.ajax({
             url: addInvoiceUrl,
@@ -284,9 +291,9 @@ function addInvoice(){
             data: {
                 produk: JSON.stringify(produk),
                 tanggal: $("#tanggal").val(),
+                produkId: produkId,
                 qty: qty,
                 total_bayar: $("#total").html(),
-                // jumlah_uang: $('[name="jumlah_uang"]').val(),
                 diskon: $('[name="diskon"]').val(),
                 pelanggan: $("#pelanggan").val(),
                 nota: $("#nota").html(),

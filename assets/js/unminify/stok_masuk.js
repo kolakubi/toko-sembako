@@ -52,7 +52,7 @@ function checkStok() {
                 jumlah = parseInt($("#jumlah").val()),
                 stok = parseInt(res.stok),
                 harga = $('#harga_per_item').val(),
-                dataBarcode = res.barcode,
+                dataBarcode = $("#barcode").val(),
                 total = parseInt($("#total").html());
 
             let a = transaksi.rows().indexes().filter((a, t) => dataBarcode === transaksi.row(a).data()[0]);
@@ -151,11 +151,12 @@ function remove(nama) {
 
 function add() {
     $('#loading-overlay').css('display', 'flex');
-
     let data = transaksi.rows().data(),
         qty = [];
+        produkId = [];
     $.each(data, (index, value) => {
-        qty.push(value[3])
+        qty.push(value[3]);
+        produkId.push(value[0])
     });
     $.ajax({
         url: addUrl,
@@ -163,6 +164,7 @@ function add() {
         dataType: "json",
         data: {
             produk: JSON.stringify(produk),
+            produkId: produkId,
             tanggal: $("#tanggal").val(),
             qty: qty,
             harga: $("#total").html(),
