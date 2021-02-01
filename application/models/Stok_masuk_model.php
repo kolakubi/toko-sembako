@@ -12,29 +12,60 @@ class Stok_masuk_model extends CI_Model {
 
 	public function create($data)
 	{
-		if($this->db->insert($this->table, $data)){
+		$dataPembelian = [
+			'tanggal' => $data['tanggal'],
+			'barcode' => $data['barcode'],
+			'jumlah' => $data['jumlah'],
+			'supplier' => $data['supplier'],
+			'harga' => $data['harga'] ,
+			'metode_pembayaran' => $data['metode_pembayaran'],
+			'keterangan' => $data['keterangan'],
+			'no_nota' => $data['no_nota'],
+		];
+
+		if($this->db->insert($this->table, $dataPembelian)){
 
 			$lastInsertId = $this->db->insert_id();
-			if($this->db->insert('kas',
+			// insert + update metode cash
+			if($data['jumlah_uang'] != 0){
+				if($this->db->insert('kas', 
 				[
-					"jumlah_uang" => $data['harga'],
+					"jumlah_uang" => $data['jumlah_uang'],
+					"metode_pembayaran" => 'cash',
 					"posisi_kas" => "K",
-					'metode_pembayaran' => $data['metode_pembayaran'],
-					"Keterangan_kas" => "Beli ".$data['keterangan'],
+					"keterangan_kas" => "Beli ".$data['keterangan'],
 					"id_pembelian" => $lastInsertId
 				]
-			)){
-				if($this->insertOrUpdateUang($data)){
-
-					return $this->db->insert('kartu_stok', [
-						'id_produk' => $data['barcode'],
-						'posisi' => 'D',
-						'id_transaksi' => $lastInsertId,
-						'qty' => $data['jumlah'],
-						'keterangan' => "Beli ".$data['keterangan']
-					]);
+				)){
+					$data['metode_pembayaran'] = 'cash';
+					$data['jumlah_uang'] = $data['jumlah_uang'];
+					$this->insertOrUpdateUang($data);
 				}
 			}
+			// insert + update metode transfer
+			if($data['jumlah_uang_transfer'] != 0){
+				if($this->db->insert('kas', 
+				[
+					"jumlah_uang" => $data['jumlah_uang_transfer'],
+					"metode_pembayaran" => 'transfer',
+					"posisi_kas" => "K",
+					"keterangan_kas" => "Beli ".$data['keterangan'],
+					"id_pembelian" => $lastInsertId
+				]
+				)){
+					$data['metode_pembayaran'] = 'transfer';
+					$data['jumlah_uang'] = $data['jumlah_uang_transfer'];
+					$this->insertOrUpdateUang($data);
+				}
+			}
+			// insert kartu stok
+			return $this->db->insert('kartu_stok', [
+				'id_produk' => $data['barcode'],
+				'id_transaksi' => $lastInsertId,
+				'posisi' => 'K',
+				'qty' => $data['jumlah'],
+				'keterangan' => "Jual ".$data['keterangan']
+			]);
 		}
 	}
 
@@ -43,7 +74,7 @@ class Stok_masuk_model extends CI_Model {
 		$dataUang = $this->db->get_where('uang', ['metode'=> $data['metode_pembayaran']])->row_array();
 		
 		if($dataUang){
-			$this->db->set('jumlah_uang', ($dataUang['jumlah_uang']-$data['harga']));
+			$this->db->set('jumlah_uang', ($dataUang['jumlah_uang']-$data['jumlah_uang']));
 			$this->db->set('tgl_update', $data['tanggal']);
 			$this->db->where('metode', $data['metode_pembayaran']);
 			return $this->db->update('uang');

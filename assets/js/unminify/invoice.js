@@ -92,10 +92,23 @@ function editData() {
     })
 }
 
+// function checkUang() {
+//     let jumlah_uang = $('[name="jumlah_uang"').val(),
+//         total_bayar = parseInt($("#total_tagihan").val());
+//     if (jumlah_uang !== "" && jumlah_uang >= total_bayar) {
+//         $("#total_tagihan").css('color', 'green');
+//         $("#add").removeAttr("disabled");
+//     } else {
+//         $("#total_tagihan").css('color', 'red');
+//         $("#add").attr("disabled", "disabled");
+//     }
+// }
+
 function checkUang() {
-    let jumlah_uang = $('[name="jumlah_uang"').val(),
+    let jumlah_uang = parseInt($('[name="jumlah_uang"').val()),
+        jumlah_uang_transfer = parseInt($('[name="jumlah_uang_transfer"').val()),
         total_bayar = parseInt($("#total_tagihan").val());
-    if (jumlah_uang !== "" && jumlah_uang >= total_bayar) {
+    if ((jumlah_uang+jumlah_uang_transfer) >= total_bayar) {
         $("#total_tagihan").css('color', 'green');
         $("#add").removeAttr("disabled");
     } else {
@@ -104,11 +117,26 @@ function checkUang() {
     }
 }
 
+// function kembalian() {
+//     let total = $("#total_tagihan").val(),
+//         jumlah_uang = $('[name="jumlah_uang"').val();
+//         // diskon = $('[name="diskon"]').val();
+//     $(".kembalian").html(jumlah_uang - total);
+//     checkUang();
+// }
+
 function kembalian() {
-    let total = $("#total_tagihan").val(),
-        jumlah_uang = $('[name="jumlah_uang"').val();
-        // diskon = $('[name="diskon"]').val();
-    $(".kembalian").html(jumlah_uang - total);
+    let total = parseInt($("#total_tagihan").val()),
+        jumlah_uang = parseInt($('[name="jumlah_uang"').val()),
+        jumlah_uang_transfer = parseInt($('[name="jumlah_uang_transfer"').val());
+        // diskon = parseInt($('[name="diskon"]').val());
+        jumlah_uang = jumlah_uang == null ? 0 : jumlah_uang;
+        jumlah_uang_transfer = jumlah_uang_transfer == null ? 0 : jumlah_uang_transfer;
+    // $(".kembalian").html((jumlah_uang + jumlah_uang_transfer) - total - diskon);
+    $(".kembalian").html((jumlah_uang + jumlah_uang_transfer) - total);
+    console.log("Jumlah uang "+(jumlah_uang + jumlah_uang_transfer));
+    console.log("total " + total);
+    // console.log("diskon" +diskon);
     checkUang();
 }
 

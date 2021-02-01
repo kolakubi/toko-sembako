@@ -24,23 +24,23 @@ class Laporan_keuangan_model extends CI_Model {
 		return $this->db->get();
 	}
 
-	public function read_kas_debet($id_pembelian){
-		$this->db->select();
+	public function read_kas_debet($id_kas){
+		$this->db->select('kas.posisi_kas, kas.tgl_input, stok_masuk.barcode, kas.metode_pembayaran, kas.posisi_kas, supplier.nama, kas.jumlah_uang, stok_masuk.jumlah');
 		$this->db->from('kas');
 		$this->db->join('stok_masuk', 'stok_masuk.id = kas.id_pembelian');
 		$this->db->join('supplier', 'supplier.id = stok_masuk.supplier');
 		// $this->db->join('produk', 'stok_masuk.barcode = produk.id');
-		$this->db->where('kas.id_pembelian', $id_pembelian);
+		$this->db->where('kas.id_kas', $id_kas);
 		return $this->db->get()->result();
 	}
 
-	public function read_kas_kredit($id_penjualan){
-		$this->db->select();
+	public function read_kas_kredit($id_kas){
+		$this->db->select('kas.posisi_kas, kas.tgl_input, transaksi.barcode, kas.metode_pembayaran, kas.posisi_kas, pelanggan.nama, kas.jumlah_uang, transaksi.qty');
 		$this->db->from('kas');
 		$this->db->join('transaksi', 'transaksi.id = kas.id_penjualan');
 		$this->db->join('pelanggan', 'pelanggan.id = transaksi.pelanggan');
 		// $this->db->join('produk', 'transaksi.barcode = produk.id');
-		$this->db->where('kas.id_penjualan', $id_penjualan);
+		$this->db->where('kas.id_kas', $id_kas);
 		return $this->db->get()->result();
 	}
 

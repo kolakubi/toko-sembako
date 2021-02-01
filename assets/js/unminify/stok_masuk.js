@@ -115,9 +115,10 @@ function checkEmpty() {
 }
 
 function checkUang() {
-    let jumlah_uang = $('[name="jumlah_uang"').val(),
+    let jumlah_uang = parseInt($('[name="jumlah_uang"').val()),
+        jumlah_uang_transfer = parseInt($('[name="jumlah_uang_transfer"').val()),
         total_bayar = parseInt($(".total_bayar").html());
-    if (jumlah_uang !== "" && jumlah_uang >= total_bayar) {
+    if ((jumlah_uang+jumlah_uang_transfer) >= total_bayar) {
         $("#add").removeAttr("disabled");
         $("#cetak").removeAttr("disabled");
         $(".total_bayar2").css('color', 'green')
@@ -169,11 +170,12 @@ function add() {
             qty: qty,
             harga: $("#total").html(),
             jumlah_uang: $('[name="jumlah_uang"]').val(),
+            jumlah_uang_transfer: $('[name="jumlah_uang_transfer"]').val(),
             diskon: $('[name="diskon"]').val(),
             supplier: $("#supplier").val(),
             nota: $("#no_nota").html(),
             keterangan: $('#keterangan').val(),
-            metode_pembayaran: $('#metode_pembayaran').val()
+            // metode_pembayaran: $('#metode_pembayaran').val()
         },
         success: res => {
             $('#loading-overlay').css('display', 'none');
@@ -191,12 +193,20 @@ function add() {
 }
 
 function kembalian() {
-    let total = $("#total").html(),
-        jumlah_uang = $('[name="jumlah_uang"').val(),
-        diskon = $('[name="diskon"]').val();
-    $(".kembalian").html(jumlah_uang - total - diskon);
+    let total = parseInt($("#total").html()),
+        jumlah_uang = parseInt($('[name="jumlah_uang"').val()),
+        jumlah_uang_transfer = parseInt($('[name="jumlah_uang_transfer"').val()),
+        diskon = parseInt($('[name="diskon"]').val());
+        jumlah_uang = jumlah_uang == null ? 0 : jumlah_uang;
+        jumlah_uang_transfer = jumlah_uang_transfer == null ? 0 : jumlah_uang_transfer;
+    // $(".kembalian").html((jumlah_uang + jumlah_uang_transfer) - total - diskon);
+    $(".kembalian").html((jumlah_uang + jumlah_uang_transfer) - total);
+    // console.log("Jumlah uang "+(jumlah_uang + jumlah_uang_transfer));
+    // console.log("total " + total);
+    // console.log("diskon" +diskon);
     checkUang();
 }
+
 $("#barcode").select2({
     // placeholder: "Barcode",
     placeholder: "Produk",

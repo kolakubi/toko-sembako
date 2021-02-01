@@ -118,22 +118,6 @@ function readByDate(){
                     { data: "kredit" },
                 ]
         }); // END Datatable
-
-        // $.ajax({
-        //     url: readUrl,
-        //     type: 'post',
-        //     dataType: 'json',
-        //     data: {
-        //         'tanggal_dari': tanggalDari,
-        //         'tanggal_sampai': tanggalSampai
-        //     },
-        //     success: (data) => {
-        //         console.log(data);
-        //     },
-        //     error: (err) => {
-        //         console.log(err);
-        //     }
-        // })
     });
 }
 
@@ -142,10 +126,10 @@ readByDate();
 // $.ajax({
 //     url: readModif,
 //     type:"post",
-//     dataType:"text",
+//     dataType:"json",
 //     data: {
-//         tanggal_dari: '2021-01-17', 
-//         tanggal_sampai: '2021-01-22'
+//         tanggal_dari: '2021-02-01', 
+//         tanggal_sampai: '2021-02-01'
 //     },
 //     success:res=> {
 //         console.log(res);

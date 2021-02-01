@@ -84,6 +84,18 @@ class Stok_masuk extends CI_Controller {
 	public function add()
 	{
 		$produk = json_decode($this->input->post('produk'));
+		$jumlahUang = $this->input->post('jumlah_uang');
+		$jumlahUangTransfer = $this->input->post('jumlah_uang_transfer');
+		$metodePembayaran = '';
+		if($jumlahUang == 0){
+			$metodePembayaran = 'transfer';
+		}
+		elseif($jumlahUangTransfer == 0){
+			$metodePembayaran = 'cash';
+		}
+		else{
+			$metodePembayaran = 'cash dan transfer';
+		}
 		$barcode = array();
 		foreach ($produk as $produk) {
 			$this->stok_masuk_model->removeStok($produk->id, $produk->stok);
@@ -96,10 +108,12 @@ class Stok_masuk extends CI_Controller {
 			'barcode' => implode(',', $this->input->post('produkId')),
 			'jumlah' => implode(',', $this->input->post('qty')),
 			'supplier' => $this->input->post('supplier'),
-			'harga' => $this->input->post('harga'),
-			'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+			'harga' => $jumlahUang+$jumlahUangTransfer,
+			'metode_pembayaran' => $metodePembayaran,
 			'keterangan' => $this->input->post('keterangan'),
 			'no_nota' => $this->input->post('no_nota'),
+			'jumlah_uang' => $jumlahUang,
+			'jumlah_uang_transfer' => $jumlahUangTransfer,
 		);
 		if ($this->stok_masuk_model->create($data)) {
 			echo json_encode('sukses');

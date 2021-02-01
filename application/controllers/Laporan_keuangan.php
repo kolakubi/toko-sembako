@@ -91,7 +91,7 @@ class Laporan_keuangan extends CI_Controller {
 				$tanggal = new DateTime($transaksi->tgl_input);
 
 				if($transaksi->id_pembelian){
-					$result = $this->laporan_keuangan_model->read_kas_debet($transaksi->id_pembelian);
+					$result = $this->laporan_keuangan_model->read_kas_debet($transaksi->id_kas);
 					
 					foreach($result as $result){
 						$barcode = explode(',', $result->barcode);
@@ -111,7 +111,9 @@ class Laporan_keuangan extends CI_Controller {
 				}
 
 				if($transaksi->id_penjualan){
-					$result = $this->laporan_keuangan_model->read_kas_kredit($transaksi->id_penjualan);
+					$result = $this->laporan_keuangan_model->read_kas_kredit($transaksi->id_kas);
+
+					// echo json_encode($result);
 					
 					foreach($result as $result){
 						$barcode = explode(',', $result->barcode);
@@ -131,7 +133,7 @@ class Laporan_keuangan extends CI_Controller {
 				}
 
 				// modal awal
-				if($transaksi->id_penjualan == 0 && $transaksi->id_pembelian==0){
+				if($transaksi->id_penjualan == 0 &&	 $transaksi->id_pembelian==0){
 				    
 					$data[] = array(
 						// 'id_kas' => $result->id_kas,

@@ -26,34 +26,65 @@ class Transaksi_model extends CI_Model {
 
 	public function create($data)
 	{
-		if($this->db->insert($this->table, $data)){
+		$dataTransaksi = [
+			'tanggal' => $data['tanggal'],
+			'barcode' => $data['barcode'],
+			'qty' => $data['qty'],
+			'total_bayar' => $data['total_bayar'],
+			// 'jumlah_uang' => $this->input->post('jumlah_uang'),
+			'jumlah_uang' => $data['jumlah_uang'] + $data['jumlah_uang_transfer'],
+			'diskon' => $data['diskon'],
+			'pelanggan' => $data['pelanggan'],
+			'nota' => $data['nota'],
+			'kasir' => $data['kasir'],
+			'keterangan' => $data['keterangan'],
+			'metode_pembayaran' => $data['metode_pembayaran'],
+		];
+
+		if($this->db->insert($this->table, $dataTransaksi)){
 
 			$lastInsertId = $this->db->insert_id();
-			if($this->db->insert('kas', 
+			// insert + update metode cash
+			if($data['jumlah_uang'] != 0){
+				if($this->db->insert('kas', 
 				[
-					"jumlah_uang" => $data['total_bayar'],
-					"metode_pembayaran" => $data['metode_pembayaran'],
+					"jumlah_uang" => $data['jumlah_uang'],
+					"metode_pembayaran" => 'cash',
 					"posisi_kas" => "D",
 					"keterangan_kas" => "Jual ".$data['keterangan'],
 					"id_penjualan" => $lastInsertId
 				]
-			)){
-				if($this->insertOrUpdateUang($data)){
-
-					return $this->db->insert('kartu_stok', [
-						'id_produk' => $data['barcode'],
-						'id_transaksi' => $lastInsertId,
-						'posisi' => 'K',
-						'qty' => $data['qty'],
-						'keterangan' => "Jual ".$data['keterangan']
-					]);
+				)){
+					$data['metode_pembayaran'] = 'cash';
+					$this->insertOrUpdateUang($data);
 				}
 			}
+			// insert + update metode transfer
+			if($data['jumlah_uang_transfer'] != 0){
+				if($this->db->insert('kas', 
+				[
+					"jumlah_uang" => $data['jumlah_uang_transfer'],
+					"metode_pembayaran" => 'transfer',
+					"posisi_kas" => "D",
+					"keterangan_kas" => "Jual ".$data['keterangan'],
+					"id_penjualan" => $lastInsertId
+				]
+				)){
+					$data['metode_pembayaran'] = 'transfer';
+					$data['jumlah_uang'] =$data['jumlah_uang_transfer'];
+					$this->insertOrUpdateUang($data);
+				}
+			}
+			// insert kartu stok
+			return $this->db->insert('kartu_stok', [
+				'id_produk' => $data['barcode'],
+				'id_transaksi' => $lastInsertId,
+				'posisi' => 'K',
+				'qty' => $data['qty'],
+				'keterangan' => "Jual ".$data['keterangan']
+			]);
+			
 		}
-	}
-	
-	public function createInvoice($data){
-		return $this->db->insert('invoice', $data);
 	}
 
 	public function insertOrUpdateUang($data){
@@ -75,6 +106,57 @@ class Transaksi_model extends CI_Model {
 			);
 		}
 	}
+	// public function create($data)
+	// {
+	// 	if($this->db->insert($this->table, $data)){
+
+	// 		$lastInsertId = $this->db->insert_id();
+	// 		if($this->db->insert('kas', 
+	// 			[
+	// 				"jumlah_uang" => $data['total_bayar'],
+	// 				"metode_pembayaran" => $data['metode_pembayaran'],
+	// 				"posisi_kas" => "D",
+	// 				"keterangan_kas" => "Jual ".$data['keterangan'],
+	// 				"id_penjualan" => $lastInsertId
+	// 			]
+	// 		)){
+	// 			if($this->insertOrUpdateUang($data)){
+
+	// 				return $this->db->insert('kartu_stok', [
+	// 					'id_produk' => $data['barcode'],
+	// 					'id_transaksi' => $lastInsertId,
+	// 					'posisi' => 'K',
+	// 					'qty' => $data['qty'],
+	// 					'keterangan' => "Jual ".$data['keterangan']
+	// 				]);
+	// 			}
+	// 		}
+	// 	}
+	// }
+	
+	public function createInvoice($data){
+		return $this->db->insert('invoice', $data);
+	}
+
+	// public function insertOrUpdateUang($data){
+
+	// 	$dataUang = $this->db->get_where('uang', ['metode'=> $data['metode_pembayaran']])->row_array();
+		
+	// 	if($dataUang){
+	// 		$this->db->set('jumlah_uang', ($data['jumlah_uang']+$dataUang['jumlah_uang']));
+	// 		$this->db->set('tgl_update', $data['tanggal']);
+	// 		$this->db->where('metode', $data['metode_pembayaran']);
+	// 		return $this->db->update('uang');
+	// 	}
+	// 	else{
+	// 		return $this->db->insert('uang', 
+	// 			[
+	// 				'metode' => $data['metode_pembayaran'],
+	// 				'jumlah_uang' => $data['jumlah_uang'],
+	// 			]
+	// 		);
+	// 	}
+	// }
 
 	public function read()
 	{

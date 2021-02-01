@@ -132,19 +132,23 @@
         <select name="pelannggan" id="pelanggan" class="form-control select2" required></select>
       </div>
       <div class="form-group">
-        <label>Jumlah Uang</label>
-        <input placeholder="Jumlah Uang" type="number" class="form-control" name="jumlah_uang" onkeyup="kembalian()">
+        <label>Jumlah Uang Cash</label>
+        <input placeholder="Jumlah Uang Cash" type="number" class="form-control" name="jumlah_uang" value="0" onkeyup="kembalian()">
       </div>
       <div class="form-group">
+        <label>Jumlah Uang Transfer</label>
+        <input placeholder="Jumlah Uang Transfer" type="number" class="form-control" value="0" name="jumlah_uang_transfer" onkeyup="kembalian()">
+      </div>
+      <!-- <div class="form-group">
         <label>Metode Pembayaran</label>
         <select name="metode_pembayaran" id="metode_pembayaran" class="form-control">
           <option value="cash">Cash</option>
           <option value="transfer">Transfer</option>
         </select>
-      </div>
+      </div> -->
       <div class="form-group">
-        <label>Diskon</label>
-        <input placeholder="Diskon" type="number" class="form-control" onkeyup="kembalian()" name="diskon">
+        <!-- <label>Diskon</label> -->
+        <input placeholder="Diskon" type="hidden" class="form-control" onkeyup="kembalian()" name="diskon">
       </div>
       <div class="form-group">
         <label>Keterangan</label>

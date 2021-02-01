@@ -88,6 +88,19 @@ class Transaksi extends CI_Controller {
 	{
 		$produk = json_decode($this->input->post('produk'));
 		$tanggal = new DateTime($this->input->post('tanggal'));
+		$jumlahUang = $this->input->post('jumlah_uang');
+		$jumlahUangTransfer = $this->input->post('jumlah_uang_transfer');
+		$metodePembayaran = '';
+		if($jumlahUang == 0){
+			$metodePembayaran = 'transfer';
+		}
+		elseif($jumlahUangTransfer == 0){
+			$metodePembayaran = 'cash';
+		}
+		else{
+			$metodePembayaran = 'cash dan transfer';
+		}
+		
 		$barcode = array();
 		foreach ($produk as $produk) {
 			$this->transaksi_model->removeStok($produk->id, $produk->stok);
@@ -99,14 +112,16 @@ class Transaksi extends CI_Controller {
 			'barcode' => implode(',', $this->input->post('produkId')),
 			'qty' => implode(',', $this->input->post('qty')),
 			'total_bayar' => $this->input->post('total_bayar'),
-			'jumlah_uang' => $this->input->post('jumlah_uang'),
+			'jumlah_uang' => $jumlahUang,
+			'jumlah_uang_transfer' => $jumlahUangTransfer,
 			'diskon' => $this->input->post('diskon'),
 			'pelanggan' => $this->input->post('pelanggan'),
 			'nota' => $this->input->post('nota'),
 			'kasir' => $this->session->userdata('id'),
 			'keterangan' => $this->input->post('keterangan'),
-			'metode_pembayaran' => $this->input->post('metode_pembayaran')
+			'metode_pembayaran' => $metodePembayaran
 		);
+
 		if ($this->transaksi_model->create($data)) {
 			echo json_encode($this->db->insert_id());
 		}
@@ -117,12 +132,7 @@ class Transaksi extends CI_Controller {
 	{
 		$produk = json_decode($this->input->post('produk'));
 		$tanggal = new DateTime($this->input->post('tanggal'));
-		// $barcode = array();
-		// foreach ($produk as $produk) {
-		// 	// $this->transaksi_model->removeStok($produk->id, $produk->stok);
-		// 	// $this->transaksi_model->addTerjual($produk->id, $produk->terjual);
-		// 	// array_push($barcode, $produk->id);
-		// }
+
 		$data = array(
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
 			'barcode' => implode(',', $this->input->post('produkId')),
