@@ -55,6 +55,7 @@ function edit(id) {
             $('[name="id_pelanggan"]').val(res.id_pelanggan);
             $('[name="barcode"]').val(res.barcode);
             $('[name="qty"]').val(res.qty);
+            $('[name="harga_per_item"]').val(res.harga_per_item);
             $('[name="id_kasir"]').val(res.id_kasir);
             $(".modal").modal("show");
             $(".modal-title").html("Bayar Invoice");

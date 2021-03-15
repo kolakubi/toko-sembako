@@ -21,7 +21,7 @@ class Invoice_model extends CI_Model {
 
 	public function getAll($id)
 	{
-		$this->db->select('invoice.nota, invoice.tanggal, invoice.barcode, invoice.qty, invoice.total_bayar, invoice.jumlah_uang, invoice.keterangan, invoice.kasir, invoice.metode_pembayaran, invoice.pelanggan as id_pelanggan, invoice.kasir as id_kasir, pengguna.nama as kasir, pelanggan.nama as pelanggan');
+		$this->db->select('invoice.nota, invoice.tanggal, invoice.barcode, invoice.qty, invoice.harga_per_item, invoice.total_bayar, invoice.jumlah_uang, invoice.keterangan, invoice.kasir, invoice.metode_pembayaran, invoice.pelanggan as id_pelanggan, invoice.kasir as id_kasir, pengguna.nama as kasir, pelanggan.nama as pelanggan');
 		$this->db->from('invoice');
 		$this->db->join('pengguna', 'invoice.kasir = pengguna.id');
 		$this->db->join('pelanggan', 'invoice.pelanggan = pelanggan.id');
@@ -53,25 +53,46 @@ class Invoice_model extends CI_Model {
 			if($this->createTransaksi($data)){
 
 				$lastInsertId = $this->db->insert_id();
-				if($this->db->insert('kas', 
+				
+				// insert + update metode cash
+				if($data['jumlah_uang'] != 0){
+					if($this->db->insert('kas', 
 					[
 						"jumlah_uang" => $data['jumlah_uang'],
+						"metode_pembayaran" => 'cash',
 						"posisi_kas" => "D",
-						"metode_pembayaran" => $data['metode_pembayaran'],
 						"keterangan_kas" => "Jual ".$data['keterangan'],
 						"id_penjualan" => $lastInsertId
 					]
-				)){
-					if($this->insertOrUpdateUang($data)){
-						return $this->db->insert('kartu_stok', [
-							'id_produk' => $data['barcode'],
-							'posisi' => 'K',
-							'id_transaksi' => $lastInsertId,
-							'qty' => $data['qty'],
-							'keterangan' => "Jual ".$data['keterangan']
-						]);
+					)){
+						$data['metode_pembayaran'] = 'cash';
+						$this->insertOrUpdateUang($data);
 					}
 				}
+				// insert + update metode transfer
+				if($data['jumlah_uang_transfer'] != 0){
+					if($this->db->insert('kas', 
+					[
+						"jumlah_uang" => $data['jumlah_uang_transfer'],
+						"metode_pembayaran" => 'transfer',
+						"posisi_kas" => "D",
+						"keterangan_kas" => "Jual ".$data['keterangan'],
+						"id_penjualan" => $lastInsertId
+					]
+					)){
+						$data['metode_pembayaran'] = 'transfer';
+						$data['jumlah_uang'] =$data['jumlah_uang_transfer'];
+						$this->insertOrUpdateUang($data);
+					}
+				}
+				// insert kartu stok
+				return $this->db->insert('kartu_stok', [
+					'id_produk' => $data['barcode'],
+					'id_transaksi' => $lastInsertId,
+					'posisi' => 'K',
+					'qty' => $data['qty'],
+					'keterangan' => "Jual ".$data['keterangan']
+				]);
 			}
 		}
 	}
@@ -101,8 +122,9 @@ class Invoice_model extends CI_Model {
 			[
 				'barcode' => $data['barcode'],
 				'qty' => $data['qty'],
+				'harga_per_item' => $data['harga_per_item'],
 				'total_bayar' => $data['total_bayar'],
-				'jumlah_uang' => $data['jumlah_uang'],
+				'jumlah_uang' => $data['total_bayar'],
 				'pelanggan' => $data['pelanggan'],
 				'nota' => $data['nota'],
 				'kasir' => $data['kasir'],

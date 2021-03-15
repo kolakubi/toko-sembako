@@ -13,7 +13,7 @@
   <?php $this->load->view('partials/head'); ?>
   <?php $role = $this->session->userdata('role'); ?>
   <?php
-    if($role == 'kasir'){
+    if($role == 'kasir' || $role == 'asisten bos'){
       echo "<style>
         table thead tr th:nth-child(6),
         table tbody tr td:nth-child(6){
@@ -43,6 +43,9 @@
         <div class="row mb-2">
           <div class="col">
             <h1 class="m-0 text-dark">Supplier</h1>
+            <pre>
+            <?php print_r($this->session->userdata()); ?>
+            </pre>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->

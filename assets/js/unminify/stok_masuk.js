@@ -74,7 +74,8 @@ function checkStok() {
                 produk.push({
                     id: barcode,
                     stok: stok + jumlah,
-                    terjual: jumlah
+                    terjual: jumlah,
+                    harga_per_item: harga
                 });
                 transaksi.row.add([
                     dataBarcode,
@@ -155,9 +156,11 @@ function add() {
     let data = transaksi.rows().data(),
         qty = [];
         produkId = [];
+        harga_per_item = []
     $.each(data, (index, value) => {
         qty.push(value[3]);
-        produkId.push(value[0])
+        produkId.push(value[0]);
+        harga_per_item.push(value[2]);
     });
     $.ajax({
         url: addUrl,
@@ -166,8 +169,9 @@ function add() {
         data: {
             produk: JSON.stringify(produk),
             produkId: produkId,
-            tanggal: $("#tanggal").val(),
             qty: qty,
+            harga_per_item: harga_per_item,
+            tanggal: $("#tanggal").val(),
             harga: $("#total").html(),
             jumlah_uang: $('[name="jumlah_uang"]').val(),
             jumlah_uang_transfer: $('[name="jumlah_uang_transfer"]').val(),

@@ -28,10 +28,10 @@ class Invoice extends CI_Controller {
         if ($this->invoice_model->read()->num_rows() > 0) {
 			foreach ($this->invoice_model->read()->result() as $invoice) {
 				$tanggal = new DateTime($invoice->tanggal);
-				$buttons = '<a class="btn btn-sm btn-success" target="_blank" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>
-				<a class="btn btn-sm btn-info" target="_blank" href="'.site_url('invoice/download/').$invoice->id_invoice.'">Download</a>';
+				$buttons = '<a class="btn btn-sm btn-success mb-2" target="_blank" href="'.site_url('invoice/cetak/').$invoice->id_invoice.'">Print Nota</a>
+				<a class="btn btn-sm btn-info mb-2" target="_blank" href="'.site_url('invoice/download/').$invoice->id_invoice.'">Download</a>';
 				if(!$invoice->status){
-					$buttons = $buttons.' <button class="btn btn-sm btn-info" onclick="edit('.$invoice->id_invoice.')">Bayar</button>';
+					$buttons = $buttons.' <button class="btn btn-sm btn-info mb-2" onclick="edit('.$invoice->id_invoice.')">Bayar</button>';
 				}
 				$data[] = array(
                     'tanggal' => $tanggal->format('d-m-Y H:i:s'),
@@ -66,6 +66,7 @@ class Invoice extends CI_Controller {
 				'id_pelanggan' => $invoice->id_pelanggan,
 				'barcode' => $invoice->barcode,
 				'qty' => $invoice->qty,
+				'harga_per_item' => $invoice->harga_per_item,
 				'id_kasir' => $invoice->id_kasir
 			);
 		}
@@ -116,6 +117,19 @@ class Invoice extends CI_Controller {
 			
 		}
 
+		$jumlahUang = $this->input->post('jumlah_uang');
+		$jumlahUangTransfer = $this->input->post('jumlah_uang_transfer');
+		$metodePembayaran = '';
+		if($jumlahUang == 0){
+			$metodePembayaran = 'transfer';
+		}
+		elseif($jumlahUangTransfer == 0){
+			$metodePembayaran = 'cash';
+		}
+		else{
+			$metodePembayaran = 'cash dan transfer';
+		}
+
 
 		$data = array(
 			'dataproduk' => $productData,
@@ -123,13 +137,15 @@ class Invoice extends CI_Controller {
 			// 'tanggal' => $tanggal->format('Y-m-d H:i:s'),
 			'barcode' => $this->input->post('barcode'),
 			'qty' => $this->input->post('qty'),
+			'harga_per_item' => $this->input->post('harga_per_item'),
 			'total_bayar' => $this->input->post('total_tagihan'),
-			'jumlah_uang' => $this->input->post('jumlah_uang'),
+			'jumlah_uang' => $jumlahUang,
+			'jumlah_uang_transfer' => $jumlahUangTransfer,
 			'pelanggan' => $this->input->post('id_pelanggan'),
 			'nota' => $this->input->post('no_invoice'),
-			'kasir' => $this->input->post('id_kasir'),
+			'kasir' => $this->session->userdata('id'),
 			'keterangan' => $this->input->post('keterangan'),
-			'metode_pembayaran' => $this->input->post('metode_pembayaran'),
+			'metode_pembayaran' => $metodePembayaran,
 			'status' => 1,
 			'tgl_edit' => date("Y-m-d H:i:s"),
 		);
@@ -145,10 +161,16 @@ class Invoice extends CI_Controller {
     public function cetak($id)
 	{
 		$produk = $this->invoice_model->getAll($id);
+
+		// echo '<pre>';
+		// print_r($produk);
+		// echo '</pre>';
+		// die();
 		
 		$tanggal = new DateTime($produk->tanggal);
 		$barcode = explode(',', $produk->barcode);
 		$qty = explode(',', $produk->qty);
+		$harga_per_item = explode(',', $produk->harga_per_item);
 
 		$produk->tanggal = $tanggal->format('d m Y H:i:s');
 
@@ -156,13 +178,15 @@ class Invoice extends CI_Controller {
 		foreach ($dataProduk as $key => $value) {
 			$value->total = $qty[$key];
 			$value->harga = $value->harga * $qty[$key];
+			$value->harga_per_item = number_format($harga_per_item[$key], 0, ',', '.');
+			$value->total_harga_per_item = number_format( ($harga_per_item[$key]*$qty[$key]), 0, ',', '.');
 		}
 
 		$data = array(
 			'nota' => $produk->nota,
 			'tanggal' => $produk->tanggal,
 			'produk' => $dataProduk,
-			'total' => number_format($produk->total_bayar, 0, ',', '.'),
+			'total' => 'Rp '.number_format($produk->total_bayar, 0, ',', '.'),
             'kasir' => $produk->kasir,
             'pelanggan' => $produk->pelanggan
 		);
@@ -176,6 +200,7 @@ class Invoice extends CI_Controller {
 		$tanggal = new DateTime($produk->tanggal);
 		$barcode = explode(',', $produk->barcode);
 		$qty = explode(',', $produk->qty);
+		$harga_per_item = explode(',', $produk->harga_per_item);
 
 		$produk->tanggal = $tanggal->format('d m Y H:i:s');
 
@@ -183,13 +208,15 @@ class Invoice extends CI_Controller {
 		foreach ($dataProduk as $key => $value) {
 			$value->total = $qty[$key];
 			$value->harga = $value->harga * $qty[$key];
+			$value->harga_per_item = number_format($harga_per_item[$key], 0, ',', '.');
+			$value->total_harga_per_item = number_format( ($harga_per_item[$key]*$qty[$key]), 0, ',', '.');
 		}
 
 		$data = array(
 			'nota' => $produk->nota,
 			'tanggal' => $produk->tanggal,
 			'produk' => $dataProduk,
-			'total' => number_format($produk->total_bayar, 0, ',', '.'),
+			'total' => 'Rp '.number_format($produk->total_bayar, 0, ',', '.'),
             'kasir' => $produk->kasir,
             'pelanggan' => $produk->pelanggan
 		);

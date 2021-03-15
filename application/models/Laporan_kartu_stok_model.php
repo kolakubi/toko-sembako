@@ -22,7 +22,7 @@ class Laporan_kartu_stok_model extends CI_Model {
 	public function read_by_date($tanggalDari, $tanggalSampai, $idProduk)
 	{
 		// $this->db->select('stok_masuk.tanggal, stok_masuk.jumlah, stok_masuk.keterangan, produk.barcode, produk.nama_produk');
-		$this->db->select('kartu_stok.posisi, kartu_stok.id_produk, kartu_stok.qty, kartu_stok.keterangan, kartu_stok.tanggal, produk.nama_produk as nama');
+		$this->db->select('kartu_stok.posisi, kartu_stok.id_transaksi, kartu_stok.id_produk, kartu_stok.qty, kartu_stok.keterangan, kartu_stok.tanggal, produk.nama_produk as nama');
         // $this->db->like('nama_produk', 'Kapal');
         $this->db->like('id_produk', $idProduk);
 		$this->db->where('tanggal >=', $tanggalDari);
@@ -34,6 +34,22 @@ class Laporan_kartu_stok_model extends CI_Model {
 
 	public function get_1_produk($id){
 		return $this->db->get_where('produk', ['id' => $id])->result_array();
+	}
+
+	public function get_pembelian($id){
+		$this->db->select('supplier.nama as nama_orang');
+		$this->db->from('stok_masuk');
+		$this->db->join('supplier', 'stok_masuk.supplier = supplier.id');
+		$this->db->where('stok_masuk.id', $id);
+		return $this->db->get()->row_array()['nama_orang'];
+	}
+
+	public function get_penjualan($id){
+		$this->db->select('pelanggan.nama as nama_orang');
+		$this->db->from('transaksi');
+		$this->db->join('pelanggan', 'transaksi.pelanggan = pelanggan.id');
+		$this->db->where('transaksi.id', $id);
+		return $this->db->get()->row_array()['nama_orang'];
 	}
 	
 	// public function getProduk($barcode, $qty)

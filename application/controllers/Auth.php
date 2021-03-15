@@ -35,6 +35,12 @@ class Auth extends CI_Controller {
 							case '3':
 								$peran = 'bos';
 								break;
+							case '4':
+								$peran = 'sales';
+								break;
+							case '5':
+								$peran = 'asisten bos';
+								break;
 						}
 						$userdata = array(
 							'id' => $data->id,

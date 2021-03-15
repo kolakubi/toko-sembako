@@ -83,7 +83,8 @@ class Produk_model extends CI_Model {
 
 	public function dataStok()
 	{
-		return $this->db->query('SELECT produk.nama_produk, produk.stok FROM `produk` ORDER BY CONVERT(stok, decimal) DESC LIMIT 50')->result();
+		// return $this->db->query('SELECT produk.nama_produk, produk.stok FROM `produk` ORDER BY CONVERT(stok, decimal) DESC LIMIT 50')->result();
+		return $this->db->query('SELECT produk.nama_produk, produk.stok FROM `produk` ORDER BY produk.nama_produk ASC')->result();
 	}
 
 }

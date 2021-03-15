@@ -111,6 +111,7 @@ class Transaksi extends CI_Controller {
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
 			'barcode' => implode(',', $this->input->post('produkId')),
 			'qty' => implode(',', $this->input->post('qty')),
+			'harga_per_item' => implode(',', $this->input->post('harga_per_item')),
 			'total_bayar' => $this->input->post('total_bayar'),
 			'jumlah_uang' => $jumlahUang,
 			'jumlah_uang_transfer' => $jumlahUangTransfer,
@@ -137,6 +138,7 @@ class Transaksi extends CI_Controller {
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
 			'barcode' => implode(',', $this->input->post('produkId')),
 			'qty' => implode(',', $this->input->post('qty')),
+			'harga_per_item' => implode(',', $this->input->post('harga_per_item')),
 			'total_bayar' => $this->input->post('total_bayar'),
 			// 'jumlah_uang' => $this->input->post('jumlah_uang'),
 			'diskon' => $this->input->post('diskon'),
@@ -164,10 +166,16 @@ class Transaksi extends CI_Controller {
 	public function cetak($id)
 	{
 		$produk = $this->transaksi_model->getAll($id);
+
+		// echo '<pre>';
+		// print_r($produk);
+		// echo '</pre>';
+		// die();
 		
 		$tanggal = new DateTime($produk->tanggal);
 		$barcode = explode(',', $produk->barcode);
 		$qty = explode(',', $produk->qty);
+		$harga_per_item = explode(',', $produk->harga_per_item);
 
 		$produk->tanggal = $tanggal->format('d m Y H:i:s');
 
@@ -175,13 +183,16 @@ class Transaksi extends CI_Controller {
 		foreach ($dataProduk as $key => $value) {
 			$value->total = $qty[$key];
 			$value->harga = $value->harga * $qty[$key];
+			$value->harga_per_item = number_format($harga_per_item[$key], 0, ',', '.');
+			$value->total_harga_per_item = number_format( ($harga_per_item[$key]*$qty[$key]), 0, ',', '.');
 		}
 
 		$data = array(
 			'nota' => $produk->nota,
 			'tanggal' => $produk->tanggal,
 			'produk' => $dataProduk,
-			'total' => number_format($produk->total_bayar, 0, ',', '.'),
+			'harga_per_item' => $produk->harga_per_item,
+			'total' => 'Rp '.number_format($produk->total_bayar, 0, ',', '.'),
 			'bayar' => number_format($produk->jumlah_uang, 0, ',', '.'),
 			'kembalian' => $produk->jumlah_uang - $produk->total_bayar,
 			'kasir' => $produk->kasir

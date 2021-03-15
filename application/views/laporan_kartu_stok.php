@@ -85,6 +85,7 @@
                   <th>Nama Produk</th> 
                   <th>Masuk</th>
                   <th>Keluar</th>
+                  <th>orang</th>
                   <th>Keterangan</th>
                 </tr>
               </thead>

@@ -69,6 +69,7 @@ class Laporan_kartu_stok extends CI_Controller {
                     // 'nama' => $transaksi->nama,
                     'masuk' => $transaksi->posisi == "D" ? $pisahMultiItem->qty : 0,
                     'keluar' => $transaksi->posisi == "K" ? $pisahMultiItem->qty : 0,
+                    'orang' => $transaksi->posisi == 'D' ? $this->laporan_kartu_stok_model->get_pembelian($transaksi->id_transaksi) : $this->laporan_kartu_stok_model->get_penjualan($transaksi->id_transaksi),
                     'keterangan' => $transaksi->keterangan,
                     'nomor' => $nomor+=1
                 );
@@ -79,6 +80,12 @@ class Laporan_kartu_stok extends CI_Controller {
         $transaksi = array(
             'data' => $data
         );
+
+        // echo '<pre>';
+        // print_r($transaksi);
+        // echo '/<pre>';
+        // die();
+
         echo json_encode($transaksi);
     }
 

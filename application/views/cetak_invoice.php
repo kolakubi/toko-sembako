@@ -24,17 +24,20 @@
 			<hr>
 			<table width="100%">
 				<tr>
-					<td width="50%"></td>
+					<td width="50%">Nama Produk</td>
 					<td width="3%"></td>
-					<td width="10%" align="right"></td>
-					<td align="right" width="17%"><?php echo $kasir ?></td>
+					<td width="10%" align="right">Jmlh</td>
+					<td width="10%" align="right">Harga</td>
+					<td width="15%" align="right">Total Harga</td>
+					<!-- <td align="right" width="17%"><?php echo $kasir ?></td> -->
 				</tr>
 				<?php foreach ($produk as $key): ?>
 					<tr>
 						<td><?php echo $key->nama_produk ?></td>
 						<td></td> 
 						<td align="right"><?php echo $key->total ?> Dus</td>
-						<!-- <td align="right"><?php echo $key->harga ?></td> -->
+						<td align="right"><?php echo $key->harga_per_item ?></td>
+						<td align="right"><?php echo $key->total_harga_per_item ?></td>
 					</tr>
 				<?php endforeach ?>
 			</table>
@@ -105,17 +108,20 @@
 			<hr>
 			<table width="100%">
 				<tr>
-					<td width="50%"></td>
+					<td width="50%">Nama Produk</td>
 					<td width="3%"></td>
-					<td width="10%" align="right"></td>
-					<td align="right" width="17%"><?php echo $kasir ?></td>
+					<td width="10%" align="right">Jmlh</td>
+					<td width="10%" align="right">Harga</td>
+					<td width="15%" align="right">Total Harga</td>
+					<!-- <td align="right" width="17%"><?php echo $kasir ?></td> -->
 				</tr>
 				<?php foreach ($produk as $key): ?>
 					<tr>
 						<td><?php echo $key->nama_produk ?></td>
 						<td></td> 
 						<td align="right"><?php echo $key->total ?> Dus</td>
-						<!-- <td align="right"><?php echo $key->harga ?></td> -->
+						<td align="right"><?php echo $key->harga_per_item ?></td>
+						<td align="right"><?php echo $key->total_harga_per_item ?></td>
 					</tr>
 				<?php endforeach ?>
 			</table>

@@ -16,11 +16,13 @@ class Stok_masuk_model extends CI_Model {
 			'tanggal' => $data['tanggal'],
 			'barcode' => $data['barcode'],
 			'jumlah' => $data['jumlah'],
+			'harga_per_item' => $data['harga_per_item'],
 			'supplier' => $data['supplier'],
 			'harga' => $data['harga'] ,
 			'metode_pembayaran' => $data['metode_pembayaran'],
 			'keterangan' => $data['keterangan'],
 			'no_nota' => $data['no_nota'],
+			'kasir' => $data['kasir'],
 		];
 
 		if($this->db->insert($this->table, $dataPembelian)){
@@ -62,9 +64,9 @@ class Stok_masuk_model extends CI_Model {
 			return $this->db->insert('kartu_stok', [
 				'id_produk' => $data['barcode'],
 				'id_transaksi' => $lastInsertId,
-				'posisi' => 'K',
+				'posisi' => 'D',
 				'qty' => $data['jumlah'],
-				'keterangan' => "Jual ".$data['keterangan']
+				'keterangan' => "Beli ".$data['keterangan']
 			]);
 		}
 	}

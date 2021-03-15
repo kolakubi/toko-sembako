@@ -107,6 +107,7 @@ class Stok_masuk extends CI_Controller {
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
 			'barcode' => implode(',', $this->input->post('produkId')),
 			'jumlah' => implode(',', $this->input->post('qty')),
+			'harga_per_item' => implode(',', $this->input->post('harga_per_item')),
 			'supplier' => $this->input->post('supplier'),
 			'harga' => $jumlahUang+$jumlahUangTransfer,
 			'metode_pembayaran' => $metodePembayaran,
@@ -114,6 +115,7 @@ class Stok_masuk extends CI_Controller {
 			'no_nota' => $this->input->post('no_nota'),
 			'jumlah_uang' => $jumlahUang,
 			'jumlah_uang_transfer' => $jumlahUangTransfer,
+			'kasir' => $this->session->userdata('id'),
 		);
 		if ($this->stok_masuk_model->create($data)) {
 			echo json_encode('sukses');

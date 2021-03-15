@@ -51,7 +51,7 @@
                   <th>Pelanggan</th> 
                   <th>Total bayar</th> 
                   <th>Status</th>
-                  <th>Cetak</th>
+                  <th>Action</th>
                   <!-- <th>Action</th> -->
                 </tr>
               </thead>
@@ -116,6 +116,7 @@
                 <input type="hidden" class="form-control" name="id_pelanggan" id="id_pelanggan" >
                 <input type="hidden" class="form-control" name="barcode" id="barcode" >
                 <input type="hidden" class="form-control" name="qty" id="qty" >
+                <input type="hidden" class="form-control" name="harga_per_item" id="harga_per_item" >
                 <input type="hidden" class="form-control" name="id_kasir" id="id_kasir" >
               </div>
               <!-- end hidden field -->

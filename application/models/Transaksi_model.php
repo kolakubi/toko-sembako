@@ -30,6 +30,7 @@ class Transaksi_model extends CI_Model {
 			'tanggal' => $data['tanggal'],
 			'barcode' => $data['barcode'],
 			'qty' => $data['qty'],
+			'harga_per_item' => $data['harga_per_item'],
 			'total_bayar' => $data['total_bayar'],
 			// 'jumlah_uang' => $this->input->post('jumlah_uang'),
 			'jumlah_uang' => $data['jumlah_uang'] + $data['jumlah_uang_transfer'],
@@ -228,7 +229,7 @@ class Transaksi_model extends CI_Model {
 
 	public function getAll($id)
 	{
-		$this->db->select('transaksi.nota, transaksi.tanggal, transaksi.barcode, transaksi.qty, transaksi.total_bayar, transaksi.jumlah_uang, pengguna.nama as kasir');
+		$this->db->select('transaksi.nota, transaksi.tanggal, transaksi.harga_per_item, transaksi.barcode, transaksi.qty, transaksi.total_bayar, transaksi.jumlah_uang, pengguna.nama as kasir');
 		$this->db->from('transaksi');
 		$this->db->join('pengguna', 'transaksi.kasir = pengguna.id');
 		$this->db->where('transaksi.id', $id);
