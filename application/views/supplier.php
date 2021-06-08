@@ -43,9 +43,6 @@
         <div class="row mb-2">
           <div class="col">
             <h1 class="m-0 text-dark">Supplier</h1>
-            <pre>
-            <?php print_r($this->session->userdata()); ?>
-            </pre>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -109,7 +106,7 @@
       </div>
       <div class="form-group">
         <label>Keterangan</label>
-        <textarea name="keterangan" class="form-control" placeholder="Keterangan" required></textarea>
+        <textarea name="keterangan" class="form-control" placeholder="Keterangan"></textarea>
       </div>
       <button class="btn btn-success" type="submit">Add</button>
       <button class="btn btn-danger" data-dismiss="modal">Close</button>

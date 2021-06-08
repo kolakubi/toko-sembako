@@ -162,16 +162,24 @@
           </ul>
         </li>
         <li class="nav-item">
-        <a href="<?php echo site_url('pengaturan') ?>" class="nav-link <?php echo $uri == 'pengaturan' ? 'active' : 'no' ?>">
-            <i class="fas fa-cog nav-icon"></i>
-            <p>Pengaturan</p>
-        </a>
+          <a href="<?php echo site_url('bonus') ?>" class="nav-link <?php echo $uri == 'bonus' ? 'active' : 'no' ?>">
+            <i class="nav-icon fas fa-smile"></i>
+            <p>
+              Bonus
+            </p>
+          </a>
         </li>
         <li class="nav-item">
-        <a href="<?php echo site_url('pengguna') ?>" class="nav-link <?php echo $uri == 'pengguna' ? 'active' : 'no' ?>">
-            <i class="fas fa-user nav-icon"></i>
-            <p>Pengguna</p>
-        </a>
+          <a href="<?php echo site_url('pengaturan') ?>" class="nav-link <?php echo $uri == 'pengaturan' ? 'active' : 'no' ?>">
+              <i class="fas fa-cog nav-icon"></i>
+              <p>Pengaturan</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?php echo site_url('pengguna') ?>" class="nav-link <?php echo $uri == 'pengguna' ? 'active' : 'no' ?>">
+              <i class="fas fa-user nav-icon"></i>
+              <p>Pengguna</p>
+          </a>
         </li>
       </ul>
     </nav>

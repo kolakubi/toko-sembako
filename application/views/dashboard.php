@@ -76,22 +76,8 @@
               </a>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="card card-warning">
-              <div class="card-header">
-                <h3 class="card-title">Stok Produk</h3>
-              </div>
-              <div class="card-body">
-                <div class="chart" style="height: 250px;max-height: 250px; overflow-y: scroll;">
-                  <ul class="list-group" id="stok_produk"></li>
-                  </ul>
-                </div>
-                <a href="<?php echo site_url('laporan_kartu_stok') ?>" class="small-box-footer">
-                  More Info <i class="fas fa-arrow-circle-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
+
+
           <div class="col-md-6 col-sm-12">
 
             <!-- <div class="col-md-12 col-sm-12 mt-4"> -->
@@ -117,6 +103,24 @@
             <!-- </div> -->
 
           </div><!-- /.col -->
+
+          <div class="col-md-6">
+            <div class="card card-warning">
+              <div class="card-header">
+                <h3 class="card-title">Stok Produk</h3>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <ul class="list-group" id="stok_produk"></li>
+                  </ul>
+                </div>
+                <a href="<?php echo site_url('laporan_kartu_stok') ?>" class="small-box-footer">
+                  More Info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
           <div class="col-12">
             <h1 class="mt-2 mb-3 h2 text-dark">Grafik</h1>
           </div>

@@ -80,7 +80,7 @@ $.ajax( {
     dataType:"json",
     success:res=> {
         $.each(res, (key, index)=> {
-            let html=`<li class="list-group-item">
+            let html=`<li class="list-group-item ${index.stok < 1 ? "bg-danger" : ""}">
                 ${index.nama_produk}
                 <span class="float-right">${index.stok}</span>
             </li>`;

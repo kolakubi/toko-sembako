@@ -131,5 +131,14 @@
             </li>
           </ul>
         </li>
+
+        <li class="nav-item">
+          <a href="<?php echo site_url('bonus') ?>" class="nav-link <?php echo $uri == 'bonus' ? 'active' : 'no' ?>">
+            <i class="nav-icon fas fa-smile"></i>
+            <p>
+              Bonus
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
