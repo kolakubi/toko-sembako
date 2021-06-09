@@ -117,13 +117,15 @@
         || $uri == 'laporan_stok_masuk' 
         || $uri == 'laporan_stok_keluar' 
         || $uri == 'laporan_keuangan' 
-        || $uri == 'laporan_kartu_stok' ? 'menu-open' : 'no' ?>">
+        || $uri == 'laporan_kartu_stok'
+        || $uri == 'laporan_laba_rugi' ? 'menu-open' : 'no' ?>">
           <a href="<?php echo site_url('laporan') ?>" class="nav-link 
           <?php echo $uri == 'laporan_penjualan' 
           || $uri == 'laporan_stok_masuk' 
           || $uri == 'laporan_stok_keluar' 
           || $uri == 'laporan_keuangan'
-          || $uri == 'laporan_kartu_stok' ? 'active' : 'no' ?>">
+          || $uri == 'laporan_kartu_stok'
+          || $uri == 'laporan_laba_rugi' ? 'active' : 'no' ?>">
             <i class="fas fa-book nav-icon"></i>
             <p>Laporan</p>
             <i class="right fas fa-angle-right"></i>
@@ -145,6 +147,12 @@
               <a href="<?php echo site_url('laporan_keuangan') ?>" class="nav-link <?php echo $uri == 'laporan_keuangan' ? 'active' : 'no' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Laporan Keuangan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo site_url('laporan_laba_rugi') ?>" class="nav-link <?php echo $uri == 'laporan_laba_rugi' ? 'active' : 'no' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Laporan Laba Rugi</p>
               </a>
             </li>
             <li class="nav-item">
