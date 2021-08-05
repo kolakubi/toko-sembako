@@ -1,20 +1,32 @@
-// $.ajax({
-//     url: readSisaUang,
-//     type: 'get',
-//     dataType: 'text',
-//     success: (data) => {
-//         $('#sisa_uang').html('Rp'+data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-//     }
-// })
+async function ambilSisaUang(){
+    const sisaUangCash = await fetch(readSisaUangCash)
+        .then(response => response.json())
+        .then(data => {return data});
 
-// $.ajax({
-//     url: readSisaUangTransfer,
-//     type: 'get',
-//     dataType: 'text',
-//     success: (data) => {
-//         $('#sisa_uang_transfer').html('Rp'+data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-//     }
-// })
+    const sisaUangTransfer = await fetch(readSisaUangTransfer)
+        .then(response => response.json())
+        .then(data => {return data});
+
+    const sisaUang = await sisaUangCash+sisaUangTransfer;
+    return sisaUang;
+    // $('#sisa_uang').html('Rp'+sisaUang.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+}
+
+async function ambilNilaiSisaStok(){
+    let totalNilaiStok = 0;
+
+    const nilaiSisaStok = await fetch(readNilaiSisaStok)
+        .then(response => response.json())
+        .then(data => {return data});
+
+    nilaiSisaStok.forEach(data => {
+        totalNilaiStok += data.jumlah_stok*data.harga_beli
+    });
+
+    return totalNilaiStok
+
+    // $('#nilai_sisa_stok').html('Rp'+totalNilaiStok.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+}
 
 function readByDate(){
     let btnSubmit = $('#submit-date');
@@ -53,47 +65,58 @@ function getDataLabaRugi(tanggalDari, tanggalSampai){
     });
 }
 
-function isiLabaRugi(data){
+async function isiLabaRugi(data){
     const rugiElem = $('#rugi');
     const labaElem = $('#laba');
-    const pembelianElem = $('#modal');
+    const pembelianElem = $('#total_pembelian');
     const penjualanElem = $('#total_penjualan');
     const oprasionalElem = $('#total_oprasional');
+    const modallElem = $('#modal');
 
     const pembelian = data.pembelian;
     const penjualan = data.penjualan;
     const oprasional = data.oprasional;
+    const modal = data.modal;
 
-    const hasilAkhir = penjualan-(pembelian+oprasional);
+    // const hasilAkhir = modal+penjualan-(pembelian+oprasional);
+    const hasilAkhir = penjualan-pembelian-oprasional;
 
     pembelianElem.html('Rp'+pembelian.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     penjualanElem.html('Rp'+penjualan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     oprasionalElem.html('Rp'+oprasional.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    modallElem.html('Rp'+modal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    
+    let nilaiSisaStok = 0;
+    await ambilNilaiSisaStok()
+            .then((res)=>{
+                nilaiSisaStok=res;
+                $('#nilai_sisa_stok').html('Rp'+res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            });
+    
+    let sisaUang = 0;
+    await ambilSisaUang()
+            .then((res)=>{
+                sisaUang=res;
+                $('#sisa_uang').html('Rp'+res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            });
+    
+    const laba = (nilaiSisaStok+sisaUang)-modal;
 
     // jika rugi
-    if(hasilAkhir < 0){
-        rugiElem.html('Rp'+hasilAkhir.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    if(laba < 0){
+        rugiElem.html('Rp'+laba.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     }
     else{ // jika laba
-        labaElem.html('Rp'+hasilAkhir.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        labaElem.html('Rp'+laba.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     }
 }
 
 function isiDataTable(dataLabaRugi){
-    // console.log(tanggalDari, tanggalSampai);
 
     $('#laporan_keuangan').dataTable().fnDestroy(); // clear datatable
     $("#laporan_keuangan").DataTable({
         responsive:true,
         scrollX:true,
-        // ajax: {
-        //     url: readModif,
-        //     type: 'post',
-        //     data: {
-        //         'tanggal_dari': tanggalDari,
-        //         'tanggal_sampai': tanggalSampai
-        //     }
-        // },
         data: dataLabaRugi,
         columnDefs:[{
             searcable: true,
@@ -127,10 +150,10 @@ readByDate();
 // $.ajax({
 //     url: readModif,
 //     type:"post",
-//     dataType:"json",
+//     dataType:"text",
 //     data: {
 //         tanggal_dari: '2021-06-08', 
-//         tanggal_sampai: '2021-06-08'
+//         tanggal_sampai: '2021-06-14'
 //     },
 //     success:res=> {
 //         console.log(res);

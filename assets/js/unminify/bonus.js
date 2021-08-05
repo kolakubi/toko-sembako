@@ -1,8 +1,3 @@
-$(".modal").on("hidden.bs.modal", ()=> {
-    $("#form")[0].reset();
-    $("#form").validate().resetForm()
-});
-
 function readByDate(){
     let btnSubmit = $('#submit-date');
 
@@ -13,10 +8,16 @@ function readByDate(){
         let tanggalDari = $('#tanggal_dari').val();
         let tanggalSampai = $('#tanggal_sampai').val();
 
-        // console.log(tanggalDari, tanggalSampai);
-        // ajaxCall(tanggalDari, tanggalSampai);
-        totalBonusTahunan(tanggalDari, tanggalSampai);
-        getBonusByDate(tanggalDari, tanggalSampai);
+        if(tanggalDari == '' || tanggalSampai == ''){
+            Swal.fire("Gagal", "Mohon Lengkapi Data", "warning");
+        }
+        else{
+            // console.log(tanggalDari, tanggalSampai);
+            // ajaxCall(tanggalDari, tanggalSampai);
+            totalBonusTahunan(tanggalDari, tanggalSampai);
+            getBonusByDate(tanggalDari, tanggalSampai);
+        }
+
     });
 }
 

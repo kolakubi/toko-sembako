@@ -87,6 +87,7 @@ class Transaksi extends CI_Controller {
 	public function add()
 	{
 		$produk = json_decode($this->input->post('produk'));
+		$labaArray = $this->labaArray($produk);
 		$tanggal = new DateTime($this->input->post('tanggal'));
 		$jumlahUang = $this->input->post('jumlah_uang');
 		$jumlahUangTransfer = $this->input->post('jumlah_uang_transfer');
@@ -100,18 +101,20 @@ class Transaksi extends CI_Controller {
 		else{
 			$metodePembayaran = 'cash dan transfer';
 		}
-		
-		$barcode = array();
-		foreach ($produk as $produk) {
-			$this->transaksi_model->removeStok($produk->id, $produk->stok);
-			$this->transaksi_model->addTerjual($produk->id, $produk->terjual);
-			// array_push($barcode, $produk->id);
+
+		foreach($produk as $item){
+			$this->transaksi_model->removeStok($item->id, $item->stok);
+			$terjualSaatIni = $this->transaksi_model->getTerjual($item->id)['terjual'];
+			$terjualSaatIni += $item->terjual;
+			$this->transaksi_model->addTerjual($item->id, $terjualSaatIni);
 		}
+
 		$data = array(
 			'tanggal' => $tanggal->format('Y-m-d H:i:s'),
 			'barcode' => implode(',', $this->input->post('produkId')),
 			'qty' => implode(',', $this->input->post('qty')),
 			'harga_per_item' => implode(',', $this->input->post('harga_per_item')),
+			'laba' => implode(',', $labaArray),
 			'total_bayar' => $this->input->post('total_bayar'),
 			'jumlah_uang' => $jumlahUang,
 			'jumlah_uang_transfer' => $jumlahUangTransfer,
@@ -127,6 +130,87 @@ class Transaksi extends CI_Controller {
 			echo json_encode($this->db->insert_id());
 		}
 		$data = $this->input->post('form');
+	}
+
+
+	public function labaArray($produk){
+		$labaPerItem = array();
+		$labaArray = array();
+		foreach ($produk as $key=>$item) {
+
+			$stokAda = 0;
+			$totalLabaItem = 0;
+			// ambil 3 record pembelian terakhir
+			$pembelianTerakhir = $this->transaksi_model->getHistoryPembelian($item->id);
+			
+			foreach($pembelianTerakhir as $listHarga){
+
+				// cek jika ada double karakter
+				// yg dipisahkan koma
+				if(strpos($listHarga['barcode'], ',')){
+					$kodeItem = explode(',', $listHarga['barcode']);
+					$qty = explode(',', $listHarga['jumlah']);
+					$hargaPerItem = explode(',', $listHarga['harga_per_item']);
+
+					// modif array jika kodeItem sama
+					// koma jadi hilang
+					// tgl 1 kode barang yg diinginkan
+					for($i=0; $i<count($kodeItem); $i++){
+						if($kodeItem[$i] == $item->id){
+							$listHarga = [
+								'tanggal' => $listHarga['tanggal'],
+								'barcode' => $kodeItem[$i],
+								'jumlah' => $qty[$i],
+								'harga_per_item' => $hargaPerItem[$i]
+							];
+						}
+					}
+				}
+
+				// jika kode item match
+				if($item->id == $listHarga['barcode']){
+
+					// sisa stok pembelian
+					$stokAda = $stokAda == 0 ? $item->terjual - $listHarga['jumlah'] : $stokAda - $listHarga['jumlah'];
+
+					// jika stok masih tersedia
+					if($stokAda > 0){
+						array_push($labaPerItem, [
+							'id' => $item->id,
+							'jumlah_dijual' => $listHarga['jumlah'],
+							'harga_beli' => $listHarga['harga_per_item'],
+							'harga_jual' => $item->harga_per_item,
+							'laba' => ($item->harga_per_item-$listHarga['harga_per_item'])*$listHarga['jumlah']
+						]);
+						
+						// jumlahkan laba per item
+						$totalLabaItem += ($item->harga_per_item-$listHarga['harga_per_item'])*$listHarga['jumlah'];
+					}
+					else{
+						array_push($labaPerItem, [
+							'id' => $item->id,
+							'jumlah_dijual' => ($stokAda+$listHarga['jumlah']),
+							'harga_beli' => $listHarga['harga_per_item'],
+							'harga_jual' => $item->harga_per_item,
+							'laba' => ($item->harga_per_item-$listHarga['harga_per_item'])*($stokAda+$listHarga['jumlah'])
+						]);
+						
+						// jumlahkan laba per item
+						$totalLabaItem += ($item->harga_per_item-$listHarga['harga_per_item'])*($stokAda+$listHarga['jumlah']);
+						break;
+					}
+				}
+			} // end foreach pembelianterakhir
+
+			// push jumlah laba per Item
+			// otomatis urut sesuai kode item
+			array_push($labaArray, $totalLabaItem);
+			// print_r($labaArray);
+			// die();
+
+		} // end foreach produk
+
+		return $labaArray;
 	}
 
 	public function addInvoice()

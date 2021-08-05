@@ -52,6 +52,13 @@ class Laporan_laba_rugi_model extends CI_Model {
 		return $this->db->get();
 	}
 
+	public function getLaba($idPenjualan){
+		$this->db->select('*');
+		$this->db->where('transaksi.id', $idPenjualan);
+		$this->db->from('transaksi');
+		return $this->db->get()->row_array();
+	}
+
 	public function penjualanBulan($date)
 	{
 		$qty = $this->db->query("SELECT qty FROM transaksi WHERE DATE_FORMAT(tanggal, '%d %m %Y') = '$date'")->result();
@@ -107,6 +114,55 @@ class Laporan_laba_rugi_model extends CI_Model {
 		}
 		return join($data);
 	}
+
+	public function getSisaUangCash(){
+
+		$data = $this->db->get_where('uang', ['metode' => 'cash'])->row_array();
+		if($data){
+			return $data['jumlah_uang'];
+		}
+		return 0;
+	}
+
+	public function getSisaUangTransfer(){
+
+		$data = $this->db->get_where('uang', ['metode' => 'transfer'])->row_array();
+		if($data){
+			return $data['jumlah_uang'];
+		}
+		return 0;
+	}
+
+	public function stokSisa(){
+		$this->db->select('id, nama_produk, stok');
+		$this->db->from('produk');
+		$this->db->where('stok >', '1');
+		$data = $this->db->get()->result_array();
+		
+		return $data;
+	}
+
+	public function getHistoryPembelian($stok){
+		$this->db->select('tanggal, barcode, jumlah, harga_per_item');
+		$this->db->from('stok_masuk');
+		$this->db->like('barcode', $stok['id']);
+		$this->db->order_by('tanggal', 'DESC');
+		$this->db->limit(3, 0);
+		$result = $this->db->get()->result_array();
+
+		return $result;
+	}
+
+	public function getModal(){
+		$this->db->select('jumlah_uang');
+		$this->db->from('kas');
+		$this->db->where('id_modal >', 0);
+		$result = $this->db->get()->result_array();
+
+		return $result;
+	}
+
+		
 
 }
 

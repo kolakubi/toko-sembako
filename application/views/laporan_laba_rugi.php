@@ -39,13 +39,49 @@
               </div>
             </div>
 
-            <div class="col-md-6 col-sm-12 mt-4">
-              <div class="card card-info">
-                <div class="card-header">
-                  <h3 class="card-title">Total Penjualan</h3>
+            <div class="row">
+              <div class="col-md-6 col-sm-12 mt-4">
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">Sisa Uang</h3>
+                  </div>
+                  <div class="card-body">
+                    <h3 id="sisa_uang">0</h4>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <h3 id="total_penjualan">0</h4>
+              </div>
+              <div class="col-md-6 col-sm-12 mt-4">
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">Nilai Sisa Stok</h3>
+                  </div>
+                  <div class="card-body">
+                    <h3 id="nilai_sisa_stok">0</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-sm-12 mt-4">
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">Total Pembelian</h3>
+                  </div>
+                  <div class="card-body">
+                    <h3 id="total_pembelian">0</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-4">
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">Total Penjualan</h3>
+                  </div>
+                  <div class="card-body">
+                    <h3 id="total_penjualan">0</h4>
+                  </div>
                 </div>
               </div>
             </div>
@@ -83,7 +119,6 @@
                   </div>
                 </div>
               </div>
-            
             </div>
 
           </div><!-- /.col -->
@@ -156,11 +191,12 @@
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
 
 <script>
-  var readUrl = '<?php echo site_url('laporan_laba_rugi/read') ?>';
-  var readModif = '<?php echo site_url('laporan_laba_rugi/read_modif') ?>';
-  var readSisaUang = '<?php echo site_url('laporan_laba_rugi/sisa_uang') ?>'
-  var readSisaUangTransfer = '<?php echo site_url('laporan_laba_rugi/sisa_uang_transfer') ?>'
-  var readDariDate = '<?php echo site_url('laporan_laba_rugi/read_by_date') ?>';
+  const readUrl = '<?php echo site_url('laporan_laba_rugi/read') ?>';
+  const readModif = '<?php echo site_url('laporan_laba_rugi/read_modif') ?>';
+  const readSisaUangCash = '<?php echo site_url('laporan_laba_rugi/sisa_uang_cash') ?>'
+  const readSisaUangTransfer = '<?php echo site_url('laporan_laba_rugi/sisa_uang_transfer') ?>'
+  const readDariDate = '<?php echo site_url('laporan_laba_rugi/read_by_date') ?>';
+  const readNilaiSisaStok = '<?php echo site_url('laporan_laba_rugi/get_nilai_sisa_stok') ?>';
 //   var deleteUrl = '<?php echo site_url('laporan_laba_rugi/delete') ?>';
 </script>
 <script src="<?php echo base_url('assets/js/unminify/laporan_laba_rugi.js') ?>"></script>

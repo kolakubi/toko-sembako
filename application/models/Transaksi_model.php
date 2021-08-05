@@ -17,11 +17,28 @@ class Transaksi_model extends CI_Model {
 		return $this->db->update('produk');
 	}
 
+	public function getTerjual($id){
+		$this->db->select('terjual');
+		$this->db->where('id', $id);
+		return $this->db->get('produk')->row_array();
+	}
+
 	public function addTerjual($id, $jumlah)
 	{
 		$this->db->where('id', $id);
 		$this->db->set('terjual', $jumlah);
 		return $this->db->update('produk');;
+	}
+
+	public function getHistoryPembelian($idProduk){
+		$this->db->select('tanggal, barcode, jumlah, harga_per_item');
+		$this->db->from('stok_masuk');
+		$this->db->like('barcode', $idProduk);
+		$this->db->order_by('tanggal', 'DESC');
+		$this->db->limit(3, 0);
+		$result = $this->db->get()->result_array();
+
+		return $result;
 	}
 
 	public function create($data)
@@ -31,6 +48,7 @@ class Transaksi_model extends CI_Model {
 			'barcode' => $data['barcode'],
 			'qty' => $data['qty'],
 			'harga_per_item' => $data['harga_per_item'],
+			'laba' => $data['laba'],
 			'total_bayar' => $data['total_bayar'],
 			// 'jumlah_uang' => $this->input->post('jumlah_uang'),
 			'jumlah_uang' => $data['jumlah_uang'] + $data['jumlah_uang_transfer'],
@@ -107,67 +125,17 @@ class Transaksi_model extends CI_Model {
 			);
 		}
 	}
-	// public function create($data)
-	// {
-	// 	if($this->db->insert($this->table, $data)){
-
-	// 		$lastInsertId = $this->db->insert_id();
-	// 		if($this->db->insert('kas', 
-	// 			[
-	// 				"jumlah_uang" => $data['total_bayar'],
-	// 				"metode_pembayaran" => $data['metode_pembayaran'],
-	// 				"posisi_kas" => "D",
-	// 				"keterangan_kas" => "Jual ".$data['keterangan'],
-	// 				"id_penjualan" => $lastInsertId
-	// 			]
-	// 		)){
-	// 			if($this->insertOrUpdateUang($data)){
-
-	// 				return $this->db->insert('kartu_stok', [
-	// 					'id_produk' => $data['barcode'],
-	// 					'id_transaksi' => $lastInsertId,
-	// 					'posisi' => 'K',
-	// 					'qty' => $data['qty'],
-	// 					'keterangan' => "Jual ".$data['keterangan']
-	// 				]);
-	// 			}
-	// 		}
-	// 	}
-	// }
 	
 	public function createInvoice($data){
 		return $this->db->insert('invoice', $data);
 	}
 
-	// public function insertOrUpdateUang($data){
-
-	// 	$dataUang = $this->db->get_where('uang', ['metode'=> $data['metode_pembayaran']])->row_array();
-		
-	// 	if($dataUang){
-	// 		$this->db->set('jumlah_uang', ($data['jumlah_uang']+$dataUang['jumlah_uang']));
-	// 		$this->db->set('tgl_update', $data['tanggal']);
-	// 		$this->db->where('metode', $data['metode_pembayaran']);
-	// 		return $this->db->update('uang');
-	// 	}
-	// 	else{
-	// 		return $this->db->insert('uang', 
-	// 			[
-	// 				'metode' => $data['metode_pembayaran'],
-	// 				'jumlah_uang' => $data['jumlah_uang'],
-	// 			]
-	// 		);
-	// 	}
-	// }
-
+	
 	public function read()
 	{
 		$this->db->select('transaksi.id, transaksi.tanggal, transaksi.barcode, transaksi.qty, transaksi.total_bayar, transaksi.jumlah_uang, transaksi.diskon, pelanggan.nama as pelanggan');
 		$this->db->from($this->table);
 		$this->db->join('pelanggan', 'transaksi.pelanggan = pelanggan.id', 'left outer');
-		// if($dataTanggal['dari']){
-		// 	$this->db->where('transaksi.tanggal >=', $dataTanggal['dari']);
-        //     $this->db->where('transaksi.tanggal <=', $dataTanggal['sampai']);
-		// }
 		return $this->db->get();
 	}
 
@@ -178,10 +146,6 @@ class Transaksi_model extends CI_Model {
         $this->db->where('tanggal <=', $tanggalSampai);
 		$this->db->from($this->table);
 		$this->db->join('pelanggan', 'transaksi.pelanggan = pelanggan.id', 'left outer');
-		// if($dataTanggal['dari']){
-		// 	$this->db->where('transaksi.tanggal >=', $dataTanggal['dari']);
-        //     $this->db->where('transaksi.tanggal <=', $dataTanggal['sampai']);
-		// }
 		return $this->db->get();
 	}
 
